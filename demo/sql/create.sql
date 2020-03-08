@@ -1,0 +1,24 @@
+CREATE TABLE roles(
+	id INTEGER NOT NULL PRIMARY KEY,
+	name VARCHAR(10) NOT NULL UNIQUE
+);
+
+INSERT INTO roles VALUES(0, 'admin');
+INSERT INTO roles VALUES(1, 'customer');
+
+CREATE TABLE users(
+	id INT NOT NULL AUTO_INCREMENT UNIQUE,
+		PRIMARY KEY (id),
+	login VARCHAR(10) NOT NULL UNIQUE,
+	password VARCHAR(10) NOT NULL,
+	role_id INTEGER NOT NULL REFERENCES roles(id)
+		ON DELETE CASCADE
+		ON UPDATE RESTRICT
+);
+
+INSERT INTO users VALUES(DEFAULT, 'admin', 'admin', 0);
+INSERT INTO users VALUES(DEFAULT, 'customer', 'customer', 1);
+INSERT INTO users VALUES(DEFAULT, 'user', 'user', 1);
+
+SELECT * FROM users;
+SELECT * FROM roles;
