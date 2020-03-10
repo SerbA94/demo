@@ -7,19 +7,19 @@ package com.demo.db.entity;
  * @author alex
  *
  */
-public enum Role {
+public enum RoomClass {
 
-	ADMIN("admin"),
-	MANAGER("manager"),
-	CUSTOMER("customer"),
-	INACTIVE("inactive");
+	BUDGETARY("budgetary"),
+	FAMILY("family"),
+	BUSINESS("business"),
+	LUXURY("luxury");
 
 	private String title;
 
 	/**
 	 * @param title
 	 */
-	Role(String title) {
+	RoomClass(String title) {
 		this.title = title;
 	}
 
@@ -31,4 +31,5 @@ public enum Role {
 	public String toString() {
 		return title;
 	}
+
 }
