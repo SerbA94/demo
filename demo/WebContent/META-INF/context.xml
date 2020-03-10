@@ -1,5 +1,5 @@
 <Context>
-  <Resource name="jdbc/DemoDB"
+  <Resource name="jdbc/mydb"
   			auth="Container"
   			type="javax.sql.DataSource"
 			maxActive="100" maxIdle="30" maxWait="10000"
@@ -7,5 +7,5 @@
 			driverClassName="com.mysql.cj.jdbc.Driver"
 			defaultAutoCommit="false"
 			defaultTransactionIsolation="READ_COMMITTED"
-			url="jdbc:mysql://localhost:3306/demo"/>
+			url="jdbc:mysql://localhost:3306/mydb"/>
 </Context>

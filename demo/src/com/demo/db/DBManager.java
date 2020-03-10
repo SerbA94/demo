@@ -29,7 +29,7 @@ public class DBManager {
 			Context initContext = new InitialContext();
 			Context envContext  = (Context)initContext.lookup("java:/comp/env");
 
-			DataSource ds = (DataSource)envContext.lookup("jdbc/DemoDB");
+			DataSource ds = (DataSource)envContext.lookup("jdbc/mydb");
 			con = ds.getConnection();
 		} catch (NamingException ex) {
 			log.error("Cannot obtain a connection from the pool", ex);
