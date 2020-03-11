@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import com.demo.db.constants.Regex;
-import com.demo.db.dao.UserDao;
+import com.demo.db.dao.UserDAO;
 import com.demo.db.entity.Role;
 import com.demo.db.entity.User;
 import com.demo.web.command.Command;
@@ -29,7 +29,7 @@ public class RegistrationCommand extends Command implements Redirector {
 		log.debug("Command starts");
 		String redirect = Path.COMMAND__VIEW_ERROR;
 		String errorMessage = null;
-		UserDao userDao = new UserDao();
+		UserDAO userDao = new UserDAO();
 		HttpSession session = request.getSession();
 
 		String login = request.getParameter("login");

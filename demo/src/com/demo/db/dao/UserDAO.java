@@ -5,23 +5,28 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
-import java.util.Set;
 
 import com.demo.db.DBManager;
 import com.demo.db.constants.Fields;
 import com.demo.db.entity.Role;
 import com.demo.db.entity.User;
 
-public class UserDao {
+
+/**
+ * Data access object for User entity.
+ *
+ * @author A.Serbin
+ */
+public class UserDAO {
 
     private static final String SQL__FIND_USER_BY_LOGIN =
-            "SELECT * FROM users JOIN roles ON users.role_id = roles.id WHERE login=?;";
+            "SELECT * FROM users JOIN roles ON users.role_id = roles.id WHERE login=?";
 
     private static final String SQL__FIND_USER_BY_EMAIL =
-    		"SELECT * FROM users JOIN roles ON users.role_id = roles.id WHERE email=?;";
+    		"SELECT * FROM users JOIN roles ON users.role_id = roles.id WHERE email=?";
 
     private static final String SQL__FIND_USER_BY_ID =
-    		"SELECT * FROM users JOIN roles ON users.role_id = roles.id WHERE id=?;";
+    		"SELECT * FROM users JOIN roles ON users.role_id = roles.id WHERE id=?";
 
     private static final String SQL_UPDATE_USER =
             "UPDATE users SET login=?, password=?, role_id=?, locale_name=?, email=?, activation_token=? WHERE id=?";
@@ -29,7 +34,7 @@ public class UserDao {
     private static final String SQL_CREATE_USER =
            "INSERT INTO users (login, password, role_id, locale_name, email, activation_token) VALUES (?, ?, ?, ?, ?, ?)";
 
-    public User findUser(Long id) {
+    public User findUserById(Long id) {
         User user = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -120,12 +125,12 @@ public class UserDao {
 
     private void updateUser(Connection con, User user) throws SQLException {
         PreparedStatement pstmt = con.prepareStatement(SQL_UPDATE_USER);
-        RoleDao roleDao = new RoleDao();
-        int roleId = roleDao.getRoleId(user.getRole().toArray()[0].toString());
+        RoleDAO roleDao = new RoleDAO();
+        Long roleId = roleDao.getRoleId((Role)user.getRole().toArray()[0]);
         int k = 1;
         pstmt.setString(k++, user.getLogin());
         pstmt.setString(k++, user.getPassword());
-        pstmt.setInt(k++, roleId);
+        pstmt.setLong(k++, roleId);
         pstmt.setString(k++, user.getLocaleName());
         pstmt.setString(k++, user.getEmail());
         pstmt.setString(k++, user.getActivationToken());
@@ -149,12 +154,12 @@ public class UserDao {
 
     private void createUser(Connection con, User user) throws SQLException {
         PreparedStatement pstmt = con.prepareStatement(SQL_CREATE_USER);
-        RoleDao roleDao = new RoleDao();
-        int roleId = roleDao.getRoleId(user.getRole().toArray()[0].toString());
+        RoleDAO roleDao = new RoleDAO();
+        Long roleId = roleDao.getRoleId((Role)user.getRole().toArray()[0]);
         int k = 1;
         pstmt.setString(k++, user.getLogin());
         pstmt.setString(k++, user.getPassword());
-        pstmt.setInt(k++, roleId);
+        pstmt.setLong(k++, roleId);
         pstmt.setString(k++, user.getLocaleName());
         pstmt.setString(k++, user.getEmail());
         pstmt.setString(k++, user.getActivationToken());
@@ -162,23 +167,10 @@ public class UserDao {
         pstmt.close();
     }
 
-    private static Set<Role> getUserRole(String role) {
-		switch (role) {
-		case "admin":
-			return Collections.singleton(Role.ADMIN);
-		case "customer":
-			return Collections.singleton(Role.CUSTOMER);
-		case "inactive":
-			return Collections.singleton(Role.INACTIVE);
-		default:
-			break;
-		}
-		return null;
-	}
-
     private static class UserMapper implements EntityMapper<User> {
         @Override
         public User mapRow(ResultSet rs) {
+            RoleDAO roleDao = new RoleDAO();
             try {
                 User user = new User();
                 user.setId(rs.getLong(Fields.ENTITY__ID));
@@ -186,7 +178,7 @@ public class UserDao {
                 user.setPassword(rs.getString(Fields.USER__PASSWORD));
                 user.setLocaleName(rs.getString(Fields.USER__LOCALE_NAME));
                 user.setEmail(rs.getString(Fields.USER__EMAIL));
-                user.setRole(getUserRole(rs.getString(Fields.USER__ROLE)));
+                user.setRole(Collections.singleton(roleDao.getRoleByTitle(rs.getString(Fields.ROLE__TITLE))));
                 user.setActivationToken(rs.getString(Fields.USER__ACTIVATION_TOKEN));
                 return user;
             } catch (SQLException e) {

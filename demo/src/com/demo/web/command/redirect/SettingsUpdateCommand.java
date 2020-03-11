@@ -1,19 +1,20 @@
 package com.demo.web.command.redirect;
 
 
-import org.apache.log4j.Logger;
-
-import com.demo.db.dao.UserDao;
-import com.demo.db.entity.User;
-import com.demo.web.command.Command;
-import com.demo.web.constants.Path;
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.jstl.core.Config;
-import java.io.IOException;
+
+import org.apache.log4j.Logger;
+
+import com.demo.db.dao.UserDAO;
+import com.demo.db.entity.User;
+import com.demo.web.command.Command;
+import com.demo.web.constants.Path;
 
 public class SettingsUpdateCommand extends Command implements Redirector{
 
@@ -43,7 +44,7 @@ public class SettingsUpdateCommand extends Command implements Redirector{
 		}
 
 		if (updateUser == true) {
-			new UserDao().updateUser(user);
+			new UserDAO().updateUser(user);
 		}
 
 		log.debug("Command finished");

@@ -3,7 +3,7 @@ package com.demo.web.command.redirect;
 
 import org.apache.log4j.Logger;
 
-import com.demo.db.dao.UserDao;
+import com.demo.db.dao.UserDAO;
 import com.demo.db.entity.Role;
 import com.demo.db.entity.User;
 import com.demo.web.command.Command;
@@ -64,7 +64,7 @@ public class LoginCommand extends Command implements Redirector {
 			return redirect;
 		}
 
-		user = new UserDao().findUserByLogin(login);
+		user = new UserDAO().findUserByLogin(login);
 		log.trace("Found in DB: user --> " + user);
 
 		if (user == null || !password.equals(user.getPassword())) {
