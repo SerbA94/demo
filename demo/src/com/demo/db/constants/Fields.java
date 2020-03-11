@@ -20,7 +20,7 @@ public final class Fields {
 	public static final String USER__EMAIL = "email";
 	public static final String USER__ACTIVATION_TOKEN = "activation_token";
 
-	public static final String ROLE__TITLE = "title";
+	public static final String ROLE__TITLE = "role_title";
 
 	public static final String BOOKING__USER_ID = "user_id";
 	public static final String BOOKING__ROOM_ID = "room_id";
@@ -29,7 +29,7 @@ public final class Fields {
 	public static final String BOOKING__DATE_OUT = "date_out";
 	public static final String BOOKING__DATE_OF_BOOKING = "date_of_booking";
 
-	public static final String BOOKING_STATUS__TITLE = "title";
+	public static final String BOOKING_STATUS__TITLE = "booking_status_title";
 
 	public static final String BOOKING_REQUEST__USER_ID = "user_id";
 	public static final String BOOKING_REQUEST__CAPACITY = "capacity";
@@ -47,8 +47,8 @@ public final class Fields {
 	public static final String ROOM__ROOM_STATUS_ID = "room_status_id";
 	public static final String ROOM__ROOM_CLASS_ID = "room_class_id";
 
-	public static final String ROOM_STATUS__TITLE = "title";
+	public static final String ROOM_STATUS__TITLE = "room_status_title";
 
-	public static final String ROOM_CLASS__TITLE = "title";
+	public static final String ROOM_CLASS__TITLE = "room_class_title";
 
 }
