@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.db;
 
 import java.sql.Connection;
@@ -10,6 +13,12 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 
+/**
+ * DB manager. Works with MySQL DB.
+ *
+ * @author A.Serbin
+ *
+ */
 public class DBManager {
 
 	private static final Logger log = Logger.getLogger(DBManager.class);
@@ -23,6 +32,11 @@ public class DBManager {
 		return instance;
 	}
 
+	/**
+	 * Returns a DB connection from the Pool Connections.
+	 *
+	 * @return A DB connection.
+	 */
 	public Connection getConnection() throws SQLException {
 		Connection con = null;
 		try {
@@ -37,9 +51,14 @@ public class DBManager {
 		return con;
 	}
 
-	private DBManager() {
-	}
+	private DBManager() {}
 
+	/**
+	 * Commits and close the given connection.
+	 *
+	 * @param con
+	 *            Connection to be committed and closed.
+	 */
 	public void commitAndClose(Connection con) {
 		try {
 			con.commit();
@@ -49,6 +68,12 @@ public class DBManager {
 		}
 	}
 
+	/**
+	 * Rollbacks and close the given connection.
+	 *
+	 * @param con
+	 *            Connection to be rollbacked and closed.
+	 */
 	public void rollbackAndClose(Connection con) {
 		try {
 			con.rollback();
