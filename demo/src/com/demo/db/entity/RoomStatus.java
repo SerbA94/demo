@@ -19,7 +19,7 @@ public enum RoomStatus {
 	/**
 	 * @param title
 	 */
-	RoomStatus(String title) {
+	private RoomStatus(String title) {
 		this.title = title;
 	}
 

@@ -19,7 +19,7 @@ public enum BookingStatus {
 	/**
 	 * @param title
 	 */
-	BookingStatus(String title) {
+	private BookingStatus(String title) {
 		this.title = title;
 	}
 

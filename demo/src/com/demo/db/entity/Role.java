@@ -19,7 +19,7 @@ public enum Role {
 	/**
 	 * @param title
 	 */
-	Role(String title) {
+	private Role(String title) {
 		this.title = title;
 	}
 

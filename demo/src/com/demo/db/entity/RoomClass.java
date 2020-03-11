@@ -19,7 +19,7 @@ public enum RoomClass {
 	/**
 	 * @param title
 	 */
-	RoomClass(String title) {
+	private RoomClass(String title) {
 		this.title = title;
 	}
 
