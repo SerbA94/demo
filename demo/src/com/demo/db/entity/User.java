@@ -6,7 +6,7 @@ package com.demo.db.entity;
 import java.util.Set;
 
 /**
- * @author alex
+ * @author A.Serbin
  *
  */
 public class User extends Entity {

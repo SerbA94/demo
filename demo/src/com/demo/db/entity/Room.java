@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author alex
+ * @author A.Serbin
  *
  */
 public class Room extends Entity {

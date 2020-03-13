@@ -7,7 +7,7 @@ package com.demo.db.entity;
 import java.io.Serializable;
 
 /**
- * @author alex
+ * @author A.Serbin
  *
  */
 public abstract class Entity implements Serializable {

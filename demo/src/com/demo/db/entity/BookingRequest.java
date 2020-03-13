@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.util.Set;
 
 /**
- * @author alex
+ * @author A.Serbin
  *
  */
 public class BookingRequest extends Entity {

@@ -4,7 +4,7 @@
 package com.demo.db.entity;
 
 /**
- * @author alex
+ * @author A.Serbin
  *
  */
 public enum RoomClass {
