@@ -7,30 +7,32 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Set;
 
 import com.demo.db.DBManager;
 import com.demo.db.constants.Fields;
-import com.demo.db.entity.Role;
+import com.demo.db.entity.RoomClass;
 
 /**
- * Data access object for Role entity.
+ * Data access object for RoomClass entity.
  *
  * @author A.Serbin
  */
-public class RoleDAO {
+public class RoomClassDAO {
 
-    private static final String SQL__GET_ROLE_ID = "SELECT id FROM roles WHERE role_title=?";
-    private static final String SQL__GET_ROLE_BY_ID = "SELECT role_title FROM roles WHERE id=?";
+    private static final String SQL__GET_ROOM_CLASS_ID = "SELECT id FROM room_class WHERE room_class_title=?";
+    private static final String SQL__GET_ROOM_CLASS_BY_ID = "SELECT room_class_title FROM room_class WHERE id=?";
 
-    public Long findRoleId(Role role) {
+    public Long findRoomClassId(RoomClass roomClass) {
     	Long id = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL__GET_ROLE_ID);
-            pstmt.setString(1, role.getTitle());
+            pstmt = con.prepareStatement(SQL__GET_ROOM_CLASS_ID);
+            pstmt.setString(1, roomClass.getTitle());
             rs = pstmt.executeQuery();
             if (rs.next())
                 id = rs.getLong(Fields.ENTITY__ID);
@@ -45,18 +47,18 @@ public class RoleDAO {
         return id;
     }
 
-    public Role findRoleById(Long id) {
+    public RoomClass findRoomClassById(Long id) {
     	String title = "";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL__GET_ROLE_BY_ID);
+            pstmt = con.prepareStatement(SQL__GET_ROOM_CLASS_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             if (rs.next())
-            	title = rs.getString(Fields.ROLE__TITLE);
+            	title = rs.getString(Fields.ROOM_CLASS__TITLE);
             rs.close();
             pstmt.close();
         } catch (SQLException ex) {
@@ -65,23 +67,27 @@ public class RoleDAO {
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }
-    	return getRole(title);
+    	return getRoomClass(title);
     }
 
-    public Role findRoleByTitle(String title) {
-    	return getRole(title);
+    public static Set<RoomClass> getRoomClassSet(String title) {
+    	return Collections.singleton(getRoomClass(title));
     }
 
-    private static Role getRole(String title) {
+    public RoomClass findRoomClassByTitle(String title) {
+    	return getRoomClass(title);
+    }
+
+    private static RoomClass getRoomClass(String title) {
 		switch (title) {
-		case "admin":
-			return Role.ADMIN;
-		case "customer":
-			return Role.CUSTOMER;
-		case "inactive":
-			return Role.INACTIVE;
-		case "manager":
-			return Role.MANAGER;
+		case "budgetary":
+			return RoomClass.BUDGETARY;
+		case "family":
+			return RoomClass.FAMILY;
+		case "bussiness":
+			return RoomClass.BUSINESS;
+		case "luxury":
+			return RoomClass.LUXURY;
 		default:
 			break;
 		}
