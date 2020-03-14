@@ -21,9 +21,20 @@ import com.demo.db.entity.BookingStatus;
  */
 public class BookingStatusDAO {
 
-    private static final String SQL__GET_BOOKING_STATUS_ID = "SELECT id FROM booking_status WHERE booking_status_title=?";
-    private static final String SQL__GET_BOOKING_STATUS_BY_ID = "SELECT booking_status_title FROM booking_status WHERE id=?";
+    private static final String SQL__GET_BOOKING_STATUS_ID =
+    		"SELECT id FROM booking_status WHERE booking_status_title=?";
 
+    private static final String SQL__GET_BOOKING_STATUS_BY_ID =
+    		"SELECT booking_status_title FROM booking_status WHERE id=?";
+
+
+    /**
+     * Returns booking status id.
+     *
+     * @param bookingStatus
+     *     	Booking status enum.
+     * @return Booking status identifier.
+     */
     public Long findBookingStatusId(BookingStatus bookingStatus) {
     	Long id = null;
         PreparedStatement pstmt = null;
@@ -47,6 +58,13 @@ public class BookingStatusDAO {
         return id;
     }
 
+    /**
+     * Returns booking status enum with given id.
+     *
+     * @param id
+     *     	Booking status identifier.
+     * @return Booking status enum.
+     */
     public BookingStatus findBookingStatusById(Long id) {
     	String title = "";
         PreparedStatement pstmt = null;
@@ -70,14 +88,35 @@ public class BookingStatusDAO {
     	return getBookingStatus(title);
     }
 
+    /**
+     * Returns booking status enum set by enum title.
+     *
+     * @param title
+     *     	Enum title.
+     * @return Booking status enum set.
+     */
     public static Set<BookingStatus> getBookingStatusSet(String title) {
     	return Collections.singleton(getBookingStatus(title));
     }
 
+    /**
+     * Returns booking status enum by enum title.
+     *
+     * @param title
+     *     	Enum title.
+     * @return Booking status enum.
+     */
     public BookingStatus findBookingStatusByTitle(String title) {
     	return getBookingStatus(title);
     }
 
+    /**
+     * Matches booking status title with enum.
+     *
+     * @param title
+     *     	Enum title.
+     * @return Booking status enum.
+     */
     private static BookingStatus getBookingStatus(String title) {
 		switch (title) {
 		case "active":

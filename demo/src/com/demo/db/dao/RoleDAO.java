@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Set;
 
 import com.demo.db.DBManager;
 import com.demo.db.constants.Fields;
@@ -19,9 +21,20 @@ import com.demo.db.entity.Role;
  */
 public class RoleDAO {
 
-    private static final String SQL__GET_ROLE_ID = "SELECT id FROM roles WHERE role_title=?";
-    private static final String SQL__GET_ROLE_BY_ID = "SELECT role_title FROM roles WHERE id=?";
+    private static final String SQL__GET_ROLE_ID =
+    		"SELECT id FROM roles WHERE role_title=?";
 
+    private static final String SQL__GET_ROLE_BY_ID =
+    		"SELECT role_title FROM roles WHERE id=?";
+
+
+    /**
+     * Returns role id.
+     *
+     * @param role
+     *     	Role enum.
+     * @return Role identifier.
+     */
     public Long findRoleId(Role role) {
     	Long id = null;
         PreparedStatement pstmt = null;
@@ -45,6 +58,13 @@ public class RoleDAO {
         return id;
     }
 
+    /**
+     * Returns role enum with given id.
+     *
+     * @param id
+     *     	Role identifier.
+     * @return Role enum.
+     */
     public Role findRoleById(Long id) {
     	String title = "";
         PreparedStatement pstmt = null;
@@ -68,10 +88,35 @@ public class RoleDAO {
     	return getRole(title);
     }
 
+    /**
+     * Returns role enum set by enum title.
+     *
+     * @param title
+     *     	Role enum title.
+     * @return Role enum set.
+     */
+    public static Set<Role> getRoleSetByTitle(String title) {
+    	return Collections.singleton(getRole(title));
+    }
+
+    /**
+     * Returns role enum by enum title.
+     *
+     * @param title
+     *     	Role enum title.
+     * @return Role enum.
+     */
     public Role findRoleByTitle(String title) {
     	return getRole(title);
     }
 
+    /**
+     * Matches role title with enum.
+     *
+     * @param title
+     *     	Role enum title.
+     * @return Role enum.
+     */
     private static Role getRole(String title) {
 		switch (title) {
 		case "admin":

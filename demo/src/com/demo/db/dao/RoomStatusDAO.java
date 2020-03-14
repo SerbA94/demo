@@ -21,9 +21,20 @@ import com.demo.db.entity.RoomStatus;
  */
 public class RoomStatusDAO {
 
-	private static final String SQL__GET_ROOM_STATUS_ID = "SELECT id FROM room_status WHERE room_status_title=?";
-    private static final String SQL__GET_ROOM_STATUS_BY_ID = "SELECT room_status_title FROM room_status WHERE id=?";
+	private static final String SQL__GET_ROOM_STATUS_ID =
+			"SELECT id FROM room_status WHERE room_status_title=?";
 
+    private static final String SQL__GET_ROOM_STATUS_BY_ID =
+    		"SELECT room_status_title FROM room_status WHERE id=?";
+
+
+    /**
+     * Returns room status id.
+     *
+     * @param roomStatus
+     *     	Room status enum.
+     * @return Room status identifier.
+     */
     public Long findRoomStatusId(RoomStatus roomStatus) {
     	Long id = null;
         PreparedStatement pstmt = null;
@@ -47,6 +58,13 @@ public class RoomStatusDAO {
         return id;
     }
 
+    /**
+     * Returns room status enum with given id.
+     *
+     * @param id
+     *     	Room status identifier.
+     * @return Room status enum.
+     */
     public RoomStatus findRoomStatusById(Long id) {
     	String title = "";
         PreparedStatement pstmt = null;
@@ -70,14 +88,35 @@ public class RoomStatusDAO {
     	return getRoomStatus(title);
     }
 
-    public static Set<RoomStatus> getRoomStatusSet(String title) {
+    /**
+     * Returns room status enum set by enum title.
+     *
+     * @param title
+     *     	Room status enum title.
+     * @return Room status enum set.
+     */
+    public static Set<RoomStatus> getRoomStatusSetByTitle(String title) {
     	return Collections.singleton(getRoomStatus(title));
     }
 
+    /**
+     * Returns room status enum by enum title.
+     *
+     * @param title
+     *     	Room status enum title.
+     * @return Room status enum.
+     */
     public RoomStatus findRoomStatusByTitle(String title) {
     	return getRoomStatus(title);
     }
 
+    /**
+     * Matches Room status title with enum.
+     *
+     * @param title
+     *     	Room status enum title.
+     * @return Room status enum.
+     */
     private static RoomStatus getRoomStatus(String title) {
 		switch (title) {
 		case "booked":

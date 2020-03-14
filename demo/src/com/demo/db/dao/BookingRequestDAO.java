@@ -25,15 +25,25 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 
 	private static final String SQL__FIND_BOOKING_REQUEST_BY_ID =
 			"SELECT * FROM booking_requests WHERE id=?";
+
 	private static final String SQL__FIND_ALL_BOOKING_REQUESTS =
 			"SELECT * FROM booking_requests";
+
 	private static final String SQL__DELETE_BOOKING_REQUEST =
 			"DELETE FROM booking_requests WHERE id=?";
+
 	private static final String SQL__CREATE_BOOKING_REQUEST =
 			"INSERT INTO booking_requests (user_id, date_in, date_out, capacity,"
 			+ " room_class_id) VALUES (?, ?, ?, ?, ?)";
 
 
+	/**
+     * Returns booking request with given id.
+     *
+     * @param id
+     *            Booking request entity identifier.
+     * @return Booking request entity.
+     */
 	public BookingRequest findBookingRequestById(Long id) {
 		BookingRequest bookingRequest = null;
 		PreparedStatement pstmt = null;
@@ -58,6 +68,11 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 		return bookingRequest;
 	}
 
+	/**
+     * Returns list of all booking requests.
+     *
+     * @return List of booking request entities.
+     */
 	public List<BookingRequest> findAllBookingRequests() {
 		List<BookingRequest> bookingRequests = new ArrayList<>();
 		Statement stmt = null;
@@ -79,6 +94,12 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 		return bookingRequests;
 	}
 
+	/**
+     * Delete booking request.
+     *
+     * @param booking request
+     *            Booking request to delete.
+     */
 	public void deleteBookingRequest(BookingRequest bookingRequest) {
 		PreparedStatement pstmt = null;
 		Connection con = null;
@@ -96,6 +117,12 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 		}
 	}
 
+	/**
+     * Create booking request.
+     *
+     * @param booking request
+     *            Booking request to update.
+     */
 	public void createBookingRequest(BookingRequest bookingRequest) {
 		Connection con = null;
 		try {
@@ -109,6 +136,15 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 		}
 	}
 
+	/**
+     * Create booking request.
+     *
+     * @param booking request
+     *            Booking request to update.
+     * @param con
+     *            Connection to db.
+     * @throws SQLException
+     */
     private void createBookingRequest(Connection con, BookingRequest bookingRequest) throws SQLException {
     	PreparedStatement pstmt = con.prepareStatement(SQL__CREATE_BOOKING_REQUEST);
 
@@ -126,17 +162,23 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 		pstmt.close();
     }
 
+	/**
+     * Extracts booking request from the result set row.
+     *
+     * @param rs
+     *        Result set row with data to extract.
+     */
 	@Override
 	public BookingRequest mapRow(ResultSet rs) {
-		BookingRequest bookingRequest = new BookingRequest();
 		try {
+			BookingRequest bookingRequest = new BookingRequest();
 			bookingRequest.setId(rs.getLong(Fields.ENTITY__ID));
 			bookingRequest.setCapacity(rs.getInt(Fields.BOOKING_REQUEST__CAPACITY));
 			bookingRequest.setDateIn(rs.getTimestamp(Fields.BOOKING_REQUEST__DATE_IN));
 			bookingRequest.setDateOut(rs.getTimestamp(Fields.BOOKING_REQUEST__DATE_OUT));
 
 			bookingRequest.setUser(new UserDAO().mapRow(rs));
-			bookingRequest.setRoomClass(RoomClassDAO.getRoomClassSet
+			bookingRequest.setRoomClass(RoomClassDAO.getRoomClassSetByTitle
 					(rs.getString(Fields.BOOKING_REQUEST__ROOM_CLASS_ID)));
 
 			return bookingRequest;

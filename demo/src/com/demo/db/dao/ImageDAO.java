@@ -25,20 +25,33 @@ public class ImageDAO implements EntityMapper<Image> {
 
 	private static final String SQL__FIND_IMAGE_BY_ID =
 			"SELECT * FROM images WHERE id=?";
+
 	private static final String SQL__FIND_IMAGE_BY_NAME =
 			"SELECT * FROM images WHERE name=?";
+
 	private static final String SQL__FIND_ALL_IMAGES =
 			"SELECT * FROM images";
+
 	private static final String SQL__FIND_ROOM_IMAGES =
-			"SELECT * FROM images WHERE id IN(SELECT image_id FROM rooms_images WHERE room_id=?)";
+			"SELECT * FROM images WHERE id IN(SELECT image_id "
+			+ "FROM rooms_images WHERE room_id=?)";
+
 	private static final String SQL__CREATE_IMAGE =
 			"INSERT INTO images (name, data) VALUES (?, ?)";
+
 	private static final String SQL__UPDATE_IMAGE =
 			"UPDATE images SET name=?, data=? WHERE id=?";
+
 	private static final String SQL__DELETE_IMAGE =
 			"DELETE FROM images WHERE id=?";
 
-
+	/**
+     * Returns image with given id
+     *
+     * @param id
+     *     	Image identifier.
+     * @return Image entity.
+     */
 	public Image findImageById(Long id) {
 		Image image = null;
 		PreparedStatement pstmt = null;
@@ -63,6 +76,13 @@ public class ImageDAO implements EntityMapper<Image> {
 		return image;
 	}
 
+	/**
+     * Returns image with given name
+     *
+     * @param name
+     *     	Image name.
+     * @return Image entity.
+     */
 	public Image findImageByName(String name) {
 		Image image = null;
 		PreparedStatement pstmt = null;
@@ -87,6 +107,11 @@ public class ImageDAO implements EntityMapper<Image> {
 		return image;
 	}
 
+	/**
+     * Returns list of all images.
+     *
+     * @return List of image entities.
+     */
 	public List<Image> findAllImages() {
 		List<Image> images = new ArrayList<>();
 		Statement stmt = null;
@@ -108,6 +133,13 @@ public class ImageDAO implements EntityMapper<Image> {
 		return images;
 	}
 
+	/**
+     * Returns list of images of the given room
+     *
+     * @param room
+     *     	Room entity.
+     * @return List of image entities.
+     */
 	public List<Image> findRoomImages(Room room) {
 		List<Image> images = new ArrayList<>();
 		PreparedStatement pstmt = null;
@@ -132,6 +164,12 @@ public class ImageDAO implements EntityMapper<Image> {
 		return images;
 	}
 
+	/**
+     * Create image.
+     *
+     * @param image
+     *            image to create.
+     */
 	public void createImage(Image image) {
 		Connection con = null;
 		try {
@@ -145,6 +183,15 @@ public class ImageDAO implements EntityMapper<Image> {
 		}
 	}
 
+	/**
+     * Create image.
+     *
+     * @param image
+     *            image to create.
+     * @param con
+     *            Connection to db.
+     * @throws SQLException
+     */
 	private void createImage(Connection con, Image image) throws SQLException {
 		PreparedStatement pstmt = con.prepareStatement(SQL__CREATE_IMAGE);
 		int k = 1;
@@ -154,6 +201,12 @@ public class ImageDAO implements EntityMapper<Image> {
 		pstmt.close();
 	}
 
+	/**
+     * Update image.
+     *
+     * @param image
+     *            Image to update.
+     */
 	public void updateImage(Image image) {
 		Connection con = null;
 		try {
@@ -167,6 +220,15 @@ public class ImageDAO implements EntityMapper<Image> {
 		}
 	}
 
+	/**
+     * Update image.
+     *
+     * @param image
+     *            Image to update.
+     * @param con
+     *            Connection to db.
+     * @throws SQLException
+     */
 	private void updateImage(Connection con, Image image) throws SQLException {
 		PreparedStatement pstmt = con.prepareStatement(SQL__UPDATE_IMAGE);
 		int k = 1;
@@ -177,6 +239,12 @@ public class ImageDAO implements EntityMapper<Image> {
 		pstmt.close();
 	}
 
+	/**
+     * Delete image.
+     *
+     * @param image
+     *            Image to delete.
+     */
 	public void deleteImage(Image image) {
 		PreparedStatement pstmt = null;
 		Connection con = null;
@@ -194,10 +262,16 @@ public class ImageDAO implements EntityMapper<Image> {
 		}
 	}
 
+	/**
+     * Extracts image from the result set row.
+     *
+     * @param rs
+     *        Result set row with data to extract.
+     */
 	@Override
 	public Image mapRow(ResultSet rs) {
-		Image image = new Image();
 		try {
+			Image image = new Image();
 			image.setId(rs.getLong(Fields.ENTITY__ID));
 			image.setName(rs.getString(Fields.IMAGE__NAME));
 			image.setData(rs.getBytes(Fields.IMAGE__DATA));

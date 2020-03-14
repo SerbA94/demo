@@ -28,27 +28,43 @@ public class BookingDAO implements EntityMapper<Booking> {
 
 	private static final String SQL__FIND_ALL_BOOKINGS =
 			"SELECT * FROM bookings";
+
 	private static final String SQL__FIND_BOOKING_BY_ID =
 			"SELECT * FROM bookings WHERE id=?";
+
 	private static final String SQL__FIND_BOOKINGS_BY_USER_ID =
 			"SELECT * FROM bookings WHERE user_id=?";
+
 	private static final String SQL__FIND_BOOKINGS_BY_ROOM_ID =
 			"SELECT * FROM bookings WHERE room_id=?";
+
 	private static final String SQL__FIND_BOOKINGS_BY_DATE_IN =
 			"SELECT * FROM bookings WHERE date_in=?";
+
 	private static final String SQL__FIND_BOOKINGS_BY_DATE_OUT =
 			"SELECT * FROM bookings WHERE date_out=?";
+
 	private static final String SQL__FIND_BOOKINGS_BY_DATE_OF_BOOKING =
 			"SELECT * FROM bookings WHERE date_of_booking=?";
+
 	private static final String SQL__FIND_BOOKINGS_BY_BOOKING_STATUS_ID =
 			"SELECT * FROM bookings WHERE booking_status_id=?";
+
 	private static final String SQL__UPDATE_BOOKING =
 			"UPDATE bookings SET booking_status_id=? WHERE id=?";
+
 	private static final String SQL__CREATE_BOOKING =
 			"INSERT INTO bookings (date_in, date_out, date_of_booking, user_id,"
 			+ " room_id, booking_status_id) VALUES (?, ?, ?, ?, ?, ?)";
 
 
+    /**
+     * Returns booking with given id
+     *
+     * @param id
+     *     	Booking identifier.
+     * @return Booking entity.
+     */
 	public Booking findBookingById(Long id) {
 		Booking booking = null;
 		PreparedStatement pstmt = null;
@@ -73,6 +89,11 @@ public class BookingDAO implements EntityMapper<Booking> {
 		return booking;
 	}
 
+	/**
+     * Returns list of all bookings.
+     *
+     * @return List of booking entities.
+     */
 	public List<Booking> findAllBookings() {
 		List<Booking> bookings = new ArrayList<>();
 		Statement stmt = null;
@@ -94,6 +115,13 @@ public class BookingDAO implements EntityMapper<Booking> {
 		return bookings;
 	}
 
+	/**
+     * Returns bookings of the given date in.
+     *
+     * @param dateIn
+     *            Timestamp of date in.
+     * @return List of booking entities.
+     */
 	public List<Booking> findBookingsByDateIn(Timestamp dateIn) {
 		List<Booking> bookings = new ArrayList<>();
 		PreparedStatement pstmt = null;
@@ -118,6 +146,13 @@ public class BookingDAO implements EntityMapper<Booking> {
 		return bookings;
 	}
 
+	/**
+     * Returns bookings of the given date out.
+     *
+     * @param dateOut
+     *            Timestamp of date out.
+     * @return List of booking entities.
+     */
 	public List<Booking> findBookingsByDateOut(Timestamp dateOut) {
 		List<Booking> bookings = new ArrayList<>();
 		PreparedStatement pstmt = null;
@@ -142,6 +177,13 @@ public class BookingDAO implements EntityMapper<Booking> {
 		return bookings;
 	}
 
+	/**
+     * Returns bookings of the given date of booking.
+     *
+     * @param dateOfBooking
+     *            Timestamp of date of booking.
+     * @return List of booking entities.
+     */
 	public List<Booking> findBookingsByDateOfBooking(Timestamp dateOfBooking) {
 		List<Booking> bookings = new ArrayList<>();
 		PreparedStatement pstmt = null;
@@ -166,6 +208,13 @@ public class BookingDAO implements EntityMapper<Booking> {
 		return bookings;
 	}
 
+	/**
+     * Returns bookings of the given user.
+     *
+     * @param user
+     *            User entity.
+     * @return List of booking entities.
+     */
 	public List<Booking> findBookingsByUser(User user) {
 		List<Booking> bookings = new ArrayList<>();
 		PreparedStatement pstmt = null;
@@ -190,6 +239,13 @@ public class BookingDAO implements EntityMapper<Booking> {
 		return bookings;
 	}
 
+	/**
+     * Returns bookings of the given room.
+     *
+     * @param room
+     *            Room entity.
+     * @return List of booking entities.
+     */
 	public List<Booking> findBookingsByRoom(Room room) {
 		List<Booking> bookings = new ArrayList<>();
 		PreparedStatement pstmt = null;
@@ -214,6 +270,13 @@ public class BookingDAO implements EntityMapper<Booking> {
 		return bookings;
 	}
 
+	/**
+     * Returns bookings of the given booking status.
+     *
+     * @param bookingStatus
+     *            BookingStatus enum.
+     * @return List of booking entities.
+     */
 	public List<Booking> findBookingsByBookingStatus(BookingStatus bookingStatus) {
 		List<Booking> bookings = new ArrayList<>();
 		PreparedStatement pstmt = null;
@@ -238,6 +301,12 @@ public class BookingDAO implements EntityMapper<Booking> {
 		return bookings;
 	}
 
+	/**
+     * Create booking.
+     *
+     * @param booking
+     *            Booking to create.
+     */
 	public void createBooking(Booking booking) {
 		Connection con = null;
 		try {
@@ -251,6 +320,15 @@ public class BookingDAO implements EntityMapper<Booking> {
 		}
 	}
 
+	/**
+     * Create booking.
+     *
+     * @param booking
+     *            Booking to create.
+     * @param con
+     *            Connection to db.
+     * @throws SQLException
+     */
 	private void createBooking(Connection con, Booking booking) throws SQLException {
 		PreparedStatement pstmt = con.prepareStatement(SQL__CREATE_BOOKING);
 		BookingStatusDAO bookingStatusDAO = new BookingStatusDAO();
@@ -268,6 +346,12 @@ public class BookingDAO implements EntityMapper<Booking> {
 		pstmt.close();
 	}
 
+    /**
+     * Update booking.
+     *
+     * @param booking
+     *            Booking to update.
+     */
 	public void updateBooking(Booking booking) {
 		Connection con = null;
 		try {
@@ -281,6 +365,15 @@ public class BookingDAO implements EntityMapper<Booking> {
 		}
 	}
 
+	/**
+     * Update booking.
+     *
+     * @param booking
+     *            Booking to update.
+     * @param con
+     *            Connection to db.
+     * @throws SQLException
+     */
 	private void updateBooking(Connection con, Booking booking) throws SQLException {
 		PreparedStatement pstmt = con.prepareStatement(SQL__UPDATE_BOOKING);
 		BookingStatusDAO bookingStatusDAO = new BookingStatusDAO();
@@ -294,10 +387,16 @@ public class BookingDAO implements EntityMapper<Booking> {
 		pstmt.close();
 	}
 
+	/**
+     * Extracts booking from the result set row.
+     *
+     * @param rs
+     *        Result set row with data to extract.
+     */
 	@Override
 	public Booking mapRow(ResultSet rs) {
-		Booking booking = new Booking();
 		try {
+			Booking booking = new Booking();
 			booking.setId(rs.getLong(Fields.ENTITY__ID));
 			booking.setDateIn(rs.getTimestamp(Fields.BOOKING__DATE_IN));
 			booking.setDateOut(rs.getTimestamp(Fields.BOOKING__DATE_OUT));

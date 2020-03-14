@@ -21,9 +21,20 @@ import com.demo.db.entity.RoomClass;
  */
 public class RoomClassDAO {
 
-    private static final String SQL__GET_ROOM_CLASS_ID = "SELECT id FROM room_class WHERE room_class_title=?";
-    private static final String SQL__GET_ROOM_CLASS_BY_ID = "SELECT room_class_title FROM room_class WHERE id=?";
+    private static final String SQL__GET_ROOM_CLASS_ID =
+    		"SELECT id FROM room_class WHERE room_class_title=?";
 
+    private static final String SQL__GET_ROOM_CLASS_BY_ID =
+    		"SELECT room_class_title FROM room_class WHERE id=?";
+
+
+    /**
+     * Returns room class id.
+     *
+     * @param roomClass
+     *     	Room class enum.
+     * @return Room class identifier.
+     */
     public Long findRoomClassId(RoomClass roomClass) {
     	Long id = null;
         PreparedStatement pstmt = null;
@@ -47,6 +58,13 @@ public class RoomClassDAO {
         return id;
     }
 
+    /**
+     * Returns room class enum with given id.
+     *
+     * @param id
+     *     	Room class identifier.
+     * @return Room class enum.
+     */
     public RoomClass findRoomClassById(Long id) {
     	String title = "";
         PreparedStatement pstmt = null;
@@ -70,14 +88,35 @@ public class RoomClassDAO {
     	return getRoomClass(title);
     }
 
-    public static Set<RoomClass> getRoomClassSet(String title) {
+    /**
+     * Returns room class enum set by enum title.
+     *
+     * @param title
+     *     	Room class enum title.
+     * @return Room class enum set.
+     */
+    public static Set<RoomClass> getRoomClassSetByTitle(String title) {
     	return Collections.singleton(getRoomClass(title));
     }
 
+    /**
+     * Returns room class enum by enum title.
+     *
+     * @param title
+     *     	Room class enum title.
+     * @return Room class enum.
+     */
     public RoomClass findRoomClassByTitle(String title) {
     	return getRoomClass(title);
     }
 
+    /**
+     * Matches Room class title with enum.
+     *
+     * @param title
+     *     	Room class enum title.
+     * @return Room class enum.
+     */
     private static RoomClass getRoomClass(String title) {
 		switch (title) {
 		case "budgetary":

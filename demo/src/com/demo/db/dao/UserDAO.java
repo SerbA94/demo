@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
 
 import com.demo.db.DBManager;
 import com.demo.db.constants.Fields;
@@ -31,11 +30,20 @@ public class UserDAO implements EntityMapper<User> {
 			"SELECT * FROM users JOIN roles ON users.role_id = roles.id WHERE id=?";
 
 	private static final String SQL_UPDATE_USER =
-			"UPDATE users SET login=?, password=?, role_id=?, locale_name=?, email=?, activation_token=? WHERE id=?";
+			"UPDATE users SET login=?, password=?, role_id=?, locale_name=?, email=?, "
+			+ "activation_token=? WHERE id=?";
 
 	private static final String SQL_CREATE_USER =
-			"INSERT INTO users (login, password, role_id, locale_name, email, activation_token) VALUES (?, ?, ?, ?, ?, ?)";
+			"INSERT INTO users (login, password, role_id, locale_name, email, activation_token)"
+			+ " VALUES (?, ?, ?, ?, ?, ?)";
 
+    /**
+     * Returns user with given id
+     *
+     * @param id
+     *     	User identifier.
+     * @return User entity.
+     */
 	public User findUserById(Long id) {
 		User user = null;
 		PreparedStatement pstmt = null;
@@ -60,6 +68,13 @@ public class UserDAO implements EntityMapper<User> {
 		return user;
 	}
 
+	/**
+     * Returns user with given login
+     *
+     * @param login
+     *     	User login.
+     * @return User entity.
+     */
 	public User findUserByLogin(String login) {
 		User user = null;
 		PreparedStatement pstmt = null;
@@ -84,6 +99,13 @@ public class UserDAO implements EntityMapper<User> {
 		return user;
 	}
 
+	/**
+     * Returns user with given email
+     *
+     * @param email
+     *     	User email.
+     * @return User entity.
+     */
 	public User findUserByEmail(String email) {
 		User user = null;
 		PreparedStatement pstmt = null;
@@ -108,6 +130,12 @@ public class UserDAO implements EntityMapper<User> {
 		return user;
 	}
 
+	/**
+     * Update user.
+     *
+     * @param user
+     *            User to update.
+     */
 	public void updateUser(User user) {
 		Connection con = null;
 		try {
@@ -121,6 +149,15 @@ public class UserDAO implements EntityMapper<User> {
 		}
 	}
 
+	/**
+     * Update user.
+     *
+     * @param user
+     *            User to update.
+     * @param con
+     *            Connection to db.
+     * @throws SQLException
+     */
 	private void updateUser(Connection con, User user) throws SQLException {
 		PreparedStatement pstmt = con.prepareStatement(SQL_UPDATE_USER);
 		RoleDAO roleDao = new RoleDAO();
@@ -137,6 +174,12 @@ public class UserDAO implements EntityMapper<User> {
 		pstmt.close();
 	}
 
+	/**
+     * Create user.
+     *
+     * @param user
+     *            User to create.
+     */
 	public void createUser(User user) {
 		Connection con = null;
 		try {
@@ -150,6 +193,15 @@ public class UserDAO implements EntityMapper<User> {
 		}
 	}
 
+	/**
+     * Create user.
+     *
+     * @param user
+     *            User to create.
+     * @param con
+     *            Connection to db.
+     * @throws SQLException
+     */
 	private void createUser(Connection con, User user) throws SQLException {
 		PreparedStatement pstmt = con.prepareStatement(SQL_CREATE_USER);
 		RoleDAO roleDao = new RoleDAO();
@@ -165,9 +217,14 @@ public class UserDAO implements EntityMapper<User> {
 		pstmt.close();
 	}
 
+	/**
+     * Extracts user from the result set row.
+     *
+     * @param rs
+     *        Result set row with data to extract.
+     */
 	@Override
 	public User mapRow(ResultSet rs) {
-		RoleDAO roleDao = new RoleDAO();
 		try {
 			User user = new User();
 			user.setId(rs.getLong(Fields.ENTITY__ID));
@@ -175,7 +232,7 @@ public class UserDAO implements EntityMapper<User> {
 			user.setPassword(rs.getString(Fields.USER__PASSWORD));
 			user.setLocaleName(rs.getString(Fields.USER__LOCALE_NAME));
 			user.setEmail(rs.getString(Fields.USER__EMAIL));
-			user.setRole(Collections.singleton(roleDao.findRoleByTitle(rs.getString(Fields.ROLE__TITLE))));
+			user.setRole(RoleDAO.getRoleSetByTitle(rs.getString(Fields.ROLE__TITLE)));
 			user.setActivationToken(rs.getString(Fields.USER__ACTIVATION_TOKEN));
 			return user;
 		} catch (SQLException e) {
