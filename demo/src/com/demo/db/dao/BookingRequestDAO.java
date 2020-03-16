@@ -24,17 +24,22 @@ import com.demo.db.entity.RoomClass;
 public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 
 	private static final String SQL__FIND_BOOKING_REQUEST_BY_ID =
-			"SELECT * FROM booking_requests WHERE id=?";
+			"SELECT * FROM booking_requests "
+					+ "JOIN room_class ON booking_requests.room_class_id = room_class.id "
+					+ "WHERE id=?";
 
 	private static final String SQL__FIND_ALL_BOOKING_REQUESTS =
-			"SELECT * FROM booking_requests";
+			"SELECT * FROM booking_requests "
+					+ "JOIN room_class ON booking_requests.room_class_id = room_class.id";
 
 	private static final String SQL__DELETE_BOOKING_REQUEST =
 			"DELETE FROM booking_requests WHERE id=?";
 
 	private static final String SQL__CREATE_BOOKING_REQUEST =
-			"INSERT INTO booking_requests (user_id, date_in, date_out, capacity,"
-			+ " room_class_id) VALUES (?, ?, ?, ?, ?)";
+			"INSERT INTO booking_requests "
+					+ "(user_id, date_in, date_out, capacity, room_class_id) "
+					+ "VALUES "
+					+ "(?, ?, ?, ?, ?)";
 
 
 	/**
@@ -178,8 +183,7 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 			bookingRequest.setDateOut(rs.getTimestamp(Fields.BOOKING_REQUEST__DATE_OUT));
 
 			bookingRequest.setUser(new UserDAO().mapRow(rs));
-			bookingRequest.setRoomClass(RoomClassDAO.getRoomClassSetByTitle
-					(rs.getString(Fields.BOOKING_REQUEST__ROOM_CLASS_ID)));
+			bookingRequest.setRoomClass(RoomClassDAO.getRoomClassSet(rs.getString(Fields.ROOM_CLASS__TITLE)));
 
 			return bookingRequest;
 		} catch (SQLException e) {

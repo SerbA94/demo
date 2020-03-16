@@ -25,30 +25,54 @@ import com.demo.db.entity.RoomStatus;
 public class RoomDAO implements EntityMapper<Room>{
 
 	private static final String SQL__FIND_ROOM_BY_ID =
-			"SELECT * FROM rooms WHERE id=?";
+			"SELECT * FROM rooms "
+					+ "JOIN room_class ON rooms.room_class_id = room_class.id "
+					+ "JOIN room_status ON rooms.room_status_id = room_status.id "
+					+ "WHERE id=?";
 
 	private static final String SQL__FIND_ROOM_BY_NUMBER =
-			"SELECT * FROM rooms WHERE number=?";
+			"SELECT * FROM rooms "
+					+ "JOIN room_class ON rooms.room_class_id = room_class.id "
+					+ "JOIN room_status ON rooms.room_status_id = room_status.id "
+					+ "WHERE number=?";
 
 	private static final String SQL__FIND_ALL_ROOMS =
-			"SELECT * FROM rooms";
+			"SELECT * FROM rooms "
+					+ "JOIN room_class ON rooms.room_class_id = room_class.id "
+					+ "JOIN room_status ON rooms.room_status_id = room_status.id";
 
 	private static final String SQL__FIND_ROOMS_BY_PRICE_BETWEEN =
-			"SELECT * FROM rooms WHERE price BETWEEN ? AND ?";
+			"SELECT * FROM rooms "
+					+ "JOIN room_class ON rooms.room_class_id = room_class.id "
+					+ "JOIN room_status ON rooms.room_status_id = room_status.id "
+					+ "WHERE price BETWEEN ? AND ?";
 
 	private static final String SQL__FIND_ROOMS_BY_STATUS =
-			"SELECT * FROM rooms WHERE room_status_id=?";
+			"SELECT * FROM rooms "
+					+ "JOIN room_class ON rooms.room_class_id = room_class.id "
+					+ "WHERE room_status_id "
+						+ "IN (SELECT id FROM room_status WHERE room_status_title=?)";
 
 	private static final String SQL__FIND_ROOMS_BY_CLASS =
-			"SELECT * FROM rooms WHERE room_class_id=?";
+			"SELECT * FROM rooms "
+					+ "JOIN room_status ON rooms.room_status_id = room_status.id "
+					+ "WHERE room_class_id "
+						+ "IN (SELECT id FROM room_class WHERE room_class_title=?)";
 
 	private static final String SQL__CREATE_ROOM =
-			"INSERT INTO rooms (number, capacity, price, description,"
-			+ " room_class_id, room_status_id) VALUES (?, ?, ?, ?, ?, ?)";
+			"INSERT INTO rooms "
+					+ "(number, capacity, price, description, room_class_id, room_status_id) "
+					+ "VALUES "
+					+ "(?, ?, ?, ?, ?, ?)";
 
 	private static final String SQL__UPDATE_ROOM =
-			"UPDATE rooms SET capacity=?, price=?, description=?, "
-			+ "room_class_id=?, room_status_id=? WHERE id=?";
+			"UPDATE rooms "
+					+ "SET capacity=?, "
+						+ "price=?, "
+						+ "description=?, "
+						+ "room_class_id=(SELECT id FROM room_class WHERE room_class_title=?), "
+						+ "room_status_id=(SELECT id FROM room_status WHERE room_status_title=?) "
+					+ "WHERE id=?";
 
 
     /**
@@ -195,7 +219,7 @@ public class RoomDAO implements EntityMapper<Room>{
 		try {
 			con = DBManager.getInstance().getConnection();
 			pstmt = con.prepareStatement(SQL__FIND_ROOMS_BY_STATUS);
-			pstmt.setLong(1, new RoomStatusDAO().findRoomStatusId(roomStatus));
+			pstmt.setString(1, roomStatus.getTitle());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				rooms.add(mapRow(rs));
@@ -226,7 +250,7 @@ public class RoomDAO implements EntityMapper<Room>{
 		try {
 			con = DBManager.getInstance().getConnection();
 			pstmt = con.prepareStatement(SQL__FIND_ROOMS_BY_CLASS);
-			pstmt.setLong(1, new RoomClassDAO().findRoomClassId(roomClass));
+			pstmt.setString(1, roomClass.getTitle());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				rooms.add(mapRow(rs));
@@ -291,17 +315,15 @@ public class RoomDAO implements EntityMapper<Room>{
      */
     private void updateRoom(Connection con, Room room) throws SQLException {
 		PreparedStatement pstmt = con.prepareStatement(SQL__UPDATE_ROOM);
-		Long roomClassId = new RoomClassDAO()
-				.findRoomClassId((RoomClass) room.getRoomClass().toArray()[0]);
-		Long roomStatusId = new RoomStatusDAO()
-				.findRoomStatusId((RoomStatus) room.getRoomStatus().toArray()[0]);
+		RoomClass roomClass = (RoomClass) room.getRoomClass().toArray()[0];
+		RoomStatus roomStatus = (RoomStatus) room.getRoomStatus().toArray()[0];
 
 		int k = 1;
 		pstmt.setInt(k++, room.getCapacity());
 		pstmt.setInt(k++, room.getPrice());
 		pstmt.setString(k++, room.getDescription());
-		pstmt.setLong(k++, roomClassId);
-		pstmt.setLong(k++, roomStatusId);
+		pstmt.setString(k++, roomClass.getTitle());
+		pstmt.setString(k++, roomStatus.getTitle());
 		pstmt.setLong(k, room.getId());
 		pstmt.executeUpdate();
 		pstmt.close();
@@ -349,8 +371,8 @@ public class RoomDAO implements EntityMapper<Room>{
 			room.setCapacity(rs.getInt(Fields.ROOM__CAPACITY));
 			room.setPrice(rs.getInt(Fields.ROOM__PRICE));
 			room.setDescription(rs.getString(Fields.ROOM__DESCRIPTION));
-			room.setRoomClass(RoomClassDAO.getRoomClassSetByTitle(rs.getString(Fields.ROOM__ROOM_CLASS_ID)));
-			room.setRoomStatus(RoomStatusDAO.getRoomStatusSetByTitle(rs.getString(Fields.ROOM__ROOM_STATUS_ID)));
+			room.setRoomClass(RoomClassDAO.getRoomClassSet(rs.getString(Fields.ROOM_CLASS__TITLE)));
+			room.setRoomStatus(RoomStatusDAO.getRoomStatusSet(rs.getString(Fields.ROOM_STATUS__TITLE)));
 			return room;
 		} catch (SQLException e) {
 			throw new IllegalStateException(e);

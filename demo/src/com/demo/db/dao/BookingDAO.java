@@ -27,35 +27,54 @@ import com.demo.db.entity.User;
 public class BookingDAO implements EntityMapper<Booking> {
 
 	private static final String SQL__FIND_ALL_BOOKINGS =
-			"SELECT * FROM bookings";
+			"SELECT * FROM bookings "
+					+ "JOIN booking_status ON bookings.booking_status_id = booking_status.id";
 
 	private static final String SQL__FIND_BOOKING_BY_ID =
-			"SELECT * FROM bookings WHERE id=?";
+			"SELECT * FROM bookings "
+					+ "JOIN booking_status ON bookings.booking_status_id = booking_status.id "
+					+ "WHERE id=?";
 
 	private static final String SQL__FIND_BOOKINGS_BY_USER_ID =
-			"SELECT * FROM bookings WHERE user_id=?";
+			"SELECT * FROM bookings "
+					+ "JOIN booking_status ON bookings.booking_status_id = booking_status.id "
+					+ "WHERE user_id=?";
 
 	private static final String SQL__FIND_BOOKINGS_BY_ROOM_ID =
-			"SELECT * FROM bookings WHERE room_id=?";
+			"SELECT * FROM bookings "
+					+ "JOIN booking_status ON bookings.booking_status_id = booking_status.id "
+					+ "WHERE room_id=?";
 
 	private static final String SQL__FIND_BOOKINGS_BY_DATE_IN =
-			"SELECT * FROM bookings WHERE date_in=?";
+			"SELECT * FROM bookings "
+					+ "JOIN booking_status ON bookings.booking_status_id = booking_status.id "
+					+ "WHERE date_in=?";
 
 	private static final String SQL__FIND_BOOKINGS_BY_DATE_OUT =
-			"SELECT * FROM bookings WHERE date_out=?";
+			"SELECT * FROM bookings "
+					+ "JOIN booking_status ON bookings.booking_status_id = booking_status.id "
+					+ "WHERE date_out=?";
 
 	private static final String SQL__FIND_BOOKINGS_BY_DATE_OF_BOOKING =
-			"SELECT * FROM bookings WHERE date_of_booking=?";
+			"SELECT * FROM bookings "
+					+ "JOIN booking_status ON bookings.booking_status_id = booking_status.id "
+					+ "WHERE date_of_booking=?";
 
-	private static final String SQL__FIND_BOOKINGS_BY_BOOKING_STATUS_ID =
-			"SELECT * FROM bookings WHERE booking_status_id=?";
+	private static final String SQL__FIND_BOOKINGS_BY_BOOKING_STATUS =
+			"SELECT * FROM bookings "
+					+ "WHERE booking_status_id "
+						+ "IN (SELECT id FROM booking_status WHERE booking_status_title=?)";
 
 	private static final String SQL__UPDATE_BOOKING =
-			"UPDATE bookings SET booking_status_id=? WHERE id=?";
+			"UPDATE bookings SET "
+					+ "booking_status_id=(SELECT id FROM booking_status WHERE booking_status_title=?) "
+					+ "WHERE id=?";
 
 	private static final String SQL__CREATE_BOOKING =
-			"INSERT INTO bookings (date_in, date_out, date_of_booking, user_id,"
-			+ " room_id, booking_status_id) VALUES (?, ?, ?, ?, ?, ?)";
+			"INSERT INTO bookings "
+					+ "(date_in, date_out, date_of_booking, user_id, room_id, booking_status_id) "
+					+ "VALUES "
+					+ "(?, ?, ?, ?, ?, ?)";
 
 
     /**
@@ -284,8 +303,8 @@ public class BookingDAO implements EntityMapper<Booking> {
 		Connection con = null;
 		try {
 			con = DBManager.getInstance().getConnection();
-			pstmt = con.prepareStatement(SQL__FIND_BOOKINGS_BY_BOOKING_STATUS_ID);
-			pstmt.setLong(1, new BookingStatusDAO().findBookingStatusId(bookingStatus));
+			pstmt = con.prepareStatement(SQL__FIND_BOOKINGS_BY_BOOKING_STATUS);
+			pstmt.setString(1, bookingStatus.getTitle());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				bookings.add(mapRow(rs));
@@ -376,12 +395,10 @@ public class BookingDAO implements EntityMapper<Booking> {
      */
 	private void updateBooking(Connection con, Booking booking) throws SQLException {
 		PreparedStatement pstmt = con.prepareStatement(SQL__UPDATE_BOOKING);
-		BookingStatusDAO bookingStatusDAO = new BookingStatusDAO();
-		Long bookingStatusId = bookingStatusDAO.findBookingStatusId(
-				(BookingStatus) booking.getBookingStatus().toArray()[0]);
+		BookingStatus bookingStatus = (BookingStatus) booking.getBookingStatus().toArray()[0];
 
 		int k = 1;
-		pstmt.setLong(k++, bookingStatusId);
+		pstmt.setString(k++, bookingStatus.getTitle());
 		pstmt.setLong(k, booking.getId());
 		pstmt.executeUpdate();
 		pstmt.close();

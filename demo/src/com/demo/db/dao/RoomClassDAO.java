@@ -95,7 +95,7 @@ public class RoomClassDAO {
      *     	Room class enum title.
      * @return Room class enum set.
      */
-    public static Set<RoomClass> getRoomClassSetByTitle(String title) {
+    public static Set<RoomClass> getRoomClassSet(String title) {
     	return Collections.singleton(getRoomClass(title));
     }
 

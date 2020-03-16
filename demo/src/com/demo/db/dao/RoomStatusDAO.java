@@ -95,7 +95,7 @@ public class RoomStatusDAO {
      *     	Room status enum title.
      * @return Room status enum set.
      */
-    public static Set<RoomStatus> getRoomStatusSetByTitle(String title) {
+    public static Set<RoomStatus> getRoomStatusSet(String title) {
     	return Collections.singleton(getRoomStatus(title));
     }
 

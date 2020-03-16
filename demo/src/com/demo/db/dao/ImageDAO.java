@@ -33,8 +33,8 @@ public class ImageDAO implements EntityMapper<Image> {
 			"SELECT * FROM images";
 
 	private static final String SQL__FIND_ROOM_IMAGES =
-			"SELECT * FROM images WHERE id IN(SELECT image_id "
-			+ "FROM rooms_images WHERE room_id=?)";
+			"SELECT * FROM images "
+					+ "WHERE id IN (SELECT image_id FROM rooms_images WHERE room_id=?)";
 
 	private static final String SQL__CREATE_IMAGE =
 			"INSERT INTO images (name, data) VALUES (?, ?)";
