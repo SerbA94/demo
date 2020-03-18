@@ -8,7 +8,7 @@
   <display-name>demo</display-name>
 
   <welcome-file-list>
-   		<welcome-file>welcome.jsp</welcome-file>
+   		<welcome-file>/WEB-INF/jsp/welcome.jsp</welcome-file>
   </welcome-file-list>
 
 
@@ -46,7 +46,6 @@
 	<servlet-mapping>
 		<servlet-name>Controller</servlet-name>
 		<url-pattern>/controller</url-pattern>
-		<url-pattern>/login</url-pattern>
 	</servlet-mapping>
 
 
