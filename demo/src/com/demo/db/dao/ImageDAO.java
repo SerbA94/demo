@@ -33,11 +33,10 @@ public class ImageDAO implements EntityMapper<Image> {
 			"SELECT * FROM images";
 
 	private static final String SQL__FIND_ROOM_IMAGES =
-			"SELECT * FROM images "
-					+ "WHERE id IN (SELECT image_id FROM rooms_images WHERE room_id=?)";
+			"SELECT * FROM images WHERE room_id=?";
 
 	private static final String SQL__CREATE_IMAGE =
-			"INSERT INTO images (name, data) VALUES (?, ?)";
+			"INSERT INTO images (name, data, room_id) VALUES (?, ?, ?)";
 
 	private static final String SQL__UPDATE_IMAGE =
 			"UPDATE images SET name=?, data=? WHERE id=?";
@@ -197,6 +196,7 @@ public class ImageDAO implements EntityMapper<Image> {
 		int k = 1;
 		pstmt.setString(k++, image.getName());
 		pstmt.setBytes(k++, image.getData());
+		pstmt.setInt(k++, image.getRoomId());
 		pstmt.executeUpdate();
 		pstmt.close();
 	}

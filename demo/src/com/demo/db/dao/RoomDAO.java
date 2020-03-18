@@ -63,7 +63,9 @@ public class RoomDAO implements EntityMapper<Room>{
 			"INSERT INTO rooms "
 					+ "(number, capacity, price, description, room_class_id, room_status_id) "
 					+ "VALUES "
-					+ "(?, ?, ?, ?, ?, ?)";
+					+ "(?, ?, ?, ?, "
+						+ "(SELECT id FROM room_class WHERE room_class_title=?), "
+						+ "(SELECT id FROM room_status WHERE room_status_title=?))";
 
 	private static final String SQL__UPDATE_ROOM =
 			"UPDATE rooms "
@@ -340,18 +342,16 @@ public class RoomDAO implements EntityMapper<Room>{
      */
     private void createRoom(Connection con, Room room) throws SQLException {
 		PreparedStatement pstmt = con.prepareStatement(SQL__CREATE_ROOM);
-		Long roomClassId = new RoomClassDAO()
-				.findRoomClassId((RoomClass) room.getRoomClass().toArray()[0]);
-		Long roomStatusId = new RoomStatusDAO()
-				.findRoomStatusId((RoomStatus) room.getRoomStatus().toArray()[0]);
+		RoomClass roomClass = (RoomClass) room.getRoomClass().toArray()[0];
+		RoomStatus roomStatus = (RoomStatus) room.getRoomStatus().toArray()[0];
 
 		int k = 1;
 		pstmt.setInt(k++, room.getNumber());
 		pstmt.setInt(k++, room.getCapacity());
 		pstmt.setInt(k++, room.getPrice());
 		pstmt.setString(k++, room.getDescription());
-		pstmt.setLong(k++, roomClassId);
-		pstmt.setLong(k++, roomStatusId);
+		pstmt.setString(k++, roomClass.getTitle());
+		pstmt.setString(k++, roomStatus.getTitle());
 		pstmt.executeUpdate();
 		pstmt.close();
     }

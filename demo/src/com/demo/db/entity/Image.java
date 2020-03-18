@@ -13,15 +13,19 @@ public class Image extends Entity {
 
 	private String name;
     private byte[] data;
+    private Integer roomId;
+
 
 	/**
 	 * @param name
 	 * @param data
+	 * @param roomId
 	 */
-	public Image(String name, byte[] data) {
+	public Image(String name, byte[] data, Integer roomId) {
 		super();
 		this.name = name;
 		this.data = data;
+		this.roomId = roomId;
 	}
 
 	/**
@@ -61,6 +65,14 @@ public class Image extends Entity {
 
 	public void setData(byte[] data) {
 		this.data = data;
+	}
+
+	public Integer getRoomId() {
+		return roomId;
+	}
+
+	public void setRoomId(Integer roomId) {
+		this.roomId = roomId;
 	}
 
 	@Override

@@ -39,7 +39,7 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 			"INSERT INTO booking_requests "
 					+ "(user_id, date_in, date_out, capacity, room_class_id) "
 					+ "VALUES "
-					+ "(?, ?, ?, ?, ?)";
+					+ "(?, ?, ?, ?, (SELECT id FROM room_cass WHERE room_class_title=?))";
 
 
 	/**
@@ -152,17 +152,14 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
      */
     private void createBookingRequest(Connection con, BookingRequest bookingRequest) throws SQLException {
     	PreparedStatement pstmt = con.prepareStatement(SQL__CREATE_BOOKING_REQUEST);
-
-		RoomClassDAO roomClassDAO = new RoomClassDAO();
-		Long roomClassId = roomClassDAO.findRoomClassId(
-				(RoomClass) bookingRequest.getRoomClass().toArray()[0]);
+    	RoomClass roomClass = (RoomClass) bookingRequest.getRoomClass().toArray()[0];
 
 		int k = 1;
 		pstmt.setLong(k++, bookingRequest.getUser().getId());
 		pstmt.setTimestamp(k++, bookingRequest.getDateIn());
 		pstmt.setTimestamp(k++, bookingRequest.getDateOut());
 		pstmt.setInt(k++, bookingRequest.getCapacity());
-		pstmt.setLong(k++, roomClassId);
+		pstmt.setString(k++, roomClass.getTitle());
 		pstmt.executeUpdate();
 		pstmt.close();
     }

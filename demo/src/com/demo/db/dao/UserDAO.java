@@ -49,7 +49,7 @@ public class UserDAO implements EntityMapper<User> {
 			"INSERT INTO users "
 					+ "(login, password, role_id, locale_name, email, activation_token) "
 					+ "VALUES "
-					+ "(?, ?, ?, ?, ?, ?)";
+					+ "(?, ?, (SELECT id FROM roles WHERE role_title=?), ?, ?, ?)";
 
     /**
      * Returns user with given id
@@ -217,12 +217,11 @@ public class UserDAO implements EntityMapper<User> {
      */
 	private void createUser(Connection con, User user) throws SQLException {
 		PreparedStatement pstmt = con.prepareStatement(SQL_CREATE_USER);
-		RoleDAO roleDao = new RoleDAO();
-		Long roleId = roleDao.findRoleId((Role) user.getRole().toArray()[0]);
+		Role role = (Role) user.getRole().toArray()[0];
 		int k = 1;
 		pstmt.setString(k++, user.getLogin());
 		pstmt.setString(k++, user.getPassword());
-		pstmt.setLong(k++, roleId);
+		pstmt.setString(k++, role.getTitle());
 		pstmt.setString(k++, user.getLocaleName());
 		pstmt.setString(k++, user.getEmail());
 		pstmt.setString(k++, user.getActivationToken());
