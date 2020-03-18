@@ -88,6 +88,13 @@
 			</param-value>
 		</init-param>
 		<init-param>
+			<param-name>manager</param-name>
+			<param-value>
+				view-settings
+				update-settings
+			</param-value>
+		</init-param>
+		<init-param>
 			<param-name>customer</param-name>
 			<param-value>
 				view-settings
@@ -109,6 +116,8 @@
 				noCommand
 				view-error
 				view-welcome
+				view-settings
+				update-settings
 			</param-value>
 		</init-param>
 		<init-param>
@@ -122,6 +131,8 @@
 				view-error
 				activation
 				noCommand
+				view-settings
+				update-settings
 			</param-value>
 		</init-param>
 	</filter>

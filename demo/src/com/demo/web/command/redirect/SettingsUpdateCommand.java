@@ -28,19 +28,19 @@ public class SettingsUpdateCommand extends Command implements Redirector{
 
 		log.debug("Command starts");
 
-		// UPDATE USER ////////////////////////////////////////////////////////
-
 		User user = (User)request.getSession().getAttribute("user");
 		boolean updateUser = false;
-
 
 		String localeToSet = request.getParameter("localeToSet");
 		if (localeToSet != null && !localeToSet.isEmpty()) {
 			HttpSession session = request.getSession();
 			Config.set(session, "javax.servlet.jsp.jstl.fmt.locale", localeToSet);
 			session.setAttribute("defaultLocale", localeToSet);
-			user.setLocaleName(localeToSet);
-			updateUser = true;
+
+			if(user != null) {
+				user.setLocaleName(localeToSet);
+				updateUser = true;
+			}
 		}
 
 		if (updateUser == true) {

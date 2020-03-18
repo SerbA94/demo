@@ -8,6 +8,11 @@ Header (top area).
 
 <tr>
 <td id="header">
+<div id="leftHeader">
+	<a href="controller?command=view-welcome">
+		<span>Home</span> &nbsp;
+	</a> &nbsp;
+</div>
 
 <c:if test="${not empty user}">
 <%--===========================================================================
@@ -15,21 +20,6 @@ This is the user menu.
 ===========================================================================--%>
 
 <div id="leftHeader">
-
-	<a href="controller?command=view-welcome">
-		<span>Home</span> &nbsp;
-	</a> &nbsp;
-
-<%--===========================================================================
-This way we define the settings anchor.
-===========================================================================--%>
-	<c:choose>
-		<c:when test="${userRole.title ne 'inactive'}">
-			<a href="controller?command=view-settings">
-				<fmt:message key="header_jspf.anchor.settings" />
-			</a> &nbsp;
-		</c:when>
-	</c:choose>
 
 	<c:choose>
 
@@ -39,7 +29,12 @@ This way we define the ADMIN MENU.
 		<c:when test="${userRole.title == 'admin' }">
 			<span>Text for admin</span> &nbsp;
 		</c:when>
-
+<%--===========================================================================
+This way we define the MANAGER MENU.
+===========================================================================--%>
+		<c:when test="${userRole.title == 'manager' }">
+			<span>Text for manager</span> &nbsp;
+		</c:when>
 
 <%--===========================================================================
 This way we define the USER MENU.
@@ -79,7 +74,7 @@ Type link to logout
 
 </div>
 </c:if>
-
+<div id="rightHeader" >
 <c:if test="${empty user and title ne 'Login'}">
 	<div id="rightHeader">
 		<a href="controller?command=view-login">
@@ -95,6 +90,16 @@ Type link to logout
 		</a>
 	</div>
 </c:if>
+
+		<c:choose>
+		<c:when test="${userRole.title ne 'inactive'}">
+			<a href="controller?command=view-settings">
+				<fmt:message key="header_jspf.anchor.settings" />
+			</a> &nbsp;
+		</c:when>
+	</c:choose>
+	</div>
+
 
 	</td>
 </tr>
