@@ -51,4 +51,10 @@ public final class Fields {
 
 	public static final String ROOM_CLASS__TITLE = "room_class_title";
 
+	public static final String DESCRIPTION__LOCALE_NAME = "locale_name";
+	public static final String DESCRIPTION__DESCRIPTION = "description";
+	public static final String DESCRIPTION__ROOM_ID = "room_id";
+
+
+
 }

@@ -7,7 +7,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import com.demo.db.DBManager;
@@ -27,6 +30,35 @@ public class RoomClassDAO {
     private static final String SQL__GET_ROOM_CLASS_BY_ID =
     		"SELECT room_class_title FROM room_class WHERE id=?";
 
+    private static final String SQL__FIND_ALL_ROOM_CLASSES =
+    		"SELECT room_class_title FROM room_class";
+
+
+	/**
+     * Returns list of all room classes.
+     *
+     * @return List of room class enums.
+     */
+	public List<RoomClass> findAllRoomClasses() {
+		List<RoomClass> roomClass = new ArrayList<>();
+		Statement stmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		try {
+			con = DBManager.getInstance().getConnection();
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(SQL__FIND_ALL_ROOM_CLASSES);
+			while (rs.next()) {
+				roomClass.add(getRoomClass(rs.getString(Fields.ROOM_CLASS__TITLE)));
+			}
+			rs.close();
+			stmt.close();
+			con.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return roomClass;
+	}
 
     /**
      * Returns room class id.
@@ -123,7 +155,7 @@ public class RoomClassDAO {
 			return RoomClass.BUDGETARY;
 		case "family":
 			return RoomClass.FAMILY;
-		case "bussiness":
+		case "business":
 			return RoomClass.BUSINESS;
 		case "luxury":
 			return RoomClass.LUXURY;

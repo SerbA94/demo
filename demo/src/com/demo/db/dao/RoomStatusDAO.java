@@ -7,7 +7,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import com.demo.db.DBManager;
@@ -21,12 +24,41 @@ import com.demo.db.entity.RoomStatus;
  */
 public class RoomStatusDAO {
 
-	private static final String SQL__GET_ROOM_STATUS_ID =
+	private static final String SQL__FIND_ROOM_STATUS_ID =
 			"SELECT id FROM room_status WHERE room_status_title=?";
 
-    private static final String SQL__GET_ROOM_STATUS_BY_ID =
+    private static final String SQL__FIND_ROOM_STATUS_BY_ID =
     		"SELECT room_status_title FROM room_status WHERE id=?";
 
+    private static final String SQL__FIND_ALL_ROOM_STATUSES =
+    		"SELECT room_status_title FROM room_status";
+
+
+	/**
+     * Returns list of all room statuses.
+     *
+     * @return List of room status enums.
+     */
+	public List<RoomStatus> findAllRoomStatuses() {
+		List<RoomStatus> roomStatuses = new ArrayList<>();
+		Statement stmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		try {
+			con = DBManager.getInstance().getConnection();
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(SQL__FIND_ALL_ROOM_STATUSES);
+			while (rs.next()) {
+				roomStatuses.add(getRoomStatus(rs.getString(Fields.ROOM_STATUS__TITLE)));
+			}
+			rs.close();
+			stmt.close();
+			con.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return roomStatuses;
+	}
 
     /**
      * Returns room status id.
@@ -42,7 +74,7 @@ public class RoomStatusDAO {
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL__GET_ROOM_STATUS_ID);
+            pstmt = con.prepareStatement(SQL__FIND_ROOM_STATUS_ID);
             pstmt.setString(1, roomStatus.getTitle());
             rs = pstmt.executeQuery();
             if (rs.next())
@@ -72,7 +104,7 @@ public class RoomStatusDAO {
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL__GET_ROOM_STATUS_BY_ID);
+            pstmt = con.prepareStatement(SQL__FIND_ROOM_STATUS_BY_ID);
             pstmt.setLong(1, id);
             rs = pstmt.executeQuery();
             if (rs.next())
@@ -123,7 +155,7 @@ public class RoomStatusDAO {
 			return RoomStatus.BOOKED;
 		case "free":
 			return RoomStatus.FREE;
-		case "inaccessible":
+		case "inaccesible":
 			return RoomStatus.INACCESSIBLE;
 		case "occupied":
 			return RoomStatus.OCCUPIED;
