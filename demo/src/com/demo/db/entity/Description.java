@@ -28,6 +28,16 @@ public class Description extends Entity {
 	}
 
 	/**
+	 * @param localeName
+	 * @param description
+	 */
+	public Description(String localeName, String description) {
+		super();
+		this.localeName = localeName;
+		this.description = description;
+	}
+
+	/**
 	 *
 	 */
 	public Description() {
