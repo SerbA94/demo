@@ -17,30 +17,31 @@ public class Room extends Entity {
 	private Integer number;
 	private Integer capacity;
 	private Integer price;
-	private String description;
 	private List<Image> images;
 	private Set<RoomStatus> roomStatus;
 	private Set<RoomClass> roomClass;
+	private List<Description> descriptions;
+
 
 	/**
 	 * @param number
 	 * @param capacity
 	 * @param price
-	 * @param description
 	 * @param images
 	 * @param roomStatus
 	 * @param roomClass
+	 * @param descriptions
 	 */
-	public Room(Integer number, Integer capacity, Integer price, String description,
-			List<Image> images, Set<RoomStatus> roomStatus, Set<RoomClass> roomClass) {
+	public Room(Integer number, Integer capacity, Integer price, List<Image> images,
+			Set<RoomStatus> roomStatus, Set<RoomClass> roomClass, List<Description> descriptions) {
 		super();
 		this.number = number;
 		this.capacity = capacity;
 		this.price = price;
-		this.description = description;
 		this.images = images;
 		this.roomStatus = roomStatus;
 		this.roomClass = roomClass;
+		this.descriptions = descriptions;
 	}
 
 	/**
@@ -74,14 +75,6 @@ public class Room extends Entity {
 		this.price = price;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public List<Image> getImages() {
 		return images;
 	}
@@ -106,12 +99,19 @@ public class Room extends Entity {
 		this.roomClass = roomClass;
 	}
 
+	public List<Description> getDescriptions() {
+		return descriptions;
+	}
+
+	public void setDescriptions(List<Description>  descriptions) {
+		this.descriptions = descriptions;
+	}
+
 	@Override
 	public String toString() {
 		return "Room [number=" + number + ", capacity=" + capacity +
-				", price=" + price + ", description=" + description
-				+ ", images=" + images + ", roomStatus=" + roomStatus
-				+ ", roomClass=" + roomClass + "]";
+				", price=" + price + ", images=" + images
+				+ ", roomStatus=" + roomStatus + ", roomClass=" + roomClass + "]";
 	}
 
 	@Override
@@ -119,7 +119,6 @@ public class Room extends Entity {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((capacity == null) ? 0 : capacity.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((images == null) ? 0 : images.hashCode());
 		result = prime * result + ((number == null) ? 0 : number.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
