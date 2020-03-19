@@ -407,7 +407,7 @@ public class RoomDAO implements EntityMapper<Room>{
                 id = generatedKeys.getLong(1);
             }
             else {
-                throw new SQLException("Creating user failed, no ID obtained.");
+                throw new SQLException("Creating room failed, no ID obtained.");
             }
         }finally{
         	pstmt.close();
@@ -445,13 +445,11 @@ public class RoomDAO implements EntityMapper<Room>{
 		List<Description> descriptions = new ArrayList<>();
 		Statement stmt = con.createStatement();;
 		ResultSet rs = stmt.executeQuery(SQL__FIND_ROOM_DESCRIPTIONS);;
-
-			while (rs.next()) {
-				descriptions.add(new DescriptionMapper().mapRow(rs));
-			}
-			rs.close();
-			stmt.close();
-
+		while (rs.next()) {
+			descriptions.add(new DescriptionMapper().mapRow(rs));
+		}
+		rs.close();
+		stmt.close();
 		return descriptions;
 	}
 
