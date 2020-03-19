@@ -365,10 +365,11 @@ public class RoomDAO implements EntityMapper<Room>{
 		try {
 			con = DBManager.getInstance().getConnection();
 			List<Description> descriptions = room.getDescriptions();
+			Long roomId = createRoom(con, room);
 			for (Description description : descriptions) {
+				description.setRoomId(roomId);
 				createDescription(con,description);
 			}
-			createRoom(con, room);
 		} catch (SQLException ex) {
 			DBManager.getInstance().rollbackAndClose(con);
 			ex.printStackTrace();
@@ -386,10 +387,12 @@ public class RoomDAO implements EntityMapper<Room>{
      *            Connection to db.
      * @throws SQLException
      */
-    private void createRoom(Connection con, Room room) throws SQLException {
-		PreparedStatement pstmt = con.prepareStatement(SQL__CREATE_ROOM);
+    private Long createRoom(Connection con, Room room) throws SQLException {
+		PreparedStatement pstmt = con.prepareStatement(SQL__CREATE_ROOM, Statement.RETURN_GENERATED_KEYS);
 		RoomClass roomClass = (RoomClass) room.getRoomClass().toArray()[0];
 		RoomStatus roomStatus = (RoomStatus) room.getRoomStatus().toArray()[0];
+
+		Long id = null;
 
 		int k = 1;
 		pstmt.setInt(k++, room.getNumber());
@@ -398,7 +401,18 @@ public class RoomDAO implements EntityMapper<Room>{
 		pstmt.setString(k++, roomClass.getTitle());
 		pstmt.setString(k++, roomStatus.getTitle());
 		pstmt.executeUpdate();
-		pstmt.close();
+
+        try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                id = generatedKeys.getLong(1);
+            }
+            else {
+                throw new SQLException("Creating user failed, no ID obtained.");
+            }
+        }finally{
+        	pstmt.close();
+        }
+        return id;
     }
 
 	/**
