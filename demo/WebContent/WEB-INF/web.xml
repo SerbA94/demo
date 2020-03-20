@@ -83,8 +83,13 @@
 		 <init-param>
 			<param-name>admin</param-name>
 			<param-value>
+				view-rooms
 				view-settings
 				update-settings
+				view-room-create
+				view-room-edit
+				create-room
+				edit-room
 			</param-value>
 		</init-param>
 		<init-param>
@@ -97,6 +102,7 @@
 		<init-param>
 			<param-name>customer</param-name>
 			<param-value>
+				view-rooms
 				view-settings
 				update-settings
 			</param-value>

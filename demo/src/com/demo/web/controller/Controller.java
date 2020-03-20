@@ -35,11 +35,6 @@ public class Controller extends HttpServlet {
 
 		log.debug("Controller starts");
 
-		log.trace("Request getRequestURL --> " + request.getRequestURL());
-		log.trace("Request getRequestURI --> " + request.getRequestURI());
-
-
-
 		// extract command name from the request
 		String commandName = request.getParameter("command");
 		log.trace("Request parameter: command --> " + commandName);

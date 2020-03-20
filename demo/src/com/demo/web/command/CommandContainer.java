@@ -11,6 +11,9 @@ import com.demo.web.command.forward.ErrorViewCommand;
 import com.demo.web.command.forward.LoginViewCommand;
 import com.demo.web.command.forward.NoCommand;
 import com.demo.web.command.forward.RegistrationViewCommand;
+import com.demo.web.command.forward.RoomCreateViewCommand;
+import com.demo.web.command.forward.RoomEditViewCommand;
+import com.demo.web.command.forward.RoomsViewCommand;
 import com.demo.web.command.forward.SettingsViewCommand;
 import com.demo.web.command.forward.WelcomeViewCommand;
 import com.demo.web.command.redirect.ActivationCommand;
@@ -18,6 +21,8 @@ import com.demo.web.command.redirect.ActivationMailCommand;
 import com.demo.web.command.redirect.LoginCommand;
 import com.demo.web.command.redirect.LogoutCommand;
 import com.demo.web.command.redirect.RegistrationCommand;
+import com.demo.web.command.redirect.RoomCreateCommand;
+import com.demo.web.command.redirect.RoomEditCommand;
 import com.demo.web.command.redirect.SettingsUpdateCommand;
 
 
@@ -45,6 +50,17 @@ public class CommandContainer {
 		commands.put("view-welcome", new WelcomeViewCommand());
 		commands.put("view-login", new LoginViewCommand());
 		commands.put("view-error", new ErrorViewCommand());
+		commands.put("view-rooms", new RoomsViewCommand());
+		commands.put("view-room-create", new RoomCreateViewCommand());
+		commands.put("view-room-edit", new RoomEditViewCommand());
+
+		commands.put("create-room", new RoomCreateCommand());
+		commands.put("edit-room", new RoomEditCommand());
+
+
+
+
+
 
 
 

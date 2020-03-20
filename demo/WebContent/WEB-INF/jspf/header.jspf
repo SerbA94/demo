@@ -26,8 +26,11 @@ This is the user menu.
 <%--===========================================================================
 This way we define the ADMIN MENU.
 ===========================================================================--%>
-		<c:when test="${userRole.title == 'admin' }">
-			<span>Text for admin</span> &nbsp;
+		<c:when test="${userRole.title == 'admin' and title ne 'Rooms'}">
+			<a href="controller?command=view-rooms">Rooms</a>
+		</c:when>
+		<c:when test="${userRole.title == 'admin' and title eq 'Rooms'}">
+			<a href="controller?command=view-room-create">Add room</a>
 		</c:when>
 <%--===========================================================================
 This way we define the MANAGER MENU.

@@ -4,7 +4,7 @@ package com.demo.web.constants;
 
 public final class Path {
 
-	// pages
+	// pages commons
 	public static final String PAGE__LOGIN = "/WEB-INF/jsp/login.jsp";
 	public static final String PAGE__REGISTRATION = "/WEB-INF/jsp/registration.jsp";
 	public static final String PAGE__ERROR_PAGE = "/WEB-INF/jsp/error_page.jsp";
@@ -12,6 +12,17 @@ public final class Path {
 	public static final String PAGE__SETTINGS = "/WEB-INF/jsp/settings.jsp";
 	public static final String PAGE__WELCOME = "/WEB-INF/jsp/welcome.jsp";
 	public static final String PAGE__REGISTRATION_ERROR = "/WEB-INF/jsp/registration.jsp";
+
+	// pages admin
+	public static final String PAGE__ADMIN_ROOMS = "/WEB-INF/jsp/admin/room-list.jsp";
+	public static final String PAGE__ADMIN_ROOM_CREATE = "/WEB-INF/jsp/admin/room-create.jsp";
+	public static final String PAGE__ADMIN_ROOM_EDIT = "/WEB-INF/jsp/admin/room-edit.jsp";
+
+
+
+	// pages customer
+	public static final String PAGE__CUSTOMER_ROOMS = "/WEB-INF/jsp/customer/room-list.jsp";
+
 
 	// commands
 	public static final String COMMAND__ACTIVATION_MAIL = "/controller?command=activationMail";
@@ -24,6 +35,12 @@ public final class Path {
 	public static final String COMMAND__VIEW_SETTINGS = "/controller?command=view-settings";
 	public static final String COMMAND__VIEW_LOGIN = "/controller?command=view-login";
 	public static final String COMMAND__VIEW_ERROR = "/controller?command=view-error";
+	public static final String COMMAND__VIEW_ROOMS = "/controller?command=view-rooms";
+
+	// commands admin
+	public static final String COMMAND__ROOM_CREATE= "/controller?command=create-room";
+
+
 
 
 
