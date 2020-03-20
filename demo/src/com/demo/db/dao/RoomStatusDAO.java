@@ -155,7 +155,7 @@ public class RoomStatusDAO {
 			return RoomStatus.BOOKED;
 		case "free":
 			return RoomStatus.FREE;
-		case "inaccesible":
+		case "inaccessible":
 			return RoomStatus.INACCESSIBLE;
 		case "occupied":
 			return RoomStatus.OCCUPIED;

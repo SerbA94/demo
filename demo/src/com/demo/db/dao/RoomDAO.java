@@ -29,13 +29,13 @@ public class RoomDAO implements EntityMapper<Room>{
 			"SELECT * FROM rooms "
 					+ "JOIN room_class ON rooms.room_class_id = room_class.id "
 					+ "JOIN room_status ON rooms.room_status_id = room_status.id "
-					+ "WHERE id=?";
+					+ "WHERE rooms.id=?";
 
 	private static final String SQL__FIND_ROOM_BY_NUMBER =
 			"SELECT * FROM rooms "
 					+ "JOIN room_class ON rooms.room_class_id = room_class.id "
 					+ "JOIN room_status ON rooms.room_status_id = room_status.id "
-					+ "WHERE number=?";
+					+ "WHERE rooms.number=?";
 
 	private static final String SQL__FIND_ALL_ROOMS =
 			"SELECT * FROM rooms "
@@ -74,16 +74,18 @@ public class RoomDAO implements EntityMapper<Room>{
 						+ "price=?, "
 						+ "room_class_id=(SELECT id FROM room_class WHERE room_class_title=?), "
 						+ "room_status_id=(SELECT id FROM room_status WHERE room_status_title=?) "
-					+ "WHERE id=?";
+					+ "WHERE rooms.id=?";
 
 	private static final String SQL__CREATE_DESCRIPTION =
 			"INSERT INTO descriptions (locale_name, description, room_id) VALUES (?, ?, ?)";
 
 	private static final String SQL__UPDATE_DESCRIPTION =
-			"UPDATE descriptions SET locale_name=?, description=? WHERE id=?";
+			"UPDATE descriptions "
+					+ "SET description=? "
+					+ "WHERE descriptions.room_id=? AND descriptions.locale_name=?";
 
 	private static final String SQL__FIND_ROOM_DESCRIPTIONS =
-			"SELECT * FROM descriptions WHERE room_id=?";
+			"SELECT * FROM descriptions WHERE descriptions.room_id=?";
 
 
 
@@ -109,7 +111,7 @@ public class RoomDAO implements EntityMapper<Room>{
 			}
 			rs.close();
 			pstmt.close();
-			room.setDescriptions(findRoomDescriptions(con));
+			room.setDescriptions(findRoomDescriptions(con,room));
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			DBManager.getInstance().rollbackAndClose(con);
@@ -141,7 +143,7 @@ public class RoomDAO implements EntityMapper<Room>{
 			}
 			rs.close();
 			pstmt.close();
-			room.setDescriptions(findRoomDescriptions(con));
+			room.setDescriptions(findRoomDescriptions(con,room));
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			DBManager.getInstance().rollbackAndClose(con);
@@ -167,7 +169,7 @@ public class RoomDAO implements EntityMapper<Room>{
 			rs = stmt.executeQuery(SQL__FIND_ALL_ROOMS);
 			while (rs.next()) {
 				Room room = mapRow(rs);
-				room.setDescriptions(findRoomDescriptions(con));
+				room.setDescriptions(findRoomDescriptions(con,room));
 				rooms.add(room);
 			}
 			rs.close();
@@ -208,7 +210,7 @@ public class RoomDAO implements EntityMapper<Room>{
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Room room = mapRow(rs);
-				room.setDescriptions(findRoomDescriptions(con));
+				room.setDescriptions(findRoomDescriptions(con,room));
 				rooms.add(room);
 			}
 			rs.close();
@@ -241,7 +243,7 @@ public class RoomDAO implements EntityMapper<Room>{
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Room room = mapRow(rs);
-				room.setDescriptions(findRoomDescriptions(con));
+				room.setDescriptions(findRoomDescriptions(con,room));
 				rooms.add(room);
 			}
 			rs.close();
@@ -274,7 +276,7 @@ public class RoomDAO implements EntityMapper<Room>{
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Room room = mapRow(rs);
-				room.setDescriptions(findRoomDescriptions(con));
+				room.setDescriptions(findRoomDescriptions(con,room));
 				rooms.add(room);
 			}
 			rs.close();
@@ -300,6 +302,7 @@ public class RoomDAO implements EntityMapper<Room>{
 			con = DBManager.getInstance().getConnection();
 			List<Description> descriptions = room.getDescriptions();
 			for (Description description : descriptions) {
+				description.setRoomId(room.getId());
 				updateDescription(con,description);
 			}
 			updateRoom(con, room);
@@ -347,9 +350,9 @@ public class RoomDAO implements EntityMapper<Room>{
     private void updateDescription(Connection con, Description description) throws SQLException {
 		PreparedStatement pstmt = con.prepareStatement(SQL__UPDATE_DESCRIPTION);
 		int k = 1;
-		pstmt.setString(k++, description.getLocaleName());
 		pstmt.setString(k++, description.getDescription());
-		pstmt.setLong(k, description.getId());
+		pstmt.setLong(k++, description.getRoomId());
+		pstmt.setString(k, description.getLocaleName());
 		pstmt.executeUpdate();
 		pstmt.close();
     }
@@ -365,7 +368,9 @@ public class RoomDAO implements EntityMapper<Room>{
 		try {
 			con = DBManager.getInstance().getConnection();
 			List<Description> descriptions = room.getDescriptions();
+			System.out.println(room);
 			Long roomId = createRoom(con, room);
+			System.out.println(roomId);
 			for (Description description : descriptions) {
 				description.setRoomId(roomId);
 				createDescription(con,description);
@@ -441,15 +446,16 @@ public class RoomDAO implements EntityMapper<Room>{
      *
 	 * @throws SQLException
      */
-	private List<Description> findRoomDescriptions(Connection con) throws SQLException {
+	private List<Description> findRoomDescriptions(Connection con,Room room) throws SQLException {
 		List<Description> descriptions = new ArrayList<>();
-		Statement stmt = con.createStatement();;
-		ResultSet rs = stmt.executeQuery(SQL__FIND_ROOM_DESCRIPTIONS);;
+		PreparedStatement pstmt = con.prepareStatement(SQL__FIND_ROOM_DESCRIPTIONS);
+		pstmt.setLong(1, room.getId());
+		ResultSet rs = pstmt.executeQuery();
 		while (rs.next()) {
 			descriptions.add(new DescriptionMapper().mapRow(rs));
 		}
 		rs.close();
-		stmt.close();
+		pstmt.close();
 		return descriptions;
 	}
 
