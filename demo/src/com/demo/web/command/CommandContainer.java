@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import com.demo.web.command.forward.ActivationViewCommand;
 import com.demo.web.command.forward.ErrorViewCommand;
+import com.demo.web.command.forward.ImageViewCommand;
 import com.demo.web.command.forward.LoginViewCommand;
 import com.demo.web.command.forward.NoCommand;
 import com.demo.web.command.forward.RegistrationViewCommand;
@@ -54,6 +55,7 @@ public class CommandContainer {
 		commands.put("view-rooms", new RoomsViewCommand());
 		commands.put("view-room-create", new RoomCreateViewCommand());
 		commands.put("view-room-edit", new RoomEditViewCommand());
+		commands.put("view-image", new ImageViewCommand());
 
 		commands.put("create-room", new RoomCreateCommand());
 		commands.put("edit-room", new RoomEditCommand());

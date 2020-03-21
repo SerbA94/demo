@@ -41,6 +41,7 @@ public final class Path {
 	public static final String COMMAND__VIEW_LOGIN = "/controller?command=view-login";
 	public static final String COMMAND__VIEW_ERROR = "/controller?command=view-error";
 	public static final String COMMAND__VIEW_ROOMS = "/controller?command=view-rooms";
+	public static final String COMMAND__VIEW_IMAGE = "/controller?command=view-image";
 	public static final String COMMAND__VIEW_EDIT_ROOM = "/controller?command=view-room-edit&edit_room_id=";
 
 
