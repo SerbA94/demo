@@ -60,14 +60,9 @@ public class CommandAccessFilter implements Filter {
 	private boolean accessAllowed(ServletRequest request) {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 
+		HttpSession session = httpRequest.getSession(true);
 		String commandName = request.getParameter("command");
 		log.trace("Got command --> " + commandName);
-
-		if (commandName == null || commandName.isEmpty()) {
-			return false;
-		}
-
-		HttpSession session = httpRequest.getSession(true);
 
 		Role userRole = (Role)session.getAttribute("userRole");
 

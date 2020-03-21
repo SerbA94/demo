@@ -4,6 +4,11 @@ package com.demo.web.constants;
 
 public final class Path {
 
+	public static final String ROOT = "/demo";
+
+	// controller
+	public static final String IMAGE_UPLOAD = "/upload-image";
+
 	// pages commons
 	public static final String PAGE__LOGIN = "/WEB-INF/jsp/login.jsp";
 	public static final String PAGE__REGISTRATION = "/WEB-INF/jsp/registration.jsp";
@@ -36,6 +41,8 @@ public final class Path {
 	public static final String COMMAND__VIEW_LOGIN = "/controller?command=view-login";
 	public static final String COMMAND__VIEW_ERROR = "/controller?command=view-error";
 	public static final String COMMAND__VIEW_ROOMS = "/controller?command=view-rooms";
+	public static final String COMMAND__VIEW_EDIT_ROOM = "/controller?command=view-room-edit&edit_room_id=";
+
 
 	// commands admin
 	public static final String COMMAND__ROOM_CREATE= "/controller?command=create-room";

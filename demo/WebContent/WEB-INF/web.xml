@@ -90,6 +90,7 @@
 				view-room-edit
 				create-room
 				edit-room
+				upload-image
 			</param-value>
 		</init-param>
 		<init-param>

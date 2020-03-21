@@ -67,15 +67,28 @@
 					        <tr>
 					            <td align="center">${description.localeName}</td>
 					            <td>
-					            	<input type="text" name="description_${description.localeName}" value="${description.description}" />
+					            	<textarea name="description_${description.localeName}"  style="width:300px; height:100px;">${description.description}</textarea>
 					            </td>
 					        </tr>
 					    </c:forEach>
 					</table>
-
 					<input type="submit" value='submit'>
 
 					</form>
+
+					<form id="room_edit_form" action="controller" method="post" enctype="multipart/form-data">
+						<input type="hidden" name="command" value="upload-image" />
+						<input type="hidden" name="edit_room_id" value="${edit_room_id}" />
+
+						<input type="file" name="image" accept="image/jpeg" required/>
+
+						<input type="submit" value='upload'>
+					</form>
+
+
+
+
+
 
 			</td>
 		</tr>

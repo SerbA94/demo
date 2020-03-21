@@ -196,7 +196,7 @@ public class ImageDAO implements EntityMapper<Image> {
 		int k = 1;
 		pstmt.setString(k++, image.getName());
 		pstmt.setBytes(k++, image.getData());
-		pstmt.setInt(k++, image.getRoomId());
+		pstmt.setLong(k++, image.getRoomId());
 		pstmt.executeUpdate();
 		pstmt.close();
 	}
