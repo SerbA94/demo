@@ -46,14 +46,29 @@ public class CommandAccessFilter implements Filter {
 			log.debug("Filter finished");
 			chain.doFilter(request, response);
 		} else {
-			String errorMessasge = "You do not have permission to access the requested resource";
+			HttpServletRequest httpRequest = (HttpServletRequest) request;
+			HttpSession session = httpRequest.getSession(true);
+			Role userRole = (Role)session.getAttribute("userRole");
+			log.trace("Role from session : userRole --> " + userRole);
+
+			String forwardCommand = Path.PAGE__ERROR_PAGE;
+			String errorMessasge = "You do not have permission to access the requested resource.";
+
+			if (userRole != null) {
+				if(userRole == Role.INACTIVE) {
+					forwardCommand = Path.PAGE__ACTIVATION;
+					errorMessasge = errorMessasge + "Please activate your account.";
+				}
+			}else {
+				forwardCommand = Path.PAGE__LOGIN;
+				errorMessasge = errorMessasge + "Please login.";
+			}
 
 			request.setAttribute("errorMessage", errorMessasge);
 			log.trace("Set the request attribute: errorMessage --> " + errorMessasge);
+			log.debug("Forvard to " + forwardCommand);
 
-			log.debug("Forvard to Path.PAGE__ERROR_PAGE");
-
-			request.getRequestDispatcher(Path.COMMAND__VIEW_ERROR).forward(request, response);
+			request.getRequestDispatcher(forwardCommand).forward(request, response);
 		}
 	}
 
