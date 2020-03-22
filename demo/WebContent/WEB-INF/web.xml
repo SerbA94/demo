@@ -107,6 +107,7 @@
 				view-rooms
 				view-settings
 				update-settings
+				view-booking-request
 			</param-value>
 		</init-param>
 		<init-param>

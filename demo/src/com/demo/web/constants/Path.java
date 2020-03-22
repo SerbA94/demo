@@ -23,8 +23,6 @@ public final class Path {
 	public static final String PAGE__ADMIN_ROOM_CREATE = "/WEB-INF/jsp/admin/room-create.jsp";
 	public static final String PAGE__ADMIN_ROOM_EDIT = "/WEB-INF/jsp/admin/room-edit.jsp";
 
-
-
 	// pages customer
 	public static final String PAGE__CUSTOMER_ROOMS = "/WEB-INF/jsp/customer/room-list.jsp";
 
@@ -34,6 +32,7 @@ public final class Path {
 	public static final String COMMAND__ACTIVATION = "/controller?command=activation";
 
 	// commands view
+	public static final String COMMAND__VIEW_BOOKING_REQUEST_PAGE = "controller?command=view-booking-request-page";
 	public static final String COMMAND__VIEW_ACTIVATION = "/controller?command=view-activation";
 	public static final String COMMAND__VIEW_WELCOME = "/controller?command=view-welcome";
 	public static final String COMMAND__VIEW_REGISTRATION = "/controller?command=view-registration";

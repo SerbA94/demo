@@ -27,7 +27,7 @@ public class RoomsViewCommand extends Command {
 		log.debug("Command starts");
 
 		String errorMessage = null;
-		String forward = Path.COMMAND__VIEW_ERROR;
+		String forward = Path.PAGE__ERROR_PAGE;
 
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
@@ -42,11 +42,12 @@ public class RoomsViewCommand extends Command {
 				log.debug("Command finished");
 				return Path.PAGE__ADMIN_ROOMS;
 			}else if(userRole == Role.CUSTOMER){
+				request.setAttribute("rooms", new RoomDAO().findAllAccessibleRooms());
 				log.debug("Command finished");
 				return Path.PAGE__CUSTOMER_ROOMS;
 			}
 		}
-		errorMessage = "You do not have permission to access the requested resource.";
+		errorMessage = "You do not have permission to access the requested resource.  ";
 		request.setAttribute("errorMessage", errorMessage);
 		log.error("errorMessage --> " + errorMessage);
 

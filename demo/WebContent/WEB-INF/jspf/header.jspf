@@ -13,6 +13,14 @@ Header (top area).
 		<span>Home</span> &nbsp;
 	</a> &nbsp;
 </div>
+		<div id="leftHeader">
+				<c:if test="${title ne 'Rooms'}">
+					<a href="controller?command=view-rooms">Rooms</a>
+				</c:if>
+				<c:if test="${title ne 'Booking request'}">
+					<a href="controller?command=view-booking-request">Send booking request</a>
+				</c:if>
+		</div>
 
 <c:if test="${not empty user}">
 <%--===========================================================================
@@ -22,15 +30,15 @@ This is the user menu.
 <div id="leftHeader">
 
 	<c:choose>
-
 <%--===========================================================================
 This way we define the ADMIN MENU.
 ===========================================================================--%>
-		<c:when test="${userRole.title == 'admin' and title ne 'Rooms'}">
-			<a href="controller?command=view-rooms">Rooms</a>
-		</c:when>
-		<c:when test="${userRole.title == 'admin' and title eq 'Rooms'}">
-			<a href="controller?command=view-room-create">Add room</a>
+		<c:when test="${userRole.title == 'admin'}">
+			<c:choose>
+				<c:when test="${title eq 'Rooms'}">
+					<a href="controller?command=view-room-create">Add room</a>
+				</c:when>
+			</c:choose>
 		</c:when>
 <%--===========================================================================
 This way we define the MANAGER MENU.
@@ -40,7 +48,7 @@ This way we define the MANAGER MENU.
 		</c:when>
 
 <%--===========================================================================
-This way we define the USER MENU.
+This way we define the CUSTOMER MENU.
 ===========================================================================--%>
 		<c:when test="${userRole.title == 'customer'}">
 			<span>Text for customer</span> &nbsp;
@@ -64,7 +72,7 @@ Type user name if the user object is presented in the current session.
 <%--===========================================================================
 Type user role name if the user object is presented in the current session.
 ===========================================================================--%>
-	<c:if test="${not empty userRole}">
+	<c:if test="${not empty userRole and userRole.title ne 'customer' }">
 		<c:out value="(${userRole.title})"/>
 	</c:if>
 
