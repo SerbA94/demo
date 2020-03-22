@@ -41,7 +41,6 @@ public final class Fields {
 	public static final String IMAGE__DATA = "data";
 	public static final String IMAGE__ROOM_ID = "room_id";
 
-
 	public static final String ROOM__NUMBER = "number";
 	public static final String ROOM__CAPACITY = "capacity";
 	public static final String ROOM__PRICE = "price";
@@ -56,7 +55,4 @@ public final class Fields {
 	public static final String DESCRIPTION__LOCALE_NAME = "locale_name";
 	public static final String DESCRIPTION__DESCRIPTION = "description";
 	public static final String DESCRIPTION__ROOM_ID = "room_id";
-
-
-
 }
