@@ -15,11 +15,11 @@ import com.demo.db.entity.User;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
-public class RoomsViewCommand extends Command {
+public class RoomListViewCommand extends Command {
 
 	private static final long serialVersionUID = -3071536593627692473L;
 
-	private static final Logger log = Logger.getLogger(RoomsViewCommand.class);
+	private static final Logger log = Logger.getLogger(RoomListViewCommand.class);
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)

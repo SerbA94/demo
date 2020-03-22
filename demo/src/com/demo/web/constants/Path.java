@@ -25,6 +25,8 @@ public final class Path {
 
 	// pages customer
 	public static final String PAGE__CUSTOMER_ROOMS = "/WEB-INF/jsp/customer/room-list.jsp";
+	public static final String PAGE__CUSTOMER_BOOKING_REQUEST = "/WEB-INF/jsp/customer/booking-request.jsp";
+
 
 
 	// commands
@@ -32,16 +34,16 @@ public final class Path {
 	public static final String COMMAND__ACTIVATION = "/controller?command=activation";
 
 	// commands view
-	public static final String COMMAND__VIEW_BOOKING_REQUEST_PAGE = "controller?command=view-booking-request-page";
+	public static final String COMMAND__VIEW_BOOKING_REQUEST = "controller?command=view-booking-request";
 	public static final String COMMAND__VIEW_ACTIVATION = "/controller?command=view-activation";
 	public static final String COMMAND__VIEW_WELCOME = "/controller?command=view-welcome";
 	public static final String COMMAND__VIEW_REGISTRATION = "/controller?command=view-registration";
 	public static final String COMMAND__VIEW_SETTINGS = "/controller?command=view-settings";
 	public static final String COMMAND__VIEW_LOGIN = "/controller?command=view-login";
 	public static final String COMMAND__VIEW_ERROR = "/controller?command=view-error";
-	public static final String COMMAND__VIEW_ROOMS = "/controller?command=view-rooms";
+	public static final String COMMAND__VIEW_ROOM_LIST = "/controller?command=view-room-list";
 	public static final String COMMAND__VIEW_IMAGE = "/controller?command=view-image";
-	public static final String COMMAND__VIEW_EDIT_ROOM = "/controller?command=view-room-edit&edit_room_id=";
+	public static final String COMMAND__VIEW_ROOM_EDIT = "/controller?command=view-room-edit&edit_room_id=";
 
 
 	// commands admin

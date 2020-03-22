@@ -15,7 +15,7 @@ Header (top area).
 </div>
 		<div id="leftHeader">
 				<c:if test="${title ne 'Rooms'}">
-					<a href="controller?command=view-rooms">Rooms</a>
+					<a href="controller?command=view-room-list">Rooms</a>
 				</c:if>
 				<c:if test="${title ne 'Booking request'}">
 					<a href="controller?command=view-booking-request">Send booking request</a>

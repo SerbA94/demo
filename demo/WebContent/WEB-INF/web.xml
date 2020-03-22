@@ -83,7 +83,7 @@
 		 <init-param>
 			<param-name>admin</param-name>
 			<param-value>
-				view-rooms
+				view-room-list
 				view-settings
 				update-settings
 				view-room-create
@@ -104,7 +104,7 @@
 		<init-param>
 			<param-name>customer</param-name>
 			<param-value>
-				view-rooms
+				view-room-list
 				view-settings
 				update-settings
 				view-booking-request

@@ -30,7 +30,7 @@ public class RoomEditCommand extends Command implements Redirector {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		log.debug("Command starts");
-		String redirect = Path.COMMAND__VIEW_ROOMS;
+		String redirect = Path.COMMAND__VIEW_ROOM_LIST;
 		String errorMessage = null;
 		RoomDAO roomDAO = new RoomDAO();
 
