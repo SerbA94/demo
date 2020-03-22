@@ -31,13 +31,17 @@ public class ImageViewCommand extends Command {
 
 		ImageDAO imageDAO = new ImageDAO();
 
-		Long imageId = Long.parseLong(request.getParameter("image_id"));
-		log.trace("Request parameter: image_id --> " + imageId);
+		try {
+			Long imageId = Long.parseLong(request.getParameter("image_id"));
+			log.trace("Request parameter: image_id --> " + imageId);
 
- 		Image image = imageDAO.findImageById(imageId);
+	 		Image image = imageDAO.findImageById(imageId);
 
- 		InputStream inputStream = new ByteArrayInputStream(image.getData());
- 		IOUtils.copy(inputStream, response.getOutputStream());
+	 		InputStream inputStream = new ByteArrayInputStream(image.getData());
+	 		IOUtils.copy(inputStream, response.getOutputStream());
+		} catch (NumberFormatException e) {
+			log.error("Invalid image id.");
+		}
 
 		log.debug("Command finished");
 		return null;

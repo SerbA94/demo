@@ -13,7 +13,16 @@ td {
 	border:1px solid black;
 	padding: 2px;
 }
+.img-table {
+	height: 60px;
+	width : 80px;
 
+}
+.img {
+	height: 300px;
+	width : 400px;
+
+}
 
 #header, #footer, .content {
 	border: 0px solid;

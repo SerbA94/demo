@@ -39,6 +39,8 @@ public final class Fields {
 
 	public static final String IMAGE__NAME = "name";
 	public static final String IMAGE__DATA = "data";
+	public static final String IMAGE__ROOM_ID = "room_id";
+
 
 	public static final String ROOM__NUMBER = "number";
 	public static final String ROOM__CAPACITY = "capacity";

@@ -70,7 +70,8 @@ public class RoomDAO implements EntityMapper<Room>{
 
 	private static final String SQL__UPDATE_ROOM =
 			"UPDATE rooms "
-					+ "SET capacity=?, "
+					+ "SET number=?, "
+						+ "capacity=?, "
 						+ "price=?, "
 						+ "room_class_id=(SELECT id FROM room_class WHERE room_class_title=?), "
 						+ "room_status_id=(SELECT id FROM room_status WHERE room_status_title=?) "
@@ -86,7 +87,6 @@ public class RoomDAO implements EntityMapper<Room>{
 
 	private static final String SQL__FIND_ROOM_DESCRIPTIONS =
 			"SELECT * FROM descriptions WHERE descriptions.room_id=?";
-
 
 
     /**
@@ -112,6 +112,7 @@ public class RoomDAO implements EntityMapper<Room>{
 			rs.close();
 			pstmt.close();
 			room.setDescriptions(findRoomDescriptions(con,room));
+			room.setImages(new ImageDAO().findRoomImages(room));
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			DBManager.getInstance().rollbackAndClose(con);
@@ -144,6 +145,7 @@ public class RoomDAO implements EntityMapper<Room>{
 			rs.close();
 			pstmt.close();
 			room.setDescriptions(findRoomDescriptions(con,room));
+			room.setImages(new ImageDAO().findRoomImages(room));
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			DBManager.getInstance().rollbackAndClose(con);
@@ -170,6 +172,7 @@ public class RoomDAO implements EntityMapper<Room>{
 			while (rs.next()) {
 				Room room = mapRow(rs);
 				room.setDescriptions(findRoomDescriptions(con,room));
+				room.setImages(new ImageDAO().findRoomImages(room));
 				rooms.add(room);
 			}
 			rs.close();
@@ -211,6 +214,7 @@ public class RoomDAO implements EntityMapper<Room>{
 			while (rs.next()) {
 				Room room = mapRow(rs);
 				room.setDescriptions(findRoomDescriptions(con,room));
+				room.setImages(new ImageDAO().findRoomImages(room));
 				rooms.add(room);
 			}
 			rs.close();
@@ -244,6 +248,7 @@ public class RoomDAO implements EntityMapper<Room>{
 			while (rs.next()) {
 				Room room = mapRow(rs);
 				room.setDescriptions(findRoomDescriptions(con,room));
+				room.setImages(new ImageDAO().findRoomImages(room));
 				rooms.add(room);
 			}
 			rs.close();
@@ -277,6 +282,7 @@ public class RoomDAO implements EntityMapper<Room>{
 			while (rs.next()) {
 				Room room = mapRow(rs);
 				room.setDescriptions(findRoomDescriptions(con,room));
+				room.setImages(new ImageDAO().findRoomImages(room));
 				rooms.add(room);
 			}
 			rs.close();
@@ -329,6 +335,7 @@ public class RoomDAO implements EntityMapper<Room>{
 		RoomStatus roomStatus = (RoomStatus) room.getRoomStatus().toArray()[0];
 
 		int k = 1;
+		pstmt.setInt(k++, room.getNumber());
 		pstmt.setInt(k++, room.getCapacity());
 		pstmt.setInt(k++, room.getPrice());
 		pstmt.setString(k++, roomClass.getTitle());
@@ -500,6 +507,5 @@ public class RoomDAO implements EntityMapper<Room>{
             }
         }
     }
-
 
 }

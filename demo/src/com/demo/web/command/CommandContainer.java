@@ -19,6 +19,7 @@ import com.demo.web.command.forward.SettingsViewCommand;
 import com.demo.web.command.forward.WelcomeViewCommand;
 import com.demo.web.command.redirect.ActivationCommand;
 import com.demo.web.command.redirect.ActivationMailCommand;
+import com.demo.web.command.redirect.ImageDeleteCommand;
 import com.demo.web.command.redirect.ImageUploadCommand;
 import com.demo.web.command.redirect.LoginCommand;
 import com.demo.web.command.redirect.LogoutCommand;
@@ -61,9 +62,7 @@ public class CommandContainer {
 		commands.put("edit-room", new RoomEditCommand());
 
 		commands.put("upload-image", new ImageUploadCommand());
-
-
-
+		commands.put("delete-image", new ImageDeleteCommand());
 
 
 		// client commands

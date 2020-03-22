@@ -18,6 +18,7 @@
 				<div><h1><span>Rooms Page</span></h1></div>
 					<table border="1">
 					    <tr>
+					    	<th>Image</th>
 					        <th>Number</th>
 					        <th>Capacity</th>
 					        <th>Class</th>
@@ -26,14 +27,20 @@
 					        <th></th>
 					    </tr>
 					    <c:forEach var="room" items="${rooms}">
-					    	<c:set var = "edit_room_id" scope="session" value = "${room.id}"/>
 					        <tr>
+					        	<td align="center"><img src="controller?command=view-image&image_id=${room.images[0].id}" class="img-table"></td>
 					            <td align="center">${room.number}</td>
 					            <td align="center">${room.capacity}</td>
 					            <td align="center">${room.roomClass}</td>
 					            <td align="center">${room.roomStatus}</td>
 					            <td align="center">${room.price}</td>
-					            <td align="center"><a href="controller?command=view-room-edit&edit_room_id=${room.id}">edit</a></td>
+					            <td align="center">
+					            	<form action="controller">
+					            		<input type="hidden" name="command" value="view-room-edit" />
+										<input type="hidden" name="edit_room_id" value="${room.id}" />
+										<input type="submit" value='edit'>
+									</form>
+					            </td>
 					        </tr>
 					    </c:forEach>
 					</table>

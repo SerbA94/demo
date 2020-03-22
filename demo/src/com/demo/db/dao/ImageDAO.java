@@ -30,10 +30,10 @@ public class ImageDAO implements EntityMapper<Image> {
 			"SELECT * FROM images WHERE name=?";
 
 	private static final String SQL__FIND_ALL_IMAGES =
-			"SELECT * FROM images";
+			"SELECT id, name, room_id FROM images";
 
 	private static final String SQL__FIND_ROOM_IMAGES =
-			"SELECT * FROM images WHERE room_id=?";
+			"SELECT id, name FROM images WHERE room_id=?";
 
 	private static final String SQL__CREATE_IMAGE =
 			"INSERT INTO images (name, data, room_id) VALUES (?, ?, ?)";
@@ -121,7 +121,11 @@ public class ImageDAO implements EntityMapper<Image> {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(SQL__FIND_ALL_IMAGES);
 			while (rs.next()) {
-				images.add(mapRow(rs));
+				Image image = new Image();
+				image.setId(rs.getLong(Fields.ENTITY__ID));
+				image.setName(rs.getString(Fields.IMAGE__NAME));
+				image.setRoomId(rs.getLong(Fields.IMAGE__ROOM_ID));
+				images.add(image);
 			}
 			rs.close();
 			stmt.close();
@@ -150,7 +154,11 @@ public class ImageDAO implements EntityMapper<Image> {
 			pstmt.setLong(1, room.getId());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				images.add(mapRow(rs));
+				Image image = new Image();
+				image.setId(rs.getLong(Fields.ENTITY__ID));
+				image.setName(rs.getString(Fields.IMAGE__NAME));
+				image.setRoomId(room.getId());
+				images.add(image);
 			}
 			rs.close();
 			pstmt.close();
@@ -242,17 +250,17 @@ public class ImageDAO implements EntityMapper<Image> {
 	/**
      * Delete image.
      *
-     * @param image
-     *            Image to delete.
+     * @param id
+     *            Id of image to delete.
      */
-	public void deleteImage(Image image) {
+	public void deleteImage(Long id) {
 		PreparedStatement pstmt = null;
 		Connection con = null;
 		try {
 			con = DBManager.getInstance().getConnection();
 			pstmt = con.prepareStatement(SQL__DELETE_IMAGE);
-			pstmt.setLong(1, image.getId());
-			pstmt.executeQuery();
+			pstmt.setLong(1, id);
+			pstmt.execute();
 			pstmt.close();
 		} catch (SQLException ex) {
 			DBManager.getInstance().rollbackAndClose(con);
@@ -275,6 +283,7 @@ public class ImageDAO implements EntityMapper<Image> {
 			image.setId(rs.getLong(Fields.ENTITY__ID));
 			image.setName(rs.getString(Fields.IMAGE__NAME));
 			image.setData(rs.getBytes(Fields.IMAGE__DATA));
+			image.setRoomId(rs.getLong(Fields.IMAGE__ROOM_ID));
 			return image;
 		} catch (SQLException e) {
 			throw new IllegalStateException(e);

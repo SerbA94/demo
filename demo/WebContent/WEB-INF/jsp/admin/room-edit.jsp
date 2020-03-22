@@ -19,7 +19,7 @@
 
 				<form id="room_edit_form" action="controller" method="post">
 					<input type="hidden" name="command" value="edit-room" />
-					<input type="hidden" name="edit_room_id" value="${edit_room_id}" />
+					<input type="hidden" name="edit_room_id" value="${room.id}" />
 
 					<fieldset>
 						<legend> number </legend>
@@ -76,9 +76,31 @@
 
 					</form>
 
+					<table border="1">
+					    <tr>
+					        <th>Image</th>
+					        <th></th>
+
+					    </tr>
+					    <c:set var="counter" value= "${ 0 }" />
+					    <c:forEach var="image" items="${room.images}">
+					        <tr>
+					        	<td align="center"><img src="controller?command=view-image&image_id=${room.images[counter].id}" class="img"></td>
+					            <td align="center">
+					                <form action="controller">
+					            		<input type="hidden" name="command" value="delete-image" />
+										<input type="hidden" name="edit_room_id" value="${room.id}" />
+										<input type="hidden" name="image_id" value="${room.images[counter].id}" />
+										<input type="submit" value='delete'>
+									</form>
+					        </tr>
+					        <c:set var="counter" value= "${ counter + 1 }" />
+					    </c:forEach>
+					</table>
+
 					<form id="room_edit_form" action="controller" method="post" enctype="multipart/form-data">
 						<input type="hidden" name="command" value="upload-image" />
-						<input type="hidden" name="edit_room_id" value="${edit_room_id}" />
+						<input type="hidden" name="edit_room_id" value="${room.id}" />
 
 						<input type="file" name="image" accept="image/jpeg" required/>
 

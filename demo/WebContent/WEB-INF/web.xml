@@ -91,6 +91,7 @@
 				create-room
 				edit-room
 				upload-image
+				delete-image
 			</param-value>
 		</init-param>
 		<init-param>
