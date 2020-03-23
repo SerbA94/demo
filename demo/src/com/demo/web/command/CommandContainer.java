@@ -6,7 +6,12 @@ import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 
+import com.demo.web.command.forward.AccountViewCommand;
 import com.demo.web.command.forward.ActivationViewCommand;
+import com.demo.web.command.forward.BookingRequestCreateViewCommand;
+import com.demo.web.command.forward.BookingRequestListViewCommand;
+import com.demo.web.command.forward.BookingRequestViewCommand;
+import com.demo.web.command.forward.BookingCreateViewCommand;
 import com.demo.web.command.forward.ErrorViewCommand;
 import com.demo.web.command.forward.ImageViewCommand;
 import com.demo.web.command.forward.LoginViewCommand;
@@ -15,6 +20,7 @@ import com.demo.web.command.forward.RegistrationViewCommand;
 import com.demo.web.command.forward.RoomCreateViewCommand;
 import com.demo.web.command.forward.RoomEditViewCommand;
 import com.demo.web.command.forward.RoomListViewCommand;
+import com.demo.web.command.forward.RoomViewCommand;
 import com.demo.web.command.forward.SettingsViewCommand;
 import com.demo.web.command.forward.WelcomeViewCommand;
 import com.demo.web.command.redirect.ActivationCommand;
@@ -39,11 +45,11 @@ public class CommandContainer {
 		// common commands
 		commands.put("login", new LoginCommand());
 		commands.put("logout", new LogoutCommand());
-		commands.put("noCommand", new NoCommand());
+		commands.put("no-command", new NoCommand());
 		commands.put("update-settings", new SettingsUpdateCommand());
 		commands.put("registration", new RegistrationCommand());
 		commands.put("activation", new ActivationCommand());
-		commands.put("activationMail", new ActivationMailCommand());
+		commands.put("activation-mail", new ActivationMailCommand());
 
 
 		// view commands
@@ -53,10 +59,20 @@ public class CommandContainer {
 		commands.put("view-welcome", new WelcomeViewCommand());
 		commands.put("view-login", new LoginViewCommand());
 		commands.put("view-error", new ErrorViewCommand());
+		commands.put("view-room", new RoomViewCommand());
 		commands.put("view-room-list", new RoomListViewCommand());
 		commands.put("view-room-create", new RoomCreateViewCommand());
 		commands.put("view-room-edit", new RoomEditViewCommand());
 		commands.put("view-image", new ImageViewCommand());
+		commands.put("view-account", new AccountViewCommand());
+		commands.put("view-booking-request-create", new BookingRequestCreateViewCommand());
+		commands.put("view-booking-request-list", new BookingRequestListViewCommand());
+		commands.put("view-booking-request", new BookingRequestViewCommand());
+		commands.put("view-booking-create", new BookingCreateViewCommand());
+
+
+
+
 
 		commands.put("create-room", new RoomCreateCommand());
 		commands.put("edit-room", new RoomEditCommand());

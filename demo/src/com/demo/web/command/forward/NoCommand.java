@@ -29,7 +29,7 @@ public class NoCommand extends Command {
 		log.error("Set the request attribute: errorMessage --> " + errorMessage);
 
 		log.debug("Command finished");
-		return Path.PAGE__ERROR_PAGE;
+		return Path.PAGE__ERROR;
 	}
 
 }

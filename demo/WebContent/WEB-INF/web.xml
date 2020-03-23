@@ -84,8 +84,6 @@
 			<param-name>admin</param-name>
 			<param-value>
 				view-room-list
-				view-settings
-				update-settings
 				view-room-create
 				view-room-edit
 				create-room
@@ -97,17 +95,18 @@
 		<init-param>
 			<param-name>manager</param-name>
 			<param-value>
-				view-settings
-				update-settings
+				view-booking-request-list
+				view-booking-request
 			</param-value>
 		</init-param>
 		<init-param>
 			<param-name>customer</param-name>
 			<param-value>
 				view-room-list
-				view-settings
-				update-settings
-				view-booking-request
+				view-room
+				view-booking-request-create
+				view-booking-create
+				view-account
 			</param-value>
 		</init-param>
 		<init-param>
@@ -115,35 +114,34 @@
 			<param-value>
 				view-activation
 				activation
-				activationMail
+				activation-mail
 			</param-value>
 		</init-param>
 		<init-param>
 			<param-name>common</param-name>
 			<param-value>
-				logout
-				noCommand
-				view-error
-				view-welcome
 				view-settings
-				update-settings
+				view-welcome
+				view-error
 				view-image
+				logout
+				no-command
+				update-settings
 			</param-value>
 		</init-param>
 		<init-param>
 			<param-name>out-of-control</param-name>
 			<param-value>
-				login
 				view-login
-				registration
 				view-registration
+				view-settings
 				view-welcome
 				view-error
+				login
+				registration
 				activation
-				noCommand
-				view-settings
+				no-command
 				update-settings
-				view-image
 			</param-value>
 		</init-param>
 	</filter>

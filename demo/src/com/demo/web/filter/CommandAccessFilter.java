@@ -51,12 +51,12 @@ public class CommandAccessFilter implements Filter {
 			Role userRole = (Role)session.getAttribute("userRole");
 			log.trace("Role from session : userRole --> " + userRole);
 
-			String forwardCommand = Path.PAGE__ERROR_PAGE;
+			String forwardCommand = Path.PAGE__ERROR;
 			String errorMessasge = "You do not have permission to access the requested resource.";
 
 			if (userRole != null) {
 				if(userRole == Role.INACTIVE) {
-					forwardCommand = Path.PAGE__ACTIVATION;
+					forwardCommand = Path.PAGE__INACTIVE_ACTIVATION;
 					errorMessasge = errorMessasge + "Please activate your account.";
 				}
 			}else {

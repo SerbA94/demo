@@ -43,7 +43,7 @@ public class ImageDeleteCommand extends Command implements Redirector{
 			Room room = new RoomDAO().findRoomById(roomId);
 			request.setAttribute("room", room);
 			log.trace("room to edit sent on view --> " + room);
-			redirect = Path.COMMAND__VIEW_ROOM_EDIT + roomId;
+			redirect = Path.COMMAND__VIEW_ROOM_EDIT + "&edit_room_id=" + roomId;
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid room id.";
 			log.error(errorMessage);

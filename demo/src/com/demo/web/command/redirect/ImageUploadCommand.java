@@ -31,7 +31,7 @@ public class ImageUploadCommand extends Command implements Redirector{
 
 		Long roomId = Long.parseLong(request.getParameter("edit_room_id"));
 		log.trace("Request parameter: edit_room_id --> " + roomId);
-		String redirect = Path.COMMAND__VIEW_ROOM_EDIT + roomId;
+		String redirect = Path.COMMAND__VIEW_ROOM_EDIT + "&edit_room_id=" + roomId;
 
 
 		Part part  = request.getPart("image");

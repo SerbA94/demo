@@ -24,7 +24,7 @@ public class ErrorViewCommand extends Command {
 		log.debug("Command starts");
 
 		log.debug("Command finished");
-		return Path.PAGE__ERROR_PAGE;
+		return Path.PAGE__ERROR;
 	}
 
 }

@@ -24,7 +24,7 @@ public class ActivationViewCommand extends Command {
 		log.debug("Command starts");
 
 		log.debug("Command finished");
-		return Path.PAGE__ACTIVATION;
+		return Path.PAGE__INACTIVE_ACTIVATION;
 	}
 
 }
