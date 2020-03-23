@@ -42,15 +42,19 @@ public class CommandContainer {
 	private static Map<String, Command> commands = new TreeMap<String, Command>();
 
 	static {
-		// common commands
+
+		// commands
 		commands.put("login", new LoginCommand());
 		commands.put("logout", new LogoutCommand());
 		commands.put("no-command", new NoCommand());
 		commands.put("update-settings", new SettingsUpdateCommand());
 		commands.put("registration", new RegistrationCommand());
+		commands.put("create-room", new RoomCreateCommand());
+		commands.put("edit-room", new RoomEditCommand());
+		commands.put("upload-image", new ImageUploadCommand());
+		commands.put("delete-image", new ImageDeleteCommand());
 		commands.put("activation", new ActivationCommand());
 		commands.put("activation-mail", new ActivationMailCommand());
-
 
 		// view commands
 		commands.put("view-activation", new ActivationViewCommand());
@@ -69,23 +73,6 @@ public class CommandContainer {
 		commands.put("view-booking-request-list", new BookingRequestListViewCommand());
 		commands.put("view-booking-request", new BookingRequestViewCommand());
 		commands.put("view-booking-create", new BookingCreateViewCommand());
-
-
-
-
-
-		commands.put("create-room", new RoomCreateCommand());
-		commands.put("edit-room", new RoomEditCommand());
-
-		commands.put("upload-image", new ImageUploadCommand());
-		commands.put("delete-image", new ImageDeleteCommand());
-
-
-		// client commands
-		//commands.put("listMenu", new ListMenuCommand());
-
-		// admin commands
-		//commands.put("listOrders", new ListOrdersCommand());
 
 		log.debug("Command container was successfully initialized");
 		log.trace("Number of commands --> " + commands.size());

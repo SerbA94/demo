@@ -35,8 +35,8 @@
 					            <td align="center">${room.roomClass}</td>
 					            <td align="center">${room.roomStatus}</td>
 					            <td align="center">${room.price}</td>
-					            <td align="center"><a href="#">book</a></td>
-					            <td align="center"><a href="#">details</a></td>
+					            <td align="center"><a href="controller?command=view-booking-create&room_id=${room.id}"><span>book</span></a></td>
+					            <td align="center"><a href="controller?command=view-room&room_id=${room.id}"><span>room details</span></a></td>
 
 					        </tr>
 					    </c:forEach>

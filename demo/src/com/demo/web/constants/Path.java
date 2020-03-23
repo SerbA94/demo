@@ -52,6 +52,7 @@ public final class Path {
 	public static final String COMMAND__ACTIVATION_MAIL = "/controller?command=activation-mail";
 	public static final String COMMAND__ACTIVATION = "/controller?command=activation";
 	public static final String COMMAND__LOGIN = "/controller?command=login";
+	public static final String COMMAND__LOGOUT = "/controller?command=logout";
 	public static final String COMMAND__REGISTRATION = "/controller?command=registration";
 	public static final String COMMAND__NO_COMMAND = "/controller?command=no-command";
 	public static final String COMMAND__SETTINGS_UPDATE = "/controller?command=update-settings";

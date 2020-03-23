@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.demo.web.command.Command;
+import com.demo.web.constants.Path;
 
 public class BookingRequestListViewCommand extends Command {
 
@@ -19,9 +20,10 @@ public class BookingRequestListViewCommand extends Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		log.debug("Command starts");
+		String forward = Path.PAGE__MANAGER_BOOKING_REQUEST_LIST;
 
 		log.debug("Command finished");
-		return null;
+		return forward;
 	}
 
 }

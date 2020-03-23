@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.demo.web.command.Command;
+import com.demo.web.constants.Path;
 
 public class AccountViewCommand extends Command {
 
@@ -19,9 +20,11 @@ public class AccountViewCommand extends Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		log.debug("Command starts");
+		String forward = Path.PAGE__CUSTOMER_ACCOUNT;
+
 
 		log.debug("Command finished");
-		return null;
+		return forward;
 	}
 
 }

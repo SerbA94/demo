@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.demo.web.command.Command;
+import com.demo.web.constants.Path;
 
 public class RoomViewCommand extends Command {
 
@@ -19,8 +20,9 @@ public class RoomViewCommand extends Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		log.debug("Command starts");
+		String forward = Path.PAGE__CUSTOMER_ROOM;
 
 		log.debug("Command finished");
-		return null;
+		return forward;
 	}
 }
