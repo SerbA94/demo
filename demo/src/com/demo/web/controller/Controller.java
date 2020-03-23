@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import com.demo.web.command.Command;
 import com.demo.web.command.CommandContainer;
 import com.demo.web.command.redirect.Redirector;
+import com.demo.web.constants.Path;
 
 @MultipartConfig(maxFileSize = 16177215)
 public class Controller extends HttpServlet {
@@ -52,7 +53,7 @@ public class Controller extends HttpServlet {
 
 		// if the forward address is not null go to the address
 		if (address != null) {
-			if(command instanceof Redirector) {
+			if(command instanceof Redirector && !address.equals(Path.COMMAND__VIEW_ERROR)) {
 				log.debug("Controller finished, now go to redirect address --> " + address);
 				response.sendRedirect(request.getContextPath() + address);
 			}else {

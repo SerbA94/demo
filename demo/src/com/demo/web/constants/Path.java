@@ -36,12 +36,12 @@ public final class Path {
 	public static final String COMMAND__VIEW_ROOM_LIST = "/controller?command=view-room-list";
 	public static final String COMMAND__VIEW_ROOM_CREATE = "/controller?command=view-room-create";
 	public static final String COMMAND__VIEW_ROOM_EDIT = "/controller?command=view-room-edit";
-	public static final String COMMAND__VIEW_ROOM = "controller?command=view-room";
-	public static final String COMMAND__VIEW_BOOKING_REQUEST_CREATE = "controller?command=view-booking-request-create";
-	public static final String COMMAND__VIEW_BOOKING_CREATE = "controller?command=view-booking-create";
-	public static final String COMMAND__VIEW_ACCOUNT = "controller?command=view-account";
-	public static final String COMMAND__VIEW_BOOKING_REQUEST = "controller?command=view-booking-request";
-	public static final String COMMAND__VIEW_BOOKING_REQUEST_LIST = "controller?command=view-booking-request-list";
+	public static final String COMMAND__VIEW_ROOM = "/controller?command=view-room";
+	public static final String COMMAND__VIEW_BOOKING_REQUEST_CREATE = "/controller?command=view-booking-request-create";
+	public static final String COMMAND__VIEW_BOOKING_CREATE = "/controller?command=view-booking-create";
+	public static final String COMMAND__VIEW_ACCOUNT = "/controller?command=view-account";
+	public static final String COMMAND__VIEW_BOOKING_REQUEST = "/controller?command=view-booking-request";
+	public static final String COMMAND__VIEW_BOOKING_REQUEST_LIST = "/controller?command=view-booking-request-list";
 	public static final String COMMAND__VIEW_ACTIVATION = "/controller?command=view-activation";
 
 	// commands reserv

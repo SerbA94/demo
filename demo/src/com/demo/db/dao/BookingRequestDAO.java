@@ -39,7 +39,7 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 			"INSERT INTO booking_requests "
 					+ "(user_id, date_in, date_out, capacity, room_class_id) "
 					+ "VALUES "
-					+ "(?, ?, ?, ?, (SELECT id FROM room_cass WHERE room_class_title=?))";
+					+ "(?, ?, ?, ?, (SELECT id FROM room_class WHERE room_class_title=?))";
 
 
 	/**

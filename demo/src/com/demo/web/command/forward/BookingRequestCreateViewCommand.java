@@ -1,6 +1,7 @@
 package com.demo.web.command.forward;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.demo.db.dao.RoomClassDAO;
+import com.demo.db.dao.RoomDAO;
+import com.demo.db.entity.RoomClass;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
@@ -19,8 +23,17 @@ public class BookingRequestCreateViewCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
+
 		log.debug("Command starts");
 		String forward = Path.PAGE__CUSTOMER_BOOKING_REQUEST_CREATE;
+
+		Integer maxCapacity = new RoomDAO().findMaxFreeRoomCapacity();
+		log.trace("maxCapacity sent on view --> " + maxCapacity);
+		request.setAttribute("maxCapacity", maxCapacity);
+
+		List<RoomClass> roomClasses = new RoomClassDAO().findAllRoomClasses();
+		log.trace("roomClasses sent on view --> " + roomClasses);
+		request.setAttribute("roomClasses", roomClasses);
 
 		log.debug("Command finished");
 		return forward;

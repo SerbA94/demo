@@ -95,6 +95,10 @@ public class RoomDAO implements EntityMapper<Room>{
 	private static final String SQL__FIND_ROOM_DESCRIPTIONS =
 			"SELECT * FROM descriptions WHERE descriptions.room_id=?";
 
+	private static final String SQL__FIND_MAX_FREE_ROOM_CAPACITY =
+			"SELECT MAX(capacity) AS capacity FROM rooms "
+			+ "WHERE room_status_id IN (SELECT id FROM room_status WHERE room_status_title='free')";
+
 
     /**
      * Returns room with given id
@@ -330,6 +334,32 @@ public class RoomDAO implements EntityMapper<Room>{
 			DBManager.getInstance().commitAndClose(con);
 		}
 		return rooms;
+	}
+
+	/**
+     * Returns max capacity of free room
+     *
+     * @return Integer capacity value.
+     */
+	public Integer findMaxFreeRoomCapacity() {
+		Statement stmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		Integer maxCapacity = null;
+		try {
+			con = DBManager.getInstance().getConnection();
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(SQL__FIND_MAX_FREE_ROOM_CAPACITY);
+			if (rs.next()) {
+				maxCapacity = rs.getInt(Fields.ROOM__CAPACITY);
+			}
+			rs.close();
+			stmt.close();
+			con.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return maxCapacity;
 	}
 
 	/**

@@ -25,6 +25,7 @@ import com.demo.web.command.forward.SettingsViewCommand;
 import com.demo.web.command.forward.WelcomeViewCommand;
 import com.demo.web.command.redirect.ActivationCommand;
 import com.demo.web.command.redirect.ActivationMailCommand;
+import com.demo.web.command.redirect.BookingRequestCreateCommand;
 import com.demo.web.command.redirect.ImageDeleteCommand;
 import com.demo.web.command.redirect.ImageUploadCommand;
 import com.demo.web.command.redirect.LoginCommand;
@@ -55,6 +56,7 @@ public class CommandContainer {
 		commands.put("delete-image", new ImageDeleteCommand());
 		commands.put("activation", new ActivationCommand());
 		commands.put("activation-mail", new ActivationMailCommand());
+		commands.put("create-booking-request", new BookingRequestCreateCommand());
 
 		// view commands
 		commands.put("view-activation", new ActivationViewCommand());
