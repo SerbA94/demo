@@ -9,109 +9,98 @@ Header (top area).
 <tr>
 <td id="header">
 <div id="leftHeader">
-	<a href="controller?command=view-welcome">
-		<span>Home</span> &nbsp;
-	</a> &nbsp;
+	<a href="controller?command=view-welcome"><span>Home</span></a>
 </div>
-		<div id="leftHeader">
-				<c:if test="${title ne 'Rooms'}">
-					<a href="controller?command=view-room-list">Rooms</a>
-				</c:if>
-				<c:if test="${title ne 'Booking request'}">
-					<a href="controller?command=view-booking-request">Send booking request</a>
-				</c:if>
-		</div>
 
-<c:if test="${not empty user}">
 <%--===========================================================================
 This is the user menu.
 ===========================================================================--%>
-
 <div id="leftHeader">
 
 	<c:choose>
-<%--===========================================================================
-This way we define the ADMIN MENU.
-===========================================================================--%>
-		<c:when test="${userRole.title == 'admin'}">
+
+		<c:when test="${empty user}">
+			<a href="controller?command=view-room-list"><span>Rooms</span></a>
+			<a href="controller?command=view-booking-request-create"><span>Send booking request</span></a>
+		</c:when>
+		<c:when test="${not empty user}">
 			<c:choose>
-				<c:when test="${title eq 'Rooms'}">
-					<a href="controller?command=view-room-create">Add room</a>
+		<%--===========================================================================
+		This way we define the ADMIN MENU.
+		===========================================================================--%>
+				<c:when test="${userRole.title == 'admin'}">
+						<c:if test="${title eq 'Room list'}">
+							<a href="controller?command=view-room-create"><span>Add room</span></a>
+						</c:if>
+						<c:if test="${title ne 'Room list'}">
+							<a href="controller?command=view-room-list"><span>Rooms</span></a>
+						</c:if>
 				</c:when>
+		<%--===========================================================================
+		This way we define the MANAGER MENU.
+		===========================================================================--%>
+				<c:when test="${userRole.title == 'manager' }">
+						<c:if test="${title ne 'Booking request list'}">
+							<a href="controller?command=view-booking-request-list"><span>Booking request list</span></a>
+						</c:if>
+				</c:when>
+
+		<%--===========================================================================
+		This way we define the CUSTOMER MENU.
+		===========================================================================--%>
+				<c:when test="${userRole.title eq 'customer' or userRole.title eq 'inactive'}">
+						<c:if test="${title ne 'Room list'}">
+							<a href="controller?command=view-room-list"><span>Rooms</span></a>
+						</c:if>
+						<c:if test="${title ne 'Booking request create'}">
+							<a href="controller?command=view-booking-request-create"><span>Send booking request</span></a>
+						</c:if>
+				</c:when>
+
 			</c:choose>
 		</c:when>
-<%--===========================================================================
-This way we define the MANAGER MENU.
-===========================================================================--%>
-		<c:when test="${userRole.title == 'manager' }">
-			<span>Text for manager</span> &nbsp;
-		</c:when>
-
-<%--===========================================================================
-This way we define the CUSTOMER MENU.
-===========================================================================--%>
-		<c:when test="${userRole.title == 'customer'}">
-			<span>Text for customer</span> &nbsp;
-		</c:when>
 	</c:choose>
-
-
-
 </div>
+
 
 <%--===========================================================================
 This way we define the menu located at the right of header.
 ===========================================================================--%>
 <div id="rightHeader" >
 
-<%--===========================================================================
-Type user name if the user object is presented in the current session.
-===========================================================================--%>
-	<c:out value="${user.login}"/>
+	<c:choose>
+		<c:when test="${not empty user}">
+			<%--===========================================================================
+			Type user name if the user object is presented in the current session.
+			===========================================================================--%>
+			<c:out value="${user.login}"/>
 
-<%--===========================================================================
-Type user role name if the user object is presented in the current session.
-===========================================================================--%>
-	<c:if test="${not empty userRole and userRole.title ne 'customer' }">
-		<c:out value="(${userRole.title})"/>
-	</c:if>
+			<%--===========================================================================
+			Type user role name if the user object is presented in the current session.
+			===========================================================================--%>
+			<c:if test="${userRole.title ne 'customer' }">
+				<c:out value="(${userRole.title})"/>
+			</c:if>
 
-<%--===========================================================================
-Type link to logout
-===========================================================================--%>
-	<a href="controller?command=logout">
-		<fmt:message key="header_jspf.anchor.logout"/>
-	</a>
-
-</div>
-</c:if>
-<div id="rightHeader" >
-<c:if test="${empty user and title ne 'Login'}">
-	<div id="rightHeader">
-		<a href="controller?command=view-login">
-			<fmt:message key="header_jspf.anchor.login"/>
-		</a>
-	</div>
-</c:if>
-
-<c:if test="${empty user and title ne 'Registration'}">
-	<div id="rightHeader">
-		<a href="controller?command=view-registration">
-			<fmt:message key="header_jspf.anchor.registration"/>
-		</a>
-	</div>
-</c:if>
-
-		<c:choose>
-		<c:when test="${userRole.title ne 'inactive'}">
-			<a href="controller?command=view-settings">
-				<fmt:message key="header_jspf.anchor.settings" />
-			</a> &nbsp;
+			<%--===========================================================================
+			Type link to logout
+			===========================================================================--%>
+			<a href="controller?command=logout"><span><fmt:message key="header_jspf.anchor.logout"/></span></a>
+		</c:when>
+		<c:when test="${empty user}">
+			<c:if test="${title ne 'Login' and title ne 'Registration'}">
+				<a href="controller?command=view-login"><span><fmt:message key="header_jspf.anchor.login"/></span></a>
+			</c:if>
+			<c:if test="${title ne 'Registration'}">
+				<a href="controller?command=view-registration"><span><fmt:message key="header_jspf.anchor.registration"/></span></a>
+			</c:if>
 		</c:when>
 	</c:choose>
-	</div>
 
-
-	</td>
+	<c:if test="${title ne 'Settings'}">
+		<a href="controller?command=view-settings"><span><fmt:message key="header_jspf.anchor.settings" /></span></a>
+	</c:if>
+</div>
+</td>
 </tr>
 

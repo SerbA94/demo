@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/jspf/directive/page.jspf"%>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf"%>
 <html>
-<c:set var="title" value="Booking" />
+<c:set var="title" value="Booking request create" />
 <%@ include file="/WEB-INF/jspf/head.jspf"%>
 
 <body>
@@ -15,7 +15,7 @@
 				<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
 				<%-- ERROR HANDLING --%>
 
-				<div><h1><span>Booking page</span></h1></div>
+				<div><h1><span>Booking request page</span></h1></div>
 
 
 			</td>
