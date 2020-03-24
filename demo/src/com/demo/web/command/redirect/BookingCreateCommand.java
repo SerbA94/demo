@@ -139,16 +139,18 @@ public class BookingCreateCommand extends Command implements Redirector {
 			redirect = Path.COMMAND__VIEW_ERROR;
 			return redirect;
 		}
+		Timestamp dateOfBooking = new Timestamp(System.currentTimeMillis());
 
-		if(dateIn.after(dateOut) || dateIn.equals(dateOut)) {
-			errorMessage = "DateOut cant be less then or equal dateIn.";
+		if(dateIn.after(dateOut) || dateIn.equals(dateOut) ||
+				dateOfBooking.after(dateIn) || dateOfBooking.equals(dateIn) ) {
+			errorMessage = "DateOut cant be less then or equal dateIn,"
+							+ " dateIn cant be less then or equal current date";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
 			redirect = Path.COMMAND__VIEW_ERROR;
 			return redirect;
 		}
 
-		Timestamp dateOfBooking = new Timestamp(System.currentTimeMillis());
 
 		BookingDAO bookingDAO = new BookingDAO();
 		Booking booking = new Booking(user, room, bookingStatus, dateIn, dateOut, dateOfBooking);
