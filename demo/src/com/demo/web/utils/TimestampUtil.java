@@ -34,5 +34,4 @@ public class TimestampUtil {
 		return timestamp;
 	}
 
-
 }

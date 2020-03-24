@@ -16,6 +16,29 @@
 				<%-- ERROR HANDLING --%>
 
 				<div><h1><span>Booking request list page</span></h1></div>
+					<table border="1">
+					    <tr>
+					    	<th>Booking request number</th>
+					        <th>Date In</th>
+					        <th>Date Out</th>
+					        <th>Room Capacity</th>
+					        <th>Room Class</th>
+					        <th></th>
+					       	<th></th>
+					    </tr>
+					    <c:forEach var="bookingRequest" items="${bookingRequests}">
+					        <tr>
+					        	<td align="center">${bookingRequest.id}</td>
+					            <td align="center">${bookingRequest.dateIn}</td>
+					            <td align="center">${bookingRequest.dateOut}</td>
+					            <td align="center">${bookingRequest.capacity}</td>
+					            <td align="center">${bookingRequest.roomClass.toArray()[0].title}</td>
+					            <td align="center"><a href="#"><span>select room</span></a></td>
+					            <td align="center"><a href="#"><span>delete</span></a></td>
+
+					        </tr>
+					    </c:forEach>
+					</table>
 
 
 			</td>

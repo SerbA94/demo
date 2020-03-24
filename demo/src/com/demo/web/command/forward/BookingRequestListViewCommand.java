@@ -1,6 +1,7 @@
 package com.demo.web.command.forward;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.demo.db.dao.BookingRequestDAO;
+import com.demo.db.entity.BookingRequest;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
@@ -19,8 +22,13 @@ public class BookingRequestListViewCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
+
 		log.debug("Command starts");
 		String forward = Path.PAGE__MANAGER_BOOKING_REQUEST_LIST;
+
+		BookingRequestDAO bookingRequestDAO = new BookingRequestDAO();
+		List<BookingRequest> bookingRequests = bookingRequestDAO.findAllBookingRequests();
+		request.setAttribute("bookingRequests", bookingRequests);
 
 		log.debug("Command finished");
 		return forward;
