@@ -26,7 +26,9 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 	private static final String SQL__FIND_BOOKING_REQUEST_BY_ID =
 			"SELECT * FROM booking_requests "
 					+ "JOIN room_class ON booking_requests.room_class_id = room_class.id "
-					+ "WHERE id=?";
+					+ "JOIN users ON booking_requests.user_id = users.id "
+					+ "JOIN roles ON users.role_id = roles.id "
+					+ "WHERE booking_requests.id=?";
 
 	private static final String SQL__FIND_ALL_BOOKING_REQUESTS =
 			"SELECT * FROM booking_requests "

@@ -17,6 +17,60 @@
 
 				<div><h1><span>Booking request page</span></h1></div>
 
+				<div><span>Booking request number : </span><span>${bookingRequest.id}</span></div>
+				<div><span>Date in : </span><span>${bookingRequest.dateIn}</span></div>
+				<div><span>Date out : </span><span>${bookingRequest.dateOut}</span></div>
+				<div><span>Capacity : </span><span>${bookingRequest.capacity}</span></div>
+				<div><span>Room class : </span><span>${bookingRequest.roomClass.toArray()[0].title}</span></div>
+				<div>
+				<div><h1><span>Matched rooms</span></h1></div>
+				<form action="controller" method="post">
+					<input type="hidden" name="command" value="create-booking" />
+					<input type="hidden" name="dateIn" value="${bookingRequest.dateIn}">
+					<input type="hidden" name="dateOut" value="${bookingRequest.dateOut}">
+
+					<table border="1">
+					    <tr>
+					    	<th>Image</th>
+					        <th>Number</th>
+					        <th>Capacity</th>
+					        <th>Class</th>
+					        <th>Status</th>
+					        <th>Price</th>
+					        <th></th>
+					    </tr>
+
+					    <c:forEach var="room" items="${rooms}">
+					        <tr>
+					        	<td align="center"><img src="controller?command=view-image&image_id=${room.images[0].id}" class="img-table"></td>
+					            <td align="center">${room.number}</td>
+					            <td align="center">${room.capacity}</td>
+					            <td align="center">${room.roomClass}</td>
+					            <td align="center">${room.roomStatus}</td>
+					            <td align="center">${room.price}</td>
+
+					            <c:choose>
+					            	<c:when test="${room.id eq rooms[0].id}">
+					            		<td align="center"><input type="radio" name="room_id" value="${ room.id }" checked="checked"></td>
+					            	</c:when>
+					            	<c:when test="${room.id ne rooms[0].id}">
+					            		<td align="center"><input type="radio" name="room_id" value="${ room.id }"></td>
+					            	</c:when>
+					            </c:choose>
+
+					        </tr>
+					    </c:forEach>
+
+					</table>
+				<input type="submit" value="confirm">
+			</form>
+			<form action="controller" method="post">
+				<input type="hidden" name="command" value="delete-booking-request" />
+				<input type="hidden" name="booking_request_id" value="${bookingRequest.id}" />
+				<input type="submit" value="reject">
+			</form>
+
+			</div>
 
 			</td>
 		</tr>

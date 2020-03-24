@@ -33,7 +33,7 @@
 					            <td align="center">${bookingRequest.dateOut}</td>
 					            <td align="center">${bookingRequest.capacity}</td>
 					            <td align="center">${bookingRequest.roomClass.toArray()[0].title}</td>
-					            <td align="center"><a href="#"><span>select room</span></a></td>
+					            <td align="center"><a href="controller?command=view-booking-request&booking_request_id=${bookingRequest.id}"><span>select room</span></a></td>
 					            <td align="center"><a href="#"><span>delete</span></a></td>
 
 					        </tr>

@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.demo.db.DBManager;
@@ -74,6 +75,15 @@ public class RoomDAO implements EntityMapper<Room>{
 					+ "WHERE room_class_id "
 						+ "IN (SELECT id FROM room_class WHERE room_class_title=?)";
 
+	private static final String SQL__FIND_FILTERED_ROOMS =
+			"SELECT * FROM rooms "
+					+ "WHERE "
+							+ "capacity IN (?, ?, ?) "
+					+ "AND "
+							+ "room_class_id IN (SELECT id FROM room_class WHERE room_class_title=?) "
+					+ "AND "
+							+ "room_status_id IN (SELECT id FROM room_status WHERE room_status_title=?)";
+
 	private static final String SQL__CREATE_ROOM =
 			"INSERT INTO rooms "
 					+ "(number, capacity, price, room_class_id, room_status_id) "
@@ -104,7 +114,8 @@ public class RoomDAO implements EntityMapper<Room>{
 
 	private static final String SQL__FIND_MAX_FREE_ROOM_CAPACITY =
 			"SELECT MAX(capacity) AS capacity FROM rooms "
-			+ "WHERE room_status_id IN (SELECT id FROM room_status WHERE room_status_title='free')";
+					+ "WHERE room_status_id IN "
+						+ "(SELECT id FROM room_status WHERE room_status_title='free')";
 
 
     /**
@@ -373,6 +384,56 @@ public class RoomDAO implements EntityMapper<Room>{
 		} catch (SQLException ex) {
 			DBManager.getInstance().rollbackAndClose(con);
 			ex.printStackTrace();
+		} finally {
+			DBManager.getInstance().commitAndClose(con);
+		}
+		return rooms;
+	}
+
+	/**
+     * Returns list of rooms filtered by params.
+     *
+     * @param capacity
+     *            Room capacity.
+     * @param roomClass
+     *            Room class.
+     *
+     * @return List of room entities.
+     */
+	public List<Room> findFreeFilteredRooms(Integer capacity, RoomClass roomClass) {
+		List<Room> rooms = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		try {
+			con = DBManager.getInstance().getConnection();
+			pstmt = con.prepareStatement(SQL__FIND_FILTERED_ROOMS);
+			pstmt.setLong(1, capacity - 1);
+			pstmt.setLong(2, capacity);
+			pstmt.setLong(3, capacity + 1);
+			pstmt.setString(4, roomClass.getTitle());
+			pstmt.setString(5, RoomStatus.FREE.getTitle());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Room room = new Room();
+				room.setId(rs.getLong(Fields.ENTITY__ID));
+				room.setNumber(rs.getInt(Fields.ROOM__NUMBER));
+				room.setCapacity(rs.getInt(Fields.ROOM__CAPACITY));
+				room.setPrice(rs.getInt(Fields.ROOM__PRICE));
+
+				room.setRoomClass(Collections.singleton(roomClass));
+				room.setRoomStatus(Collections.singleton(RoomStatus.FREE));
+
+				room.setDescriptions(findRoomDescriptions(con,room));
+				room.setImages(new ImageDAO().findRoomImages(room));
+
+				rooms.add(room);
+			}
+			rs.close();
+			pstmt.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			DBManager.getInstance().rollbackAndClose(con);
 		} finally {
 			DBManager.getInstance().commitAndClose(con);
 		}
