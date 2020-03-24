@@ -135,9 +135,11 @@
 			<param-name>out-of-control</param-name>
 			<param-value>
 				view-login
+				view-room-list
 				view-registration
 				view-settings
 				view-welcome
+				view-image
 				view-error
 				login
 				registration

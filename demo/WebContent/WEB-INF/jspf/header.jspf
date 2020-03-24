@@ -88,7 +88,7 @@ This way we define the menu located at the right of header.
 			<a href="controller?command=logout"><span><fmt:message key="header_jspf.anchor.logout"/></span></a>
 		</c:when>
 		<c:when test="${empty user}">
-			<c:if test="${title ne 'Login' and title ne 'Registration'}">
+			<c:if test="${title ne 'Login'}">
 				<a href="controller?command=view-login"><span><fmt:message key="header_jspf.anchor.login"/></span></a>
 			</c:if>
 			<c:if test="${title ne 'Registration'}">

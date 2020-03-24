@@ -26,8 +26,7 @@ public class RoomListViewCommand extends Command {
 			throws IOException, ServletException {
 		log.debug("Command starts");
 
-		String errorMessage = null;
-		String forward = Path.PAGE__ERROR;
+		String forward = null;
 
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
@@ -41,16 +40,10 @@ public class RoomListViewCommand extends Command {
 				request.setAttribute("rooms", new RoomDAO().findAllRooms());
 				log.debug("Command finished");
 				return Path.PAGE__ADMIN_ROOM_LIST;
-			}else if(userRole == Role.CUSTOMER){
-				request.setAttribute("rooms", new RoomDAO().findAllFreeRooms());
-				log.debug("Command finished");
-				return Path.PAGE__CUSTOMER_ROOM_LIST;
 			}
 		}
-		errorMessage = "You do not have permission to access the requested resource.  ";
-		request.setAttribute("errorMessage", errorMessage);
-		log.error("errorMessage --> " + errorMessage);
-
+		request.setAttribute("rooms", new RoomDAO().findAllFreeRooms());
+		forward =  Path.PAGE__CUSTOMER_ROOM_LIST;
 		log.debug("Command finished");
 		return forward;
 	}
