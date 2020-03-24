@@ -2,10 +2,7 @@ package com.demo.web.command.redirect;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -26,6 +23,7 @@ import com.demo.db.entity.RoomStatus;
 import com.demo.db.entity.User;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
+import com.demo.web.utils.TimestampUtil;
 
 public class BookingCreateCommand extends Command implements Redirector {
 
@@ -104,15 +102,7 @@ public class BookingCreateCommand extends Command implements Redirector {
 
 		String dateInStr = request.getParameter("dateIn");
 		log.trace("Request parameter: dateIn --> " + dateInStr);
-		Timestamp dateIn = null;
-		try {
-			Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateInStr + " 12:00:00");
-			dateIn = new Timestamp(date.getTime());
-			log.trace("Timestamp dateIn --> " + dateIn);
-		} catch (ParseException e) {
-			log.error("Date parsing exception.");
-		}
-
+		Timestamp dateIn = TimestampUtil.parseTimestamp(dateInStr);
 		if(dateInStr == null || dateInStr.isEmpty() || dateIn == null) {
 			errorMessage = "Invalid dateIn input format : " + dateInStr;
 			request.setAttribute("errorMessage", errorMessage);
@@ -123,15 +113,7 @@ public class BookingCreateCommand extends Command implements Redirector {
 
 		String dateOutStr = request.getParameter("dateOut");
 		log.trace("Request parameter: dateOut --> " + dateOutStr);
-		Timestamp dateOut = null;
-		try {
-			Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateOutStr + " 12:00:00");
-			dateOut = new Timestamp(date.getTime());
-			log.trace("Timestamp dateOut --> " + dateOut);
-		} catch (ParseException e) {
-			log.error("Date parsing exception.");
-		}
-
+		Timestamp dateOut = TimestampUtil.parseTimestamp(dateOutStr);
 		if(dateOutStr == null || dateOutStr.isEmpty() || dateOut == null) {
 			errorMessage = "Invalid dateOut input format : " + dateOutStr;
 			request.setAttribute("errorMessage", errorMessage);
@@ -139,8 +121,8 @@ public class BookingCreateCommand extends Command implements Redirector {
 			redirect = Path.COMMAND__VIEW_ERROR;
 			return redirect;
 		}
-		Timestamp dateOfBooking = new Timestamp(System.currentTimeMillis());
 
+		Timestamp dateOfBooking = new Timestamp(System.currentTimeMillis());
 		if(dateIn.after(dateOut) || dateIn.equals(dateOut) ||
 				dateOfBooking.after(dateIn) || dateOfBooking.equals(dateIn) ) {
 			errorMessage = "DateOut cant be less then or equal dateIn,"
@@ -150,7 +132,6 @@ public class BookingCreateCommand extends Command implements Redirector {
 			redirect = Path.COMMAND__VIEW_ERROR;
 			return redirect;
 		}
-
 
 		BookingDAO bookingDAO = new BookingDAO();
 		Booking booking = new Booking(user, room, bookingStatus, dateIn, dateOut, dateOfBooking);
