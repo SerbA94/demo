@@ -16,6 +16,20 @@
 				<%-- ERROR HANDLING --%>
 
 				<div><h1><span>Room page</span></h1></div>
+				<div><span>Number </span><span>${room.number}</span></div>
+				<div><span>Capacity </span><span>${room.capacity}</span></div>
+				<div><span>Price </span><span>${room.price}</span></div>
+				<div><span>Class </span><span>${room.roomClass.toArray()[0].title}</span></div>
+				<div><span>Description </span><br/><span>${description}</span></div>
+				<div><a href="controller?command=view-booking-create&room_id=${room.id}"><span>book</span></a></div>
+				<div>
+					<c:forEach var="image" items="${room.images}">
+					<div><img src="controller?command=view-image&image_id=${image.id}" class="img"></div>
+					</c:forEach>
+				</div>
+
+
+
 
 
 			</td>

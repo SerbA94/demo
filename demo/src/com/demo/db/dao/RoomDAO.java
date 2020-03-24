@@ -122,8 +122,11 @@ public class RoomDAO implements EntityMapper<Room>{
 			}
 			rs.close();
 			pstmt.close();
-			room.setDescriptions(findRoomDescriptions(con,room));
-			room.setImages(new ImageDAO().findRoomImages(room));
+
+			if(room != null) {
+				room.setDescriptions(findRoomDescriptions(con,room));
+				room.setImages(new ImageDAO().findRoomImages(room));
+			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			DBManager.getInstance().rollbackAndClose(con);
@@ -155,8 +158,11 @@ public class RoomDAO implements EntityMapper<Room>{
 			}
 			rs.close();
 			pstmt.close();
-			room.setDescriptions(findRoomDescriptions(con,room));
-			room.setImages(new ImageDAO().findRoomImages(room));
+
+			if(room != null) {
+				room.setDescriptions(findRoomDescriptions(con,room));
+				room.setImages(new ImageDAO().findRoomImages(room));
+			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			DBManager.getInstance().rollbackAndClose(con);
