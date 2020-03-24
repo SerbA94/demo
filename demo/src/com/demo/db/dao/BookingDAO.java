@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.demo.db.DBManager;
@@ -17,6 +18,7 @@ import com.demo.db.constants.Fields;
 import com.demo.db.entity.Booking;
 import com.demo.db.entity.BookingStatus;
 import com.demo.db.entity.Room;
+import com.demo.db.entity.RoomStatus;
 import com.demo.db.entity.User;
 
 /**
@@ -328,9 +330,12 @@ public class BookingDAO implements EntityMapper<Booking> {
      */
 	public void createBooking(Booking booking) {
 		Connection con = null;
+		Room room = booking.getRoom();
+		room.setRoomStatus(Collections.singleton(RoomStatus.BOOKED));
 		try {
 			con = DBManager.getInstance().getConnection();
 			createBooking(con, booking);
+			RoomDAO.updateRoom(con, room);
 		} catch (SQLException ex) {
 			DBManager.getInstance().rollbackAndClose(con);
 			ex.printStackTrace();

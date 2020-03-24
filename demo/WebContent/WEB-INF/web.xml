@@ -108,6 +108,7 @@
 				view-booking-create
 				view-account
 				create-booking-request
+				create-booking
 			</param-value>
 		</init-param>
 		<init-param>

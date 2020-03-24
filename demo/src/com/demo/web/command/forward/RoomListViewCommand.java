@@ -42,7 +42,7 @@ public class RoomListViewCommand extends Command {
 				log.debug("Command finished");
 				return Path.PAGE__ADMIN_ROOM_LIST;
 			}else if(userRole == Role.CUSTOMER){
-				request.setAttribute("rooms", new RoomDAO().findAllAccessibleRooms());
+				request.setAttribute("rooms", new RoomDAO().findAllFreeRooms());
 				log.debug("Command finished");
 				return Path.PAGE__CUSTOMER_ROOM_LIST;
 			}

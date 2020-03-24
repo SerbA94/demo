@@ -49,6 +49,13 @@ public class RoomDAO implements EntityMapper<Room>{
 					+ "WHERE rooms.room_status_id NOT IN "
 						+ "(SELECT room_status.id FROM room_status WHERE room_status_title='inaccessible')";
 
+	private static final String SQL__FIND_ALL_FREE_ROOMS =
+			"SELECT * FROM rooms "
+					+ "JOIN room_class ON rooms.room_class_id = room_class.id "
+					+ "JOIN room_status ON rooms.room_status_id = room_status.id "
+					+ "WHERE rooms.room_status_id IN "
+						+ "(SELECT room_status.id FROM room_status WHERE room_status_title='free')";
+
 	private static final String SQL__FIND_ROOMS_BY_PRICE_BETWEEN =
 			"SELECT * FROM rooms "
 					+ "JOIN room_class ON rooms.room_class_id = room_class.id "
@@ -215,6 +222,36 @@ public class RoomDAO implements EntityMapper<Room>{
 			con = DBManager.getInstance().getConnection();
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(SQL__FIND_ALL_ACCESSIBLE_ROOMS);
+			while (rs.next()) {
+				Room room = mapRow(rs);
+				room.setDescriptions(findRoomDescriptions(con,room));
+				room.setImages(new ImageDAO().findRoomImages(room));
+				rooms.add(room);
+			}
+			rs.close();
+			stmt.close();
+			con.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return rooms;
+	}
+
+
+	/**
+     * Returns list of all free rooms.
+     *
+     * @return List of room entities.
+     */
+	public List<Room> findAllFreeRooms() {
+		List<Room> rooms = new ArrayList<>();
+		Statement stmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		try {
+			con = DBManager.getInstance().getConnection();
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(SQL__FIND_ALL_FREE_ROOMS);
 			while (rs.next()) {
 				Room room = mapRow(rs);
 				room.setDescriptions(findRoomDescriptions(con,room));
@@ -401,7 +438,7 @@ public class RoomDAO implements EntityMapper<Room>{
      *            Connection to db.
      * @throws SQLException
      */
-    private void updateRoom(Connection con, Room room) throws SQLException {
+    static void updateRoom(Connection con, Room room) throws SQLException {
 		PreparedStatement pstmt = con.prepareStatement(SQL__UPDATE_ROOM);
 		RoomClass roomClass = (RoomClass) room.getRoomClass().toArray()[0];
 		RoomStatus roomStatus = (RoomStatus) room.getRoomStatus().toArray()[0];
