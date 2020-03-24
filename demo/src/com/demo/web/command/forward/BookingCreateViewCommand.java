@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import com.demo.db.dao.RoomDAO;
 import com.demo.db.entity.Room;
+import com.demo.db.entity.RoomStatus;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
@@ -40,6 +41,15 @@ public class BookingCreateViewCommand extends Command {
 		Room room = new RoomDAO().findRoomById(id);
 		if(room == null) {
 			errorMessage = "No room with id : id --> " + id;
+			log.error("errorMessage --> " + errorMessage);
+			request.setAttribute("errorMessage", errorMessage);
+			forward = Path.PAGE__ERROR;
+			return forward;
+		}
+
+		RoomStatus roomStatus = (RoomStatus) room.getRoomStatus().toArray()[0];
+		if(!roomStatus.equals(RoomStatus.FREE)) {
+			errorMessage = "Room cant be booked : room number --> " + room.getNumber();
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
 			forward = Path.PAGE__ERROR;
