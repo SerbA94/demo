@@ -39,7 +39,7 @@ public class BookingCreateCommand extends Command implements Redirector {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		log.debug("Command starts");
-		String redirect = Path.COMMAND__VIEW_ACCOUNT;
+		String redirect = null;
 		String errorMessage = null;
 
 		Set<BookingStatus> bookingStatus = null;
@@ -154,10 +154,12 @@ public class BookingCreateCommand extends Command implements Redirector {
 		}
 
 		BookingDAO bookingDAO = new BookingDAO();
-		Booking booking = new Booking(user, room, bookingStatus, dateIn, dateOut, dateOfBooking);
-		log.trace("Booking to create --> " + booking);
+		Booking booking = bookingDAO.createBooking(new Booking(user, room, bookingStatus, dateIn, dateOut, dateOfBooking));
+		log.trace("Booking created --> " + booking);
 
-		bookingDAO.createBooking(booking);
+		if(redirect == null) {
+			redirect = Path.COMMAND__BILL_MAIL + "&booking_id=" + booking.getId();
+		}
 
 		log.debug("Command ends");
 		return redirect;

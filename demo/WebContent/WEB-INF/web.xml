@@ -111,6 +111,7 @@
 				view-account
 				create-booking-request
 				create-booking
+				bill-mail
 			</param-value>
 		</init-param>
 		<init-param>

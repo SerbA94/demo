@@ -16,32 +16,39 @@
 				<%-- ERROR HANDLING --%>
 
 				<div><h1><span>Rooms Page</span></h1></div>
-					<table border="1">
-					    <tr>
-					    	<th>Image</th>
-					        <th>Number</th>
-					        <th>Capacity</th>
-					        <th>Class</th>
-					        <th>Status</th>
-					        <th>Price</th>
-					        <th></th>
-					       	<th></th>
-					    </tr>
-					    <c:forEach var="room" items="${rooms}">
-					        <tr>
-					        	<td align="center"><img src="controller?command=view-image&image_id=${room.images[0].id}" class="img-table"></td>
-					            <td align="center">${room.number}</td>
-					            <td align="center">${room.capacity}</td>
-					            <td align="center">${room.roomClass}</td>
-					            <td align="center">${room.roomStatus}</td>
-					            <td align="center">${room.price}</td>
-					            <td align="center"><a href="controller?command=view-booking-create&room_id=${room.id}"><span>book</span></a></td>
-					            <td align="center"><a href="controller?command=view-room&room_id=${room.id}"><span>room details</span></a></td>
 
-					        </tr>
-					    </c:forEach>
-					</table>
+					<c:choose>
+					<c:when test="${empty rooms}">
+						<div><span>No free rooms</span></div>
+					</c:when>
+					<c:when test="${not empty rooms}">
+						<table border="1">
+						    <tr>
+						    	<th>Image</th>
+						        <th>Number</th>
+						        <th>Capacity</th>
+						        <th>Class</th>
+						        <th>Status</th>
+						        <th>Price</th>
+						        <th></th>
+						       	<th></th>
+						    </tr>
+						    <c:forEach var="room" items="${rooms}">
+						        <tr>
+						        	<td align="center"><img src="controller?command=view-image&image_id=${room.images[0].id}" class="img-table"></td>
+						            <td align="center">${room.number}</td>
+						            <td align="center">${room.capacity}</td>
+						            <td align="center">${room.roomClass}</td>
+						            <td align="center">${room.roomStatus}</td>
+						            <td align="center">${room.price}</td>
+						            <td align="center"><a href="controller?command=view-booking-create&room_id=${room.id}"><span>book</span></a></td>
+						            <td align="center"><a href="controller?command=view-room&room_id=${room.id}"><span>room details</span></a></td>
 
+						        </tr>
+						    </c:forEach>
+						</table>
+					</c:when>
+				</c:choose>
 			</td>
 		</tr>
 		<%@ include file="/WEB-INF/jspf/footer.jspf"%>

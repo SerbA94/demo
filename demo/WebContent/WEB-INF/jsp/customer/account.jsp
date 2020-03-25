@@ -52,6 +52,8 @@
 						    <th>Date out</th>
 						    <th>Date of booking</th>
 						    <th>Booking status</th>
+						    <th></th>
+
 						</tr>
 						<c:forEach var="booking" items="${bookings}">
 							<tr>
@@ -70,6 +72,17 @@
 							    <td align="center">${booking.dateOut}</td>
 							   	<td align="center">${booking.dateOfBooking}</td>
 							   	<td align="center">${booking.bookingStatus.toArray()[0].title}</td>
+
+							   <td align="center">
+							   		<c:choose>
+										<c:when test="${booking.bookingStatus.toArray()[0].title eq 'unconfirmed'}">
+											<div><span>confirm</span></div>
+										</c:when>
+										<c:when test="${booking.bookingStatus.toArray()[0].title ne 'unconfirmed'}">
+											<div><span>see bill</span></div>
+										</c:when>
+									</c:choose>
+								</td>
 							</tr>
 						</c:forEach>
 					</table>

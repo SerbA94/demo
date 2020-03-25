@@ -534,17 +534,18 @@ public class RoomDAO implements EntityMapper<Room>{
      *
      * @param room
      *            Room to create.
+     * @return Room entity
+     * 			  Room with seted id
      */
-	public void createRoom(Room room) {
+	public Room createRoom(Room room) {
 		Connection con = null;
 		try {
 			con = DBManager.getInstance().getConnection();
 			List<Description> descriptions = room.getDescriptions();
 			System.out.println(room);
-			Long roomId = createRoom(con, room);
-			System.out.println(roomId);
+			room = createRoom(con, room);
 			for (Description description : descriptions) {
-				description.setRoomId(roomId);
+				description.setRoomId(room.getId());
 				createDescription(con,description);
 			}
 		} catch (SQLException ex) {
@@ -553,6 +554,7 @@ public class RoomDAO implements EntityMapper<Room>{
 		} finally {
 			DBManager.getInstance().commitAndClose(con);
 		}
+		return room;
 	}
 
 	/**
@@ -562,9 +564,11 @@ public class RoomDAO implements EntityMapper<Room>{
      *            Room to create.
      * @param con
      *            Connection to db.
+     * @return Room entity
+     * 			   Room with seted id
      * @throws SQLException
      */
-    private Long createRoom(Connection con, Room room) throws SQLException {
+    private Room createRoom(Connection con, Room room) throws SQLException {
 		PreparedStatement pstmt = con.prepareStatement(SQL__CREATE_ROOM, Statement.RETURN_GENERATED_KEYS);
 		RoomClass roomClass = (RoomClass) room.getRoomClass().toArray()[0];
 		RoomStatus roomStatus = (RoomStatus) room.getRoomStatus().toArray()[0];
@@ -589,7 +593,8 @@ public class RoomDAO implements EntityMapper<Room>{
         }finally{
         	pstmt.close();
         }
-        return id;
+        room.setId(id);
+        return room;
     }
 
 	/**

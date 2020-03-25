@@ -85,8 +85,9 @@ public class BookingDAO implements EntityMapper<Booking> {
      * @param id
      *     	Booking identifier.
      * @return Booking entity.
+     * @throws SQLException
      */
-	public Booking findBookingById(Long id) {
+	public Booking findBookingById(Long id) throws SQLException {
 		Booking booking = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -104,6 +105,7 @@ public class BookingDAO implements EntityMapper<Booking> {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			DBManager.getInstance().rollbackAndClose(con);
+			throw new SQLException();
 		} finally {
 			DBManager.getInstance().commitAndClose(con);
 		}
@@ -333,14 +335,16 @@ public class BookingDAO implements EntityMapper<Booking> {
      *
      * @param booking
      *            Booking to create.
+     * @return booking entity
+     * 			  Booking with seted generated id
      */
-	public void createBooking(Booking booking) {
+	public Booking createBooking(Booking booking) {
 		Connection con = null;
 		Room room = booking.getRoom();
 		room.setRoomStatus(Collections.singleton(RoomStatus.BOOKED));
 		try {
 			con = DBManager.getInstance().getConnection();
-			createBooking(con, booking);
+			booking = createBooking(con, booking);
 			RoomDAO.updateRoom(con, room);
 		} catch (SQLException ex) {
 			DBManager.getInstance().rollbackAndClose(con);
@@ -348,6 +352,7 @@ public class BookingDAO implements EntityMapper<Booking> {
 		} finally {
 			DBManager.getInstance().commitAndClose(con);
 		}
+		return booking;
 	}
 
 	/**
@@ -357,10 +362,12 @@ public class BookingDAO implements EntityMapper<Booking> {
      *            Booking to create.
      * @param con
      *            Connection to db.
+     * @return booking entity
+     * 			  Booking with seted generated id
      * @throws SQLException
      */
-	private void createBooking(Connection con, Booking booking) throws SQLException {
-		PreparedStatement pstmt = con.prepareStatement(SQL__CREATE_BOOKING);
+	private Booking createBooking(Connection con, Booking booking) throws SQLException {
+		PreparedStatement pstmt = con.prepareStatement(SQL__CREATE_BOOKING,Statement.RETURN_GENERATED_KEYS);
 		BookingStatus bookingStatus = (BookingStatus) booking.getBookingStatus().toArray()[0];
 
 		int k = 1;
@@ -371,7 +378,20 @@ public class BookingDAO implements EntityMapper<Booking> {
 		pstmt.setLong(k++, booking.getRoom().getId());
 		pstmt.setString(k++, bookingStatus.getTitle());
 		pstmt.executeUpdate();
-		pstmt.close();
+
+		Long id = null;
+        try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                id = generatedKeys.getLong(1);
+            }
+            else {
+                throw new SQLException("Creating room failed, no ID obtained.");
+            }
+        }finally{
+        	pstmt.close();
+        }
+        booking.setId(id);
+        return booking;
 	}
 
     /**
