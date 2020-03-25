@@ -76,7 +76,7 @@
 							   <td align="center">
 							   		<c:choose>
 										<c:when test="${booking.bookingStatus.toArray()[0].title eq 'unconfirmed'}">
-											<div><span>confirm</span></div>
+											<div><span><a href="controller?command=confirm-booking&booking_id=${booking.id}">confirm</a></span></div>
 										</c:when>
 										<c:when test="${booking.bookingStatus.toArray()[0].title ne 'unconfirmed'}">
 											<div><span>see bill</span></div>

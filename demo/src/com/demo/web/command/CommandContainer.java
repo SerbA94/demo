@@ -26,6 +26,7 @@ import com.demo.web.command.forward.WelcomeViewCommand;
 import com.demo.web.command.redirect.ActivationCommand;
 import com.demo.web.command.redirect.ActivationMailCommand;
 import com.demo.web.command.redirect.BillMailCommand;
+import com.demo.web.command.redirect.BookingConfirmCommand;
 import com.demo.web.command.redirect.BookingCreateCommand;
 import com.demo.web.command.redirect.BookingRequestCreateCommand;
 import com.demo.web.command.redirect.BookingRequestDeleteCommand;
@@ -63,6 +64,8 @@ public class CommandContainer {
 		commands.put("delete-booking-request", new BookingRequestDeleteCommand());
 		commands.put("create-booking", new BookingCreateCommand());
 		commands.put("bill-mail", new BillMailCommand());
+		commands.put("confirm-booking", new BookingConfirmCommand());
+
 
 
 

@@ -50,6 +50,7 @@ public final class Path {
 	public static final String COMMAND__IMAGE_UPLOAD = "/controller?command=upload-image";
 	public static final String COMMAND__IMAGE_DELETE = "/controller?command=delete-image";
 	public static final String COMMAND__ACTIVATION_MAIL = "/controller?command=activation-mail";
+	public static final String COMMAND__CONFIRM_BOOKING = "/controller?command=confirm-booking";
 	public static final String COMMAND__BILL_MAIL = "/controller?command=bill-mail";
 	public static final String COMMAND__ACTIVATION = "/controller?command=activation";
 	public static final String COMMAND__LOGIN = "/controller?command=login";

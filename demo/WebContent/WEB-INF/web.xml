@@ -112,6 +112,7 @@
 				create-booking-request
 				create-booking
 				bill-mail
+				confirm-booking
 			</param-value>
 		</init-param>
 		<init-param>
