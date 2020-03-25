@@ -82,6 +82,10 @@ This way we define the menu located at the right of header.
 				<c:out value="(${userRole.title})"/>
 			</c:if>
 
+			<c:if test="${userRole.title eq 'customer' and title ne 'Account' }">
+				<a href="controller?command=view-account"><span>Account</span></a>
+			</c:if>
+
 			<%--===========================================================================
 			Type link to logout
 			===========================================================================--%>
