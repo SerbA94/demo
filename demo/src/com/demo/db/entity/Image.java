@@ -77,7 +77,7 @@ public class Image extends Entity {
 
 	@Override
 	public String toString() {
-		return "Image [name=" + name + "]";
+		return "Image [name=" + name + "]" + System.lineSeparator();
 	}
 
 	@Override

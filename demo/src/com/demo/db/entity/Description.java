@@ -70,7 +70,8 @@ public class Description extends Entity {
 
 	@Override
 	public String toString() {
-		return "Description [localeName=" + localeName + ", roomId=" + roomId + "]";
+		return "Description [localeName=" + localeName + ", roomId="
+					+ roomId + "]" + System.lineSeparator();
 	}
 
 	@Override

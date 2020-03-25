@@ -109,9 +109,10 @@ public class Room extends Entity {
 
 	@Override
 	public String toString() {
-		return "Room [number=" + number + ", capacity=" + capacity +
-				", price=" + price + ", images=" + images
-				+ ", roomStatus=" + roomStatus + ", roomClass=" + roomClass + "]";
+		return "Room [number=" + number + ", capacity=" + capacity
+				+ ", price=" + price + ", images=" + images
+				+ ", roomStatus=" + roomStatus + ", roomClass="
+				+ roomClass + "]" + System.lineSeparator();
 	}
 
 	@Override

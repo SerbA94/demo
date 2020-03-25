@@ -87,7 +87,7 @@ public class BookingRequest extends Entity {
 	@Override
 	public String toString() {
 		return "BookingRequest [user=" + user + ", capacity=" + capacity + ", dateIn="
-				+ dateIn + ", dateOut=" + dateOut + ", roomClass=" + roomClass + "]";
+				+ dateIn + ", dateOut=" + dateOut + ", roomClass=" + roomClass + "]" + System.lineSeparator();
 	}
 
 	@Override

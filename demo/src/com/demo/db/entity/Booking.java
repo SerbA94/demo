@@ -99,7 +99,7 @@ public class Booking extends Entity {
 	public String toString() {
 		return "Booking [user=" + user + ", room=" + room + ", bookingStatus="
 				+ bookingStatus + ", dateIn=" + dateIn+ ", dateOut="
-				+ dateOut + ", dateOfBooking=" + dateOfBooking + "]";
+				+ dateOut + ", dateOfBooking=" + dateOfBooking + "]" + System.lineSeparator();
 	}
 
 	@Override
