@@ -15,6 +15,7 @@ import com.demo.db.DBManager;
 import com.demo.db.constants.Fields;
 import com.demo.db.entity.BookingRequest;
 import com.demo.db.entity.RoomClass;
+import com.demo.db.entity.User;
 
 /**
  * Data access object for BookingRequest entity.
@@ -25,25 +26,34 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 
 	private static final String SQL__FIND_BOOKING_REQUEST_BY_ID =
 			"SELECT * FROM booking_requests "
-					+ "JOIN room_class ON booking_requests.room_class_id = room_class.id "
-					+ "JOIN users ON booking_requests.user_id = users.id "
-					+ "JOIN roles ON users.role_id = roles.id "
-					+ "WHERE booking_requests.id=?";
+					+ "JOIN room_class ON booking_requests.room_class_id = room_class.room_class_id "
+					+ "JOIN users ON booking_requests.user_id = users.user_id "
+					+ "JOIN roles ON users.role_id = roles.role_id "
+					+ "WHERE booking_requests.booking_request_id=?";
+
+	private static final String SQL__FIND_BOOKING_REQUEST_BY_USER_ID =
+			"SELECT * FROM booking_requests "
+					+ "JOIN room_class ON booking_requests.room_class_id = room_class.room_class_id "
+					+ "JOIN users ON booking_requests.user_id = users.user_id "
+					+ "JOIN roles ON users.role_id = roles.role_id "
+					+ "WHERE booking_requests.user_id=?";
+
 
 	private static final String SQL__FIND_ALL_BOOKING_REQUESTS =
 			"SELECT * FROM booking_requests "
-					+ "JOIN room_class ON booking_requests.room_class_id = room_class.id "
-					+ "JOIN users ON booking_requests.user_id = users.id "
-					+ "JOIN roles ON users.role_id = roles.id";
+					+ "JOIN room_class ON booking_requests.room_class_id = room_class.room_class_id "
+					+ "JOIN users ON booking_requests.user_id = users.user_id "
+					+ "JOIN roles ON users.role_id = roles.role_id";
 
 	private static final String SQL__DELETE_BOOKING_REQUEST =
-			"DELETE FROM booking_requests WHERE id=?";
+			"DELETE FROM booking_requests WHERE booking_requests.booking_request_id=?";
 
 	private static final String SQL__CREATE_BOOKING_REQUEST =
 			"INSERT INTO booking_requests "
-					+ "(user_id, date_in, date_out, capacity, room_class_id) "
-					+ "VALUES "
-					+ "(?, ?, ?, ?, (SELECT id FROM room_class WHERE room_class_title=?))";
+					+ "(booking_requests.user_id, booking_requests.date_in, booking_requests.date_out, "
+						+ "booking_requests.capacity, booking_requests.room_class_id) "
+					+ "VALUES (?, ?, ?, ?, "
+						+ "(SELECT room_class.room_class_id FROM room_class WHERE room_class.room_class_title=?))";
 
 
 	/**
@@ -77,6 +87,7 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 		return bookingRequest;
 	}
 
+
 	/**
      * Returns list of all booking requests.
      *
@@ -99,6 +110,37 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 			con.close();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
+		}
+		return bookingRequests;
+	}
+
+	/**
+     * Returns list of user booking requests.
+     *
+     * @param user
+     *            user entity to filter.
+     * @return List of booking request entities.
+     */
+	public List<BookingRequest> findBookingRequestsByUser(User user) {
+		List<BookingRequest> bookingRequests = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		try {
+			con = DBManager.getInstance().getConnection();
+			pstmt = con.prepareStatement(SQL__FIND_BOOKING_REQUEST_BY_USER_ID);
+			pstmt.setLong(1, user.getId());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				bookingRequests.add(mapRow(rs));
+			}
+			rs.close();
+			pstmt.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			DBManager.getInstance().rollbackAndClose(con);
+		} finally {
+			DBManager.getInstance().commitAndClose(con);
 		}
 		return bookingRequests;
 	}
@@ -180,7 +222,7 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 	public BookingRequest mapRow(ResultSet rs) {
 		try {
 			BookingRequest bookingRequest = new BookingRequest();
-			bookingRequest.setId(rs.getLong(Fields.ENTITY__ID));
+			bookingRequest.setId(rs.getLong(Fields.BOOKING_REQUEST__BOOKING_REQUEST_ID));
 			bookingRequest.setCapacity(rs.getInt(Fields.BOOKING_REQUEST__CAPACITY));
 			bookingRequest.setDateIn(rs.getTimestamp(Fields.BOOKING_REQUEST__DATE_IN));
 			bookingRequest.setDateOut(rs.getTimestamp(Fields.BOOKING_REQUEST__DATE_OUT));

@@ -22,10 +22,12 @@ import com.demo.db.entity.BookingStatus;
 public class BookingStatusDAO {
 
     private static final String SQL__GET_BOOKING_STATUS_ID =
-    		"SELECT id FROM booking_status WHERE booking_status_title=?";
+    		"SELECT booking_status.booking_status_id "
+    		+ "FROM booking_status WHERE booking_status.booking_status_title=?";
 
     private static final String SQL__GET_BOOKING_STATUS_BY_ID =
-    		"SELECT booking_status_title FROM booking_status WHERE id=?";
+    		"SELECT booking_status.booking_status_title "
+    		+ "FROM booking_status WHERE booking_status.booking_status_id=?";
 
 
     /**
@@ -46,7 +48,7 @@ public class BookingStatusDAO {
             pstmt.setString(1, bookingStatus.getTitle());
             rs = pstmt.executeQuery();
             if (rs.next())
-                id = rs.getLong(Fields.ENTITY__ID);
+                id = rs.getLong(Fields.BOOKING_STATUS__BOOKING_STATUS_ID);
             rs.close();
             pstmt.close();
         } catch (SQLException ex) {

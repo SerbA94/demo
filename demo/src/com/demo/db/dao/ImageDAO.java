@@ -24,25 +24,25 @@ import com.demo.db.entity.Room;
 public class ImageDAO implements EntityMapper<Image> {
 
 	private static final String SQL__FIND_IMAGE_BY_ID =
-			"SELECT * FROM images WHERE id=?";
+			"SELECT * FROM images WHERE images.image_id=?";
 
 	private static final String SQL__FIND_IMAGE_BY_NAME =
-			"SELECT * FROM images WHERE name=?";
+			"SELECT * FROM images WHERE images.name=?";
 
 	private static final String SQL__FIND_ALL_IMAGES =
-			"SELECT id, name, room_id FROM images";
+			"SELECT images.image_id, images.name, images.room_id FROM images";
 
 	private static final String SQL__FIND_ROOM_IMAGES =
-			"SELECT id, name FROM images WHERE room_id=?";
+			"SELECT images.image_id, images.name, images.room_id FROM images WHERE images.room_id=?";
 
 	private static final String SQL__CREATE_IMAGE =
-			"INSERT INTO images (name, data, room_id) VALUES (?, ?, ?)";
+			"INSERT INTO images (images.name, images.data, images.room_id) VALUES (?, ?, ?)";
 
 	private static final String SQL__UPDATE_IMAGE =
-			"UPDATE images SET name=?, data=? WHERE id=?";
+			"UPDATE images SET images.name=?, images.data=? WHERE images.image_id=?";
 
 	private static final String SQL__DELETE_IMAGE =
-			"DELETE FROM images WHERE id=?";
+			"DELETE FROM images WHERE images.image_id=?";
 
 	/**
      * Returns image with given id
@@ -122,7 +122,7 @@ public class ImageDAO implements EntityMapper<Image> {
 			rs = stmt.executeQuery(SQL__FIND_ALL_IMAGES);
 			while (rs.next()) {
 				Image image = new Image();
-				image.setId(rs.getLong(Fields.ENTITY__ID));
+				image.setId(rs.getLong(Fields.IMAGE__IMAGE_ID));
 				image.setName(rs.getString(Fields.IMAGE__NAME));
 				image.setRoomId(rs.getLong(Fields.IMAGE__ROOM_ID));
 				images.add(image);
@@ -155,9 +155,9 @@ public class ImageDAO implements EntityMapper<Image> {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Image image = new Image();
-				image.setId(rs.getLong(Fields.ENTITY__ID));
+				image.setId(rs.getLong(Fields.IMAGE__IMAGE_ID));
 				image.setName(rs.getString(Fields.IMAGE__NAME));
-				image.setRoomId(room.getId());
+				image.setRoomId(rs.getLong(Fields.IMAGE__ROOM_ID));
 				images.add(image);
 			}
 			rs.close();
@@ -280,7 +280,7 @@ public class ImageDAO implements EntityMapper<Image> {
 	public Image mapRow(ResultSet rs) {
 		try {
 			Image image = new Image();
-			image.setId(rs.getLong(Fields.ENTITY__ID));
+			image.setId(rs.getLong(Fields.IMAGE__IMAGE_ID));
 			image.setName(rs.getString(Fields.IMAGE__NAME));
 			image.setData(rs.getBytes(Fields.IMAGE__DATA));
 			image.setRoomId(rs.getLong(Fields.IMAGE__ROOM_ID));

@@ -25,13 +25,13 @@ import com.demo.db.entity.RoomStatus;
 public class RoomStatusDAO {
 
 	private static final String SQL__FIND_ROOM_STATUS_ID =
-			"SELECT id FROM room_status WHERE room_status_title=?";
+			"SELECT room_status.room_status_id FROM room_status WHERE room_status.room_status_title=?";
 
     private static final String SQL__FIND_ROOM_STATUS_BY_ID =
-    		"SELECT room_status_title FROM room_status WHERE id=?";
+    		"SELECT room_status.room_status_title FROM room_status WHERE room_status.room_status_id=?";
 
     private static final String SQL__FIND_ALL_ROOM_STATUSES =
-    		"SELECT room_status_title FROM room_status";
+    		"SELECT room_status.room_status_title FROM room_status";
 
 
 	/**
@@ -78,7 +78,7 @@ public class RoomStatusDAO {
             pstmt.setString(1, roomStatus.getTitle());
             rs = pstmt.executeQuery();
             if (rs.next())
-                id = rs.getLong(Fields.ENTITY__ID);
+                id = rs.getLong(Fields.ROOM_STATUS__ROOM_STATUS_ID);
             rs.close();
             pstmt.close();
         } catch (SQLException ex) {

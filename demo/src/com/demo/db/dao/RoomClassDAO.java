@@ -25,13 +25,13 @@ import com.demo.db.entity.RoomClass;
 public class RoomClassDAO {
 
     private static final String SQL__GET_ROOM_CLASS_ID =
-    		"SELECT id FROM room_class WHERE room_class_title=?";
+    		"SELECT room_class.room_class_id FROM room_class WHERE room_class.room_class_title=?";
 
     private static final String SQL__GET_ROOM_CLASS_BY_ID =
-    		"SELECT room_class_title FROM room_class WHERE id=?";
+    		"SELECT room_class.room_class_title FROM room_class WHERE room_class.room_class_id=?";
 
     private static final String SQL__FIND_ALL_ROOM_CLASSES =
-    		"SELECT room_class_title FROM room_class";
+    		"SELECT room_class.room_class_title FROM room_class";
 
 
 	/**
@@ -78,7 +78,7 @@ public class RoomClassDAO {
             pstmt.setString(1, roomClass.getTitle());
             rs = pstmt.executeQuery();
             if (rs.next())
-                id = rs.getLong(Fields.ENTITY__ID);
+                id = rs.getLong(Fields.ROOM_CLASS__ROOM_CLASS_ID);
             rs.close();
             pstmt.close();
         } catch (SQLException ex) {

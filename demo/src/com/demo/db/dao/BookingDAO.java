@@ -17,6 +17,7 @@ import com.demo.db.DBManager;
 import com.demo.db.constants.Fields;
 import com.demo.db.entity.Booking;
 import com.demo.db.entity.BookingStatus;
+import com.demo.db.entity.Image;
 import com.demo.db.entity.Room;
 import com.demo.db.entity.RoomStatus;
 import com.demo.db.entity.User;
@@ -28,55 +29,54 @@ import com.demo.db.entity.User;
  */
 public class BookingDAO implements EntityMapper<Booking> {
 
-	private static final String SQL__FIND_ALL_BOOKINGS =
+	private static final String SELECT_WITH_JOINS =
 			"SELECT * FROM bookings "
-					+ "JOIN booking_status ON bookings.booking_status_id = booking_status.id";
+					+ "JOIN booking_status ON bookings.booking_status_id = booking_status.booking_status_id "
+					+ "JOIN users ON bookings.user_id = users.user_id "
+					+ "JOIN rooms ON bookings.room_id = rooms.room_id "
+					+ "JOIN roles ON users.role_id = roles.role_id "
+					+ "JOIN room_class ON rooms.room_class_id = room_class.room_class_id "
+					+ "JOIN room_status ON rooms.room_status_id = room_status.room_status_id";
 
-	private static final String SQL__FIND_BOOKING_BY_ID =
-			"SELECT * FROM bookings "
-					+ "JOIN booking_status ON bookings.booking_status_id = booking_status.id "
-					+ "WHERE id=?";
+	private static final String SQL__FIND_ALL_BOOKINGS = SELECT_WITH_JOINS;
 
-	private static final String SQL__FIND_BOOKINGS_BY_USER_ID =
-			"SELECT * FROM bookings "
-					+ "JOIN booking_status ON bookings.booking_status_id = booking_status.id "
-					+ "WHERE user_id=?";
+	private static final String SQL__FIND_BOOKING_BY_ID = SELECT_WITH_JOINS
+					+ " WHERE bookings.booking_id=?";
 
-	private static final String SQL__FIND_BOOKINGS_BY_ROOM_ID =
-			"SELECT * FROM bookings "
-					+ "JOIN booking_status ON bookings.booking_status_id = booking_status.id "
-					+ "WHERE room_id=?";
+	private static final String SQL__FIND_BOOKINGS_BY_USER_ID = SELECT_WITH_JOINS
+					+ " WHERE bookings.user_id=?";
 
-	private static final String SQL__FIND_BOOKINGS_BY_DATE_IN =
-			"SELECT * FROM bookings "
-					+ "JOIN booking_status ON bookings.booking_status_id = booking_status.id "
-					+ "WHERE date_in=?";
+	private static final String SQL__FIND_BOOKINGS_BY_ROOM_ID = SELECT_WITH_JOINS
+					+ " WHERE bookings.room_id=?";
 
-	private static final String SQL__FIND_BOOKINGS_BY_DATE_OUT =
-			"SELECT * FROM bookings "
-					+ "JOIN booking_status ON bookings.booking_status_id = booking_status.id "
-					+ "WHERE date_out=?";
+	private static final String SQL__FIND_BOOKINGS_BY_DATE_IN = SELECT_WITH_JOINS
+					+ " WHERE bookings.date_in=?";
 
-	private static final String SQL__FIND_BOOKINGS_BY_DATE_OF_BOOKING =
-			"SELECT * FROM bookings "
-					+ "JOIN booking_status ON bookings.booking_status_id = booking_status.id "
-					+ "WHERE date_of_booking=?";
+	private static final String SQL__FIND_BOOKINGS_BY_DATE_OUT = SELECT_WITH_JOINS
+					+ " WHERE bookings.date_out=?";
+
+	private static final String SQL__FIND_BOOKINGS_BY_DATE_OF_BOOKING = SELECT_WITH_JOINS
+					+ " WHERE bookings.date_of_booking=?";
 
 	private static final String SQL__FIND_BOOKINGS_BY_BOOKING_STATUS =
 			"SELECT * FROM bookings "
-					+ "WHERE booking_status_id "
-						+ "IN (SELECT id FROM booking_status WHERE booking_status_title=?)";
+					+ "WHERE bookings.booking_status_id "
+						+ "IN (SELECT booking_status.booking_status_id FROM booking_status "
+							+ "WHERE booking_status.booking_status_title=?)";
 
 	private static final String SQL__UPDATE_BOOKING =
 			"UPDATE bookings SET "
-					+ "booking_status_id=(SELECT id FROM booking_status WHERE booking_status_title=?) "
-					+ "WHERE id=?";
+					+ "bookings.booking_status_id=(SELECT booking_status.booking_status_id "
+						+ "FROM booking_status WHERE booking_status.booking_status_title=?) "
+					+ "WHERE bookings.booking_id=?";
 
 	private static final String SQL__CREATE_BOOKING =
 			"INSERT INTO bookings "
-					+ "(date_in, date_out, date_of_booking, user_id, room_id, booking_status_id) "
-					+ "VALUES "
-					+ "(?, ?, ?, ?, ?, (SELECT id FROM booking_status WHERE booking_status_title=?))";
+					+ "(bookings.date_in, bookings.date_out, bookings.date_of_booking, "
+						+ "bookings.user_id, bookings.room_id, bookings.booking_status_id) "
+					+ "VALUES (?, ?, ?, ?, ?, "
+						+ "(SELECT booking_status.booking_status_id FROM booking_status "
+							+ "WHERE booking_status.booking_status_title=?))";
 
 
     /**
@@ -229,6 +229,7 @@ public class BookingDAO implements EntityMapper<Booking> {
 		return bookings;
 	}
 
+
 	/**
      * Returns bookings of the given user.
      *
@@ -247,7 +248,12 @@ public class BookingDAO implements EntityMapper<Booking> {
 			pstmt.setLong(1, user.getId());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				bookings.add(mapRow(rs));
+				Booking booking = mapRow(rs);
+				Room room = booking.getRoom();
+				List<Image> images = new ImageDAO().findRoomImages(booking.getRoom());
+				room.setImages(images);
+				booking.setRoom(room);
+				bookings.add(booking);
 			}
 			rs.close();
 			pstmt.close();
@@ -417,7 +423,7 @@ public class BookingDAO implements EntityMapper<Booking> {
 	public Booking mapRow(ResultSet rs) {
 		try {
 			Booking booking = new Booking();
-			booking.setId(rs.getLong(Fields.ENTITY__ID));
+			booking.setId(rs.getLong(Fields.BOOKING__BOOKING_ID));
 			booking.setDateIn(rs.getTimestamp(Fields.BOOKING__DATE_IN));
 			booking.setDateOut(rs.getTimestamp(Fields.BOOKING__DATE_OUT));
 			booking.setDateOfBooking(rs.getTimestamp(Fields.BOOKING__DATE_OF_BOOKING));

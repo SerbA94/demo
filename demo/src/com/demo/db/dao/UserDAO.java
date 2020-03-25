@@ -22,34 +22,35 @@ public class UserDAO implements EntityMapper<User> {
 
 	private static final String SQL__FIND_USER_BY_LOGIN =
 			"SELECT * FROM users "
-					+ "JOIN roles ON users.role_id = roles.id "
+					+ "JOIN roles ON users.role_id = roles.role_id "
 					+ "WHERE users.login=?";
 
 	private static final String SQL__FIND_USER_BY_EMAIL =
 			"SELECT * FROM users "
-					+ "JOIN roles ON users.role_id = roles.id "
+					+ "JOIN roles ON users.role_id = roles.role_id "
 					+ "WHERE users.email=?";
 
 	private static final String SQL__FIND_USER_BY_ID =
 			"SELECT * FROM users "
-					+ "JOIN roles ON users.role_id = roles.id "
-					+ "WHERE users.id=?";
+					+ "JOIN roles ON users.role_id = roles.role_id "
+					+ "WHERE users.user_id=?";
 
 	private static final String SQL_UPDATE_USER =
 			"UPDATE users "
-					+ "SET login=?, "
-						+ "password=?, "
-						+ "role_id=(SELECT id FROM roles WHERE role_title=?), "
-						+ "locale_name=?, "
-						+ "email=?, "
-						+ "activation_token=? "
-					+ "WHERE id=?";
+					+ "SET users.login=?, "
+						+ "users.password=?, "
+						+ "users.role_id=(SELECT roles.role_id FROM roles WHERE roles.role_title=?), "
+						+ "users.locale_name=?, "
+						+ "users.email=?, "
+						+ "users.activation_token=? "
+					+ "WHERE users.user_id=?";
 
 	private static final String SQL_CREATE_USER =
 			"INSERT INTO users "
-					+ "(login, password, role_id, locale_name, email, activation_token) "
+					+ "(users.login, users.password, users.role_id, "
+						+ "users.locale_name, users.email, users.activation_token) "
 					+ "VALUES "
-					+ "(?, ?, (SELECT id FROM roles WHERE role_title=?), ?, ?, ?)";
+					+ "(?, ?, (SELECT roles.role_id FROM roles WHERE roles.role_title=?), ?, ?, ?)";
 
     /**
      * Returns user with given id
@@ -239,7 +240,7 @@ public class UserDAO implements EntityMapper<User> {
 	public User mapRow(ResultSet rs) {
 		try {
 			User user = new User();
-			user.setId(rs.getLong(Fields.ENTITY__ID));
+			user.setId(rs.getLong(Fields.USER__USER_ID));
 			user.setLogin(rs.getString(Fields.USER__LOGIN));
 			user.setPassword(rs.getString(Fields.USER__PASSWORD));
 			user.setLocaleName(rs.getString(Fields.USER__LOCALE_NAME));

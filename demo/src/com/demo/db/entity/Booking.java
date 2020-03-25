@@ -6,6 +6,8 @@ package com.demo.db.entity;
 import java.sql.Timestamp;
 import java.util.Set;
 
+import com.demo.web.utils.TimestampUtil;
+
 /**
  * @author A.Serbin
  *
@@ -45,6 +47,33 @@ public class Booking extends Entity {
 	 */
 	public Booking() {
 		super();
+	}
+
+    public Integer getTotalPrice() {
+		return room.getPrice()==null || getTotalBookingDays() == null ?
+				null :  room.getPrice() * getTotalBookingDays();
+    }
+
+	public Integer getTotalBookingDays() {
+
+		if(this.dateIn == null || this.dateOut == null){
+			return null;
+		}
+
+		Integer yearIn = this.dateIn.toLocalDateTime().getYear();
+		Integer yearOut = this.dateOut.toLocalDateTime().getYear();
+
+		Integer dayIn = this.dateIn.toLocalDateTime().getDayOfYear();
+		Integer dayOut = this.dateOut.toLocalDateTime().getDayOfYear();
+
+		if((yearOut-yearIn) == 0) {
+			return  dayOut - dayIn;
+		}else if((yearOut-yearIn) == 1){
+			Integer daysInYear = TimestampUtil.parseTimestamp(yearIn + "-12-31").toLocalDateTime().getDayOfYear();
+			return dayOut + (daysInYear - dayIn);
+		} else {
+			return null;
+		}
 	}
 
 	public User getUser() {

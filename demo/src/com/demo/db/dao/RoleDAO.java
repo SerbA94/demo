@@ -22,10 +22,10 @@ import com.demo.db.entity.Role;
 public class RoleDAO {
 
     private static final String SQL__GET_ROLE_ID =
-    		"SELECT id FROM roles WHERE role_title=?";
+    		"SELECT roles.role_id FROM roles WHERE roles.role_title=?";
 
     private static final String SQL__GET_ROLE_BY_ID =
-    		"SELECT role_title FROM roles WHERE id=?";
+    		"SELECT roles.role_title FROM roles WHERE roles.role_id=?";
 
 
     /**
@@ -46,7 +46,7 @@ public class RoleDAO {
             pstmt.setString(1, role.getTitle());
             rs = pstmt.executeQuery();
             if (rs.next())
-                id = rs.getLong(Fields.ENTITY__ID);
+                id = rs.getLong(Fields.ROLE__ROLE_ID);
             rs.close();
             pstmt.close();
         } catch (SQLException ex) {

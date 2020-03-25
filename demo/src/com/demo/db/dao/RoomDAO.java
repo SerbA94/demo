@@ -28,94 +28,90 @@ public class RoomDAO implements EntityMapper<Room>{
 
 	private static final String SQL__FIND_ROOM_BY_ID =
 			"SELECT * FROM rooms "
-					+ "JOIN room_class ON rooms.room_class_id = room_class.id "
-					+ "JOIN room_status ON rooms.room_status_id = room_status.id "
-					+ "WHERE rooms.id=?";
+					+ "JOIN room_class ON rooms.room_class_id = room_class.room_class_id "
+					+ "JOIN room_status ON rooms.room_status_id = room_status.room_status_id "
+					+ "WHERE rooms.room_id=?";
 
 	private static final String SQL__FIND_ROOM_BY_NUMBER =
 			"SELECT * FROM rooms "
-					+ "JOIN room_class ON rooms.room_class_id = room_class.id "
-					+ "JOIN room_status ON rooms.room_status_id = room_status.id "
+					+ "JOIN room_class ON rooms.room_class_id = room_class.room_class_id "
+					+ "JOIN room_status ON rooms.room_status_id = room_status.oom_status_id "
 					+ "WHERE rooms.number=?";
 
 	private static final String SQL__FIND_ALL_ROOMS =
 			"SELECT * FROM rooms "
-					+ "JOIN room_class ON rooms.room_class_id = room_class.id "
-					+ "JOIN room_status ON rooms.room_status_id = room_status.id";
+					+ "JOIN room_class ON rooms.room_class_id = room_class.room_class_id "
+					+ "JOIN room_status ON rooms.room_status_id = room_status.room_status_id";
 
 	private static final String SQL__FIND_ALL_ACCESSIBLE_ROOMS =
 			"SELECT * FROM rooms "
-					+ "JOIN room_class ON rooms.room_class_id = room_class.id "
-					+ "JOIN room_status ON rooms.room_status_id = room_status.id "
+					+ "JOIN room_class ON rooms.room_class_id = room_class.room_class_id "
+					+ "JOIN room_status ON rooms.room_status_id = room_status.room_status_id "
 					+ "WHERE rooms.room_status_id NOT IN "
-						+ "(SELECT room_status.id FROM room_status WHERE room_status_title='inaccessible')";
+						+ "(SELECT room_status.room_status_id FROM room_status WHERE room_status.room_status_title='inaccessible')";
 
 	private static final String SQL__FIND_ALL_FREE_ROOMS =
 			"SELECT * FROM rooms "
-					+ "JOIN room_class ON rooms.room_class_id = room_class.id "
-					+ "JOIN room_status ON rooms.room_status_id = room_status.id "
+					+ "JOIN room_class ON rooms.room_class_id = room_class.room_class_id "
+					+ "JOIN room_status ON rooms.room_status_id = room_status.room_status_id "
 					+ "WHERE rooms.room_status_id IN "
-						+ "(SELECT room_status.id FROM room_status WHERE room_status_title='free')";
+						+ "(SELECT room_status.room_status_id FROM room_status WHERE room_status.room_status_title='free')";
 
 	private static final String SQL__FIND_ROOMS_BY_PRICE_BETWEEN =
 			"SELECT * FROM rooms "
-					+ "JOIN room_class ON rooms.room_class_id = room_class.id "
-					+ "JOIN room_status ON rooms.room_status_id = room_status.id "
-					+ "WHERE price BETWEEN ? AND ?";
+					+ "JOIN room_class ON rooms.room_class_id = room_class.room_class_id "
+					+ "JOIN room_status ON rooms.room_status_id = room_status.room_status_id "
+					+ "WHERE rooms.price BETWEEN ? AND ?";
 
 	private static final String SQL__FIND_ROOMS_BY_STATUS =
 			"SELECT * FROM rooms "
-					+ "JOIN room_class ON rooms.room_class_id = room_class.id "
-					+ "WHERE room_status_id "
-						+ "IN (SELECT id FROM room_status WHERE room_status_title=?)";
+					+ "JOIN room_class ON rooms.room_class_id = room_class.room_class_id "
+					+ "WHERE rooms.room_status_id "
+						+ "IN (SELECT room_status.room_status_id FROM room_status WHERE room_status.room_status_title=?)";
 
 	private static final String SQL__FIND_ROOMS_BY_CLASS =
 			"SELECT * FROM rooms "
-					+ "JOIN room_status ON rooms.room_status_id = room_status.id "
-					+ "WHERE room_class_id "
-						+ "IN (SELECT id FROM room_class WHERE room_class_title=?)";
+					+ "JOIN room_status ON rooms.room_status_id = room_status.room_status_id "
+					+ "WHERE rooms.room_class_id IN "
+						+ "(SELECT room_class.room_class_id FROM room_class WHERE room_class.room_class_title=?)";
 
 	private static final String SQL__FIND_FILTERED_ROOMS =
 			"SELECT * FROM rooms "
-					+ "WHERE "
-							+ "capacity IN (?, ?, ?) "
-					+ "AND "
-							+ "room_class_id IN (SELECT id FROM room_class WHERE room_class_title=?) "
-					+ "AND "
-							+ "room_status_id IN (SELECT id FROM room_status WHERE room_status_title=?)";
+					+ "WHERE capacity IN (?, ?, ?) "
+					+ "AND rooms.room_class_id IN "
+						+ "(SELECT room_class.room_class_id FROM room_class WHERE room_class.room_class_title=?) "
+					+ "AND rooms.room_status_id IN "
+						+ "(SELECT room_status.room_status_id FROM room_status WHERE room_status.room_status_title=?)";
 
 	private static final String SQL__CREATE_ROOM =
-			"INSERT INTO rooms "
-					+ "(number, capacity, price, room_class_id, room_status_id) "
-					+ "VALUES "
-					+ "(?, ?, ?, "
-						+ "(SELECT id FROM room_class WHERE room_class_title=?), "
-						+ "(SELECT id FROM room_status WHERE room_status_title=?))";
+			"INSERT INTO rooms (rooms.number, rooms.capacity, rooms.price, rooms.room_class_id, rooms.room_status_id) "
+					+ "VALUES (?, ?, ?, "
+						+ "(SELECT room_class.room_class_id FROM room_class WHERE room_class.room_class_title=?), "
+						+ "(SELECT room_status.room_status_id FROM room_status WHERE room_status.room_status_title=?))";
 
 	private static final String SQL__UPDATE_ROOM =
 			"UPDATE rooms "
-					+ "SET number=?, "
-						+ "capacity=?, "
-						+ "price=?, "
-						+ "room_class_id=(SELECT id FROM room_class WHERE room_class_title=?), "
-						+ "room_status_id=(SELECT id FROM room_status WHERE room_status_title=?) "
-					+ "WHERE rooms.id=?";
+					+ "SET rooms.number=?, "
+						+ "rooms.capacity=?, "
+						+ "rooms.price=?, "
+						+ "rooms.room_class_id=(SELECT room_class.room_class_id FROM room_class WHERE room_class.room_class_title=?), "
+						+ "rooms.room_status_id=(SELECT room_status.room_status_id FROM room_status WHERE room_status.room_status_title=?) "
+					+ "WHERE rooms.room_id=?";
 
 	private static final String SQL__CREATE_DESCRIPTION =
-			"INSERT INTO descriptions (locale_name, description, room_id) VALUES (?, ?, ?)";
+			"INSERT INTO descriptions (descriptions.locale_name, descriptions.description, descriptions.room_id) "
+						+ "VALUES (?, ?, ?)";
 
 	private static final String SQL__UPDATE_DESCRIPTION =
 			"UPDATE descriptions "
-					+ "SET description=? "
+					+ "SET descriptions.description=? "
 					+ "WHERE descriptions.room_id=? AND descriptions.locale_name=?";
 
 	private static final String SQL__FIND_ROOM_DESCRIPTIONS =
 			"SELECT * FROM descriptions WHERE descriptions.room_id=?";
 
 	private static final String SQL__FIND_MAX_FREE_ROOM_CAPACITY =
-			"SELECT MAX(capacity) AS capacity FROM rooms "
-					+ "WHERE room_status_id IN "
-						+ "(SELECT id FROM room_status WHERE room_status_title='free')";
+			"SELECT MAX(rooms.capacity) AS capacity FROM rooms";
 
 
     /**
@@ -247,7 +243,6 @@ public class RoomDAO implements EntityMapper<Room>{
 		}
 		return rooms;
 	}
-
 
 	/**
      * Returns list of all free rooms.
@@ -416,7 +411,7 @@ public class RoomDAO implements EntityMapper<Room>{
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Room room = new Room();
-				room.setId(rs.getLong(Fields.ENTITY__ID));
+				room.setId(rs.getLong(Fields.ROOM__ROOM_ID));
 				room.setNumber(rs.getInt(Fields.ROOM__NUMBER));
 				room.setCapacity(rs.getInt(Fields.ROOM__CAPACITY));
 				room.setPrice(rs.getInt(Fields.ROOM__PRICE));
@@ -646,7 +641,7 @@ public class RoomDAO implements EntityMapper<Room>{
 	public Room mapRow(ResultSet rs) {
 		try {
 			Room room = new Room();
-			room.setId(rs.getLong(Fields.ENTITY__ID));
+			room.setId(rs.getLong(Fields.ROOM__ROOM_ID));
 			room.setNumber(rs.getInt(Fields.ROOM__NUMBER));
 			room.setCapacity(rs.getInt(Fields.ROOM__CAPACITY));
 			room.setPrice(rs.getInt(Fields.ROOM__PRICE));
@@ -667,7 +662,7 @@ public class RoomDAO implements EntityMapper<Room>{
         public Description mapRow(ResultSet rs) {
             try {
             	Description description = new Description();
-            	description.setId(rs.getLong(Fields.ENTITY__ID));
+            	description.setId(rs.getLong(Fields.DESCRIPTION__DESCRIPTION_ID));
             	description.setLocaleName(rs.getString(Fields.DESCRIPTION__LOCALE_NAME));
             	description.setDescription(rs.getString(Fields.DESCRIPTION__DESCRIPTION));
             	description.setRoomId(rs.getLong(Fields.DESCRIPTION__ROOM_ID));
