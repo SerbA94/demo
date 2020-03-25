@@ -116,7 +116,7 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 			con = DBManager.getInstance().getConnection();
 			pstmt = con.prepareStatement(SQL__DELETE_BOOKING_REQUEST);
 			pstmt.setLong(1, bookingRequest.getId());
-			pstmt.executeQuery();
+			pstmt.execute();
 			pstmt.close();
 		} catch (SQLException ex) {
 			DBManager.getInstance().rollbackAndClose(con);

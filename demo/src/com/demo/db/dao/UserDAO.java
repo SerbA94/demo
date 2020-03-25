@@ -23,17 +23,17 @@ public class UserDAO implements EntityMapper<User> {
 	private static final String SQL__FIND_USER_BY_LOGIN =
 			"SELECT * FROM users "
 					+ "JOIN roles ON users.role_id = roles.id "
-					+ "WHERE login=?";
+					+ "WHERE users.login=?";
 
 	private static final String SQL__FIND_USER_BY_EMAIL =
 			"SELECT * FROM users "
 					+ "JOIN roles ON users.role_id = roles.id "
-					+ "WHERE email=?";
+					+ "WHERE users.email=?";
 
 	private static final String SQL__FIND_USER_BY_ID =
 			"SELECT * FROM users "
 					+ "JOIN roles ON users.role_id = roles.id "
-					+ "WHERE id=?";
+					+ "WHERE users.id=?";
 
 	private static final String SQL_UPDATE_USER =
 			"UPDATE users "

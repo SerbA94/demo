@@ -97,6 +97,7 @@
 			<param-value>
 				view-booking-request-list
 				view-booking-request
+				create-booking
 			</param-value>
 		</init-param>
 		<init-param>

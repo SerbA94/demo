@@ -33,6 +33,10 @@
 							<input type="hidden" name="command" value="create-booking" />
 							<input type="hidden" name="dateIn" value="${bookingRequest.dateIn}" />
 							<input type="hidden" name="dateOut" value="${bookingRequest.dateOut}" />
+							<input type="hidden" name="user_id" value="${bookingRequest.user.id}" />
+							<input type="hidden" name="booking_request_id" value="${bookingRequest.id}" />
+
+
 
 							<table border="1">
 							    <tr>

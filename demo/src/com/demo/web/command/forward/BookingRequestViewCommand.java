@@ -54,8 +54,6 @@ public class BookingRequestViewCommand extends Command {
 		List<Room> rooms = new RoomDAO().findFreeFilteredRooms(
 				bookingRequest.getCapacity(), (RoomClass)bookingRequest.getRoomClass().toArray()[0]);
 		log.trace("Rooms sent on view : rooms --> " + rooms);
-
-		log.trace("Booking request sent on view : bookingRequest --> " + bookingRequest);
 		request.setAttribute("bookingRequest", bookingRequest);
 		request.setAttribute("rooms", rooms);
 		log.debug("Command finished");

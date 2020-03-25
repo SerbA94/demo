@@ -1,6 +1,7 @@
 package com.demo.web.command.redirect;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Set;
@@ -13,9 +14,11 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import com.demo.db.dao.BookingDAO;
+import com.demo.db.dao.BookingRequestDAO;
 import com.demo.db.dao.RoomDAO;
 import com.demo.db.dao.UserDAO;
 import com.demo.db.entity.Booking;
+import com.demo.db.entity.BookingRequest;
 import com.demo.db.entity.BookingStatus;
 import com.demo.db.entity.Role;
 import com.demo.db.entity.Room;
@@ -48,6 +51,7 @@ public class BookingCreateCommand extends Command implements Redirector {
 		Role userRole = (Role) loggedUser.getRole().toArray()[0];
 
 		if(userRole.equals(Role.MANAGER)) {
+
 			bookingStatus = Collections.singleton(BookingStatus.UNCONFIRMED);
 			Long userId = null;
 			try {
@@ -56,6 +60,7 @@ public class BookingCreateCommand extends Command implements Redirector {
 			} catch (NumberFormatException e) {
 				log.trace("User id from request --> " + userId);
 			}
+
 			if(user == null) {
 				errorMessage = "No user with id : id --> " + userId;
 				log.error("errorMessage --> " + errorMessage);
@@ -63,6 +68,21 @@ public class BookingCreateCommand extends Command implements Redirector {
 				redirect = Path.COMMAND__VIEW_ERROR;
 				return redirect;
 			}
+
+			Long bookingRequestId = null;
+			try {
+				bookingRequestId = Long.parseLong(request.getParameter("booking_request_id"));
+				BookingRequest bookingRequest = new BookingRequest();
+				bookingRequest.setId(bookingRequestId);
+				new BookingRequestDAO().deleteBookingRequest(bookingRequest);
+			} catch (NumberFormatException e) {
+				errorMessage = "Invalid booking request id : id --> " + bookingRequestId;
+				log.error("errorMessage --> " + errorMessage);
+				request.setAttribute("errorMessage", errorMessage);
+				redirect = Path.COMMAND__VIEW_ERROR;
+				return redirect;
+			}
+			redirect = Path.COMMAND__VIEW_BOOKING_REQUEST_LIST;
 		}else {
 			bookingStatus = Collections.singleton(BookingStatus.NOT_PAID);
 			user = loggedUser;
