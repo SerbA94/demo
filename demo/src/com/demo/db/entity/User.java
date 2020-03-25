@@ -113,8 +113,7 @@ public class User extends Entity {
 
 	@Override
 	public String toString() {
-		return "User [login=" + login + ", email=" + email + ", role="
-					+ role.toString() + "]" + System.lineSeparator();
+		return "User [login=" + login + ", email=" + email + ", role=" + role.toString() + "]";
 	}
 
 	@Override

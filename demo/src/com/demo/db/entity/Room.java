@@ -111,8 +111,7 @@ public class Room extends Entity {
 	public String toString() {
 		return "Room [number=" + number + ", capacity=" + capacity
 				+ ", price=" + price + ", images=" + images
-				+ ", roomStatus=" + roomStatus + ", roomClass="
-				+ roomClass + "]" + System.lineSeparator();
+				+ ", roomStatus=" + roomStatus + ", roomClass="+ roomClass + "]";
 	}
 
 	@Override
