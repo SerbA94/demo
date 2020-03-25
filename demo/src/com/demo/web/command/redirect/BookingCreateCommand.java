@@ -75,7 +75,7 @@ public class BookingCreateCommand extends Command implements Redirector {
 				BookingRequest bookingRequest = new BookingRequest();
 				bookingRequest.setId(bookingRequestId);
 				new BookingRequestDAO().deleteBookingRequest(bookingRequest);
-			} catch (NumberFormatException e) {
+			} catch (NumberFormatException | SQLException e) {
 				errorMessage = "Invalid booking request id : id --> " + bookingRequestId;
 				log.error("errorMessage --> " + errorMessage);
 				request.setAttribute("errorMessage", errorMessage);

@@ -36,8 +36,6 @@
 							<input type="hidden" name="user_id" value="${bookingRequest.user.id}" />
 							<input type="hidden" name="booking_request_id" value="${bookingRequest.id}" />
 
-
-
 							<table border="1">
 							    <tr>
 							    	<th>Image</th>

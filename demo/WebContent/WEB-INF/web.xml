@@ -98,6 +98,7 @@
 				view-booking-request-list
 				view-booking-request
 				create-booking
+				delete-booking-request
 			</param-value>
 		</init-param>
 		<init-param>
