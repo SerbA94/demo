@@ -37,23 +37,22 @@ public class RoomCreateViewCommand extends Command {
 		User user = (User) session.getAttribute("user");
 		log.trace("user from session --> " + user);
 
-		if(user != null) {
-			Role userRole = (Role) user.getRole().toArray()[0];
-			log.trace("userRole --> " + userRole);
+		Role userRole = (Role) user.getRole().toArray()[0];
+		log.trace("userRole --> " + userRole);
 
-			if (userRole == Role.ADMIN) {
-				List<RoomStatus> roomStatuses = new RoomStatusDAO().findAllRoomStatuses();
-				log.trace("roomStatuses sent on view --> " + roomStatuses);
-				request.setAttribute("roomStatuses", roomStatuses);
+		if (userRole == Role.ADMIN) {
+			List<RoomStatus> roomStatuses = new RoomStatusDAO().findAllRoomStatuses();
+			log.trace("roomStatuses sent on view --> " + roomStatuses);
+			request.setAttribute("roomStatuses", roomStatuses);
 
-				List<RoomClass> roomClasses = new RoomClassDAO().findAllRoomClasses();
-				log.trace("roomClasses sent on view --> " + roomClasses);
-				request.setAttribute("roomClasses", roomClasses);
+			List<RoomClass> roomClasses = new RoomClassDAO().findAllRoomClasses();
+			log.trace("roomClasses sent on view --> " + roomClasses);
+			request.setAttribute("roomClasses", roomClasses);
 
-				log.debug("Command finished");
-				return Path.PAGE__ADMIN_ROOM_CREATE;
-			}
+			log.debug("Command finished");
+			return Path.PAGE__ADMIN_ROOM_CREATE;
 		}
+
 		errorMessage = "You do not have permission to access the requested resource.";
 		request.setAttribute("errorMessage", errorMessage);
 		log.error("errorMessage --> " + errorMessage);
