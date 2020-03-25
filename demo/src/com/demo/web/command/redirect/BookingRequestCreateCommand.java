@@ -85,8 +85,11 @@ public class BookingRequestCreateCommand extends Command implements Redirector {
 			return redirect;
 		}
 
-		if(dateIn.after(dateOut) || dateIn.equals(dateOut)) {
-			errorMessage = "DateOut cant be less then or equal dateIn.";
+		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+		if(dateIn.after(dateOut) || dateIn.equals(dateOut) ||
+				currentDate.after(dateIn) || currentDate.equals(dateIn) ) {
+			errorMessage = "DateOut cant be less then or equal dateIn,"
+							+ " dateIn cant be less then or equal current date";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
 			redirect = Path.COMMAND__VIEW_ERROR;
