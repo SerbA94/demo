@@ -32,7 +32,7 @@ public class BillMailCommand extends Command implements Redirector {
 		String redirect = Path.COMMAND__VIEW_ACCOUNT;
 
 		User user = (User)request.getSession().getAttribute("user");
-		log.trace("user from session --> " + user);
+		//log.trace("user from session --> " + user);
 
 		Long bookingId = null;
 		Booking booking = null;
