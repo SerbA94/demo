@@ -29,7 +29,7 @@ import com.demo.db.entity.User;
  */
 public class BookingDAO implements EntityMapper<Booking> {
 
-	private static final String SELECT_WITH_JOINS =
+	private static final String SELECT_ALL_WITH_JOINS =
 			"SELECT * FROM bookings "
 					+ "JOIN booking_status ON bookings.booking_status_id = booking_status.booking_status_id "
 					+ "JOIN users ON bookings.user_id = users.user_id "
@@ -38,24 +38,24 @@ public class BookingDAO implements EntityMapper<Booking> {
 					+ "JOIN room_class ON rooms.room_class_id = room_class.room_class_id "
 					+ "JOIN room_status ON rooms.room_status_id = room_status.room_status_id";
 
-	private static final String SQL__FIND_ALL_BOOKINGS = SELECT_WITH_JOINS;
+	private static final String SQL__FIND_ALL_BOOKINGS = SELECT_ALL_WITH_JOINS;
 
-	private static final String SQL__FIND_BOOKING_BY_ID = SELECT_WITH_JOINS
+	private static final String SQL__FIND_BOOKING_BY_ID = SELECT_ALL_WITH_JOINS
 					+ " WHERE bookings.booking_id=?";
 
-	private static final String SQL__FIND_BOOKINGS_BY_USER_ID = SELECT_WITH_JOINS
+	private static final String SQL__FIND_BOOKINGS_BY_USER_ID = SELECT_ALL_WITH_JOINS
 					+ " WHERE bookings.user_id=?";
 
-	private static final String SQL__FIND_BOOKINGS_BY_ROOM_ID = SELECT_WITH_JOINS
+	private static final String SQL__FIND_BOOKINGS_BY_ROOM_ID = SELECT_ALL_WITH_JOINS
 					+ " WHERE bookings.room_id=?";
 
-	private static final String SQL__FIND_BOOKINGS_BY_DATE_IN = SELECT_WITH_JOINS
+	private static final String SQL__FIND_BOOKINGS_BY_DATE_IN = SELECT_ALL_WITH_JOINS
 					+ " WHERE bookings.date_in=?";
 
-	private static final String SQL__FIND_BOOKINGS_BY_DATE_OUT = SELECT_WITH_JOINS
+	private static final String SQL__FIND_BOOKINGS_BY_DATE_OUT = SELECT_ALL_WITH_JOINS
 					+ " WHERE bookings.date_out=?";
 
-	private static final String SQL__FIND_BOOKINGS_BY_DATE_OF_BOOKING = SELECT_WITH_JOINS
+	private static final String SQL__FIND_BOOKINGS_BY_DATE_OF_BOOKING = SELECT_ALL_WITH_JOINS
 					+ " WHERE bookings.date_of_booking=?";
 
 	private static final String SQL__FIND_BOOKINGS_BY_BOOKING_STATUS =

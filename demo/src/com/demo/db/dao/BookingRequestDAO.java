@@ -24,26 +24,19 @@ import com.demo.db.entity.User;
  */
 public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 
-	private static final String SQL__FIND_BOOKING_REQUEST_BY_ID =
-			"SELECT * FROM booking_requests "
-					+ "JOIN room_class ON booking_requests.room_class_id = room_class.room_class_id "
-					+ "JOIN users ON booking_requests.user_id = users.user_id "
-					+ "JOIN roles ON users.role_id = roles.role_id "
-					+ "WHERE booking_requests.booking_request_id=?";
-
-	private static final String SQL__FIND_BOOKING_REQUEST_BY_USER_ID =
-			"SELECT * FROM booking_requests "
-					+ "JOIN room_class ON booking_requests.room_class_id = room_class.room_class_id "
-					+ "JOIN users ON booking_requests.user_id = users.user_id "
-					+ "JOIN roles ON users.role_id = roles.role_id "
-					+ "WHERE booking_requests.user_id=?";
-
-
-	private static final String SQL__FIND_ALL_BOOKING_REQUESTS =
+	private static final String SELECT_ALL_WITH_JOINS =
 			"SELECT * FROM booking_requests "
 					+ "JOIN room_class ON booking_requests.room_class_id = room_class.room_class_id "
 					+ "JOIN users ON booking_requests.user_id = users.user_id "
 					+ "JOIN roles ON users.role_id = roles.role_id";
+
+	private static final String SQL__FIND_ALL_BOOKING_REQUESTS = SELECT_ALL_WITH_JOINS;
+
+	private static final String SQL__FIND_BOOKING_REQUEST_BY_ID = SELECT_ALL_WITH_JOINS
+					+ " WHERE booking_requests.booking_request_id=?";
+
+	private static final String SQL__FIND_BOOKING_REQUEST_BY_USER_ID = SELECT_ALL_WITH_JOINS
+					+ " WHERE booking_requests.user_id=?";
 
 	private static final String SQL__DELETE_BOOKING_REQUEST =
 			"DELETE FROM booking_requests WHERE booking_requests.booking_request_id=?";

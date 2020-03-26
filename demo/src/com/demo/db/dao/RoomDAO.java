@@ -26,42 +26,29 @@ import com.demo.db.entity.RoomStatus;
  */
 public class RoomDAO implements EntityMapper<Room>{
 
-	private static final String SQL__FIND_ROOM_BY_ID =
-			"SELECT * FROM rooms "
-					+ "JOIN room_class ON rooms.room_class_id = room_class.room_class_id "
-					+ "JOIN room_status ON rooms.room_status_id = room_status.room_status_id "
-					+ "WHERE rooms.room_id=?";
-
-	private static final String SQL__FIND_ROOM_BY_NUMBER =
-			"SELECT * FROM rooms "
-					+ "JOIN room_class ON rooms.room_class_id = room_class.room_class_id "
-					+ "JOIN room_status ON rooms.room_status_id = room_status.oom_status_id "
-					+ "WHERE rooms.number=?";
-
-	private static final String SQL__FIND_ALL_ROOMS =
+	private static final String SELECT_ALL_WITH_JOINS =
 			"SELECT * FROM rooms "
 					+ "JOIN room_class ON rooms.room_class_id = room_class.room_class_id "
 					+ "JOIN room_status ON rooms.room_status_id = room_status.room_status_id";
 
-	private static final String SQL__FIND_ALL_ACCESSIBLE_ROOMS =
-			"SELECT * FROM rooms "
-					+ "JOIN room_class ON rooms.room_class_id = room_class.room_class_id "
-					+ "JOIN room_status ON rooms.room_status_id = room_status.room_status_id "
-					+ "WHERE rooms.room_status_id NOT IN "
-						+ "(SELECT room_status.room_status_id FROM room_status WHERE room_status.room_status_title='inaccessible')";
+	private static final String SQL__FIND_ALL_ROOMS = SELECT_ALL_WITH_JOINS;
 
-	private static final String SQL__FIND_ALL_FREE_ROOMS =
-			"SELECT * FROM rooms "
-					+ "JOIN room_class ON rooms.room_class_id = room_class.room_class_id "
-					+ "JOIN room_status ON rooms.room_status_id = room_status.room_status_id "
-					+ "WHERE rooms.room_status_id IN "
-						+ "(SELECT room_status.room_status_id FROM room_status WHERE room_status.room_status_title='free')";
+	private static final String SQL__FIND_ROOM_BY_ID = SELECT_ALL_WITH_JOINS + " WHERE rooms.room_id=?";
 
-	private static final String SQL__FIND_ROOMS_BY_PRICE_BETWEEN =
-			"SELECT * FROM rooms "
-					+ "JOIN room_class ON rooms.room_class_id = room_class.room_class_id "
-					+ "JOIN room_status ON rooms.room_status_id = room_status.room_status_id "
-					+ "WHERE rooms.price BETWEEN ? AND ?";
+	private static final String SQL__FIND_ROOM_BY_NUMBER = SELECT_ALL_WITH_JOINS + " WHERE rooms.number=?";
+
+	private static final String SQL__FIND_ALL_ACCESSIBLE_ROOMS = SELECT_ALL_WITH_JOINS
+					+ " WHERE rooms.room_status_id NOT IN "
+						+ "(SELECT room_status.room_status_id "
+							+ "FROM room_status WHERE room_status.room_status_title='inaccessible')";
+
+	private static final String SQL__FIND_ALL_FREE_ROOMS = SELECT_ALL_WITH_JOINS
+					+ " WHERE rooms.room_status_id IN "
+						+ "(SELECT room_status.room_status_id "
+							+ "FROM room_status WHERE room_status.room_status_title='free')";
+
+	private static final String SQL__FIND_ROOMS_BY_PRICE_BETWEEN = SELECT_ALL_WITH_JOINS
+					+ " WHERE rooms.price BETWEEN ? AND ?";
 
 	private static final String SQL__FIND_ROOMS_BY_STATUS =
 			"SELECT * FROM rooms "
