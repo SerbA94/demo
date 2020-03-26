@@ -21,17 +21,15 @@
 				<div><span>Price </span><span>${room.price}</span></div>
 				<div><span>Class </span><span>${room.roomClass.toArray()[0].title}</span></div>
 				<div><span>Description </span><br/><span>${description}</span></div>
-				<div><a href="controller?command=view-booking-create&room_id=${room.id}"><span>book</span></a></div>
+
+				<c:if test="${room.roomStatus.toArray()[0].title eq 'free'}">
+					<div><a href="controller?command=view-booking-create&room_id=${room.id}"><span>book</span></a></div>
+				</c:if>
 				<div>
 					<c:forEach var="image" items="${room.images}">
 					<div><img src="controller?command=view-image&image_id=${image.id}" class="img"></div>
 					</c:forEach>
 				</div>
-
-
-
-
-
 			</td>
 		</tr>
 		<%@ include file="/WEB-INF/jspf/footer.jspf"%>

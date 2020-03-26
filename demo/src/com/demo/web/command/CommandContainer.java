@@ -28,6 +28,7 @@ import com.demo.web.command.redirect.ActivationMailCommand;
 import com.demo.web.command.redirect.BillMailCommand;
 import com.demo.web.command.redirect.BookingConfirmCommand;
 import com.demo.web.command.redirect.BookingCreateCommand;
+import com.demo.web.command.redirect.BookingDeleteCommand;
 import com.demo.web.command.redirect.BookingRequestCreateCommand;
 import com.demo.web.command.redirect.BookingRequestDeleteCommand;
 import com.demo.web.command.redirect.ImageDeleteCommand;
@@ -65,9 +66,7 @@ public class CommandContainer {
 		commands.put("create-booking", new BookingCreateCommand());
 		commands.put("bill-mail", new BillMailCommand());
 		commands.put("confirm-booking", new BookingConfirmCommand());
-
-
-
+		commands.put("delete-booking", new BookingDeleteCommand());
 
 		// view commands
 		commands.put("view-activation", new ActivationViewCommand());
@@ -94,7 +93,7 @@ public class CommandContainer {
 	public static Command get(String commandName) {
 		if (commandName == null || !commands.containsKey(commandName)) {
 			log.trace("Command not found, name --> " + commandName);
-			return commands.get("noCommand");
+			return commands.get("no-command");
 		}
 		return commands.get(commandName);
 	}

@@ -18,6 +18,8 @@
 				<div><h1><span>User account page</span></h1></div>
 
 				<c:if test="${not empty bookingRequests}">
+					<div><h1><span>User booking requests</span></h1></div>
+
 					<table border="1">
 						<tr>
 							<th>Booking request number</th>
@@ -37,7 +39,48 @@
 						</c:forEach>
 					</table>
 				</c:if>
-				<c:if test="${not empty bookings}">
+
+				<c:if test="${not empty activeBookings}">
+					<div><h1><span>User active bookings</span></h1></div>
+
+					<table border="1">
+						<tr>
+							<th>Booking number</th>
+						    <th>Image</th>
+						    <th>Room number</th>
+						    <th>Room capacity</th>
+						    <th>Room class</th>
+						    <th>Total booking days</th>
+						    <th>Price</th>
+						    <th>Total price </th>
+						    <th>Date in</th>
+						    <th>Date out</th>
+						</tr>
+						<c:forEach var="booking" items="${activeBookings}">
+							<tr>
+								<td align="center">${booking.id}</td>
+
+								<td align="center"><img src="controller?command=view-image&image_id=${booking.room.images[0].id}" class="img-table"></td>
+								<td align="center">${booking.room.number}<br/>
+									<a href="controller?command=view-room&room_id=${booking.room.id}"><span>room details</span></a>
+								</td>
+								<td align="center">${booking.room.capacity}</td>
+								<td align="center">${booking.room.roomClass.toArray()[0].title}</td>
+
+								<td align="center">${booking.getTotalBookingDays()}</td>
+								<td align="center">${booking.room.price}</td>
+								<td align="center">${booking.getTotalPrice()}</td>
+
+							    <td align="center">${booking.dateIn}</td>
+							    <td align="center">${booking.dateOut}</td>
+							</tr>
+						</c:forEach>
+					</table>
+				</c:if>
+
+				<c:if test="${not empty handlingBookings}">
+					<div><h1><span>User handling booking</span></h1></div>
+
 					<table border="1">
 						<tr>
 							<th>Booking number</th>
@@ -53,14 +96,16 @@
 						    <th>Date of booking</th>
 						    <th>Booking status</th>
 						    <th></th>
-
+						    <th></th>
 						</tr>
-						<c:forEach var="booking" items="${bookings}">
+						<c:forEach var="booking" items="${handlingBookings}">
 							<tr>
 								<td align="center">${booking.id}</td>
 
 								<td align="center"><img src="controller?command=view-image&image_id=${booking.room.images[0].id}" class="img-table"></td>
-								<td align="center">${booking.room.number}</td>
+								<td align="center">${booking.room.number}<br/>
+									<a href="controller?command=view-room&room_id=${booking.room.id}"><span>room details</span></a>
+								</td>
 								<td align="center">${booking.room.capacity}</td>
 								<td align="center">${booking.room.roomClass.toArray()[0].title}</td>
 
@@ -72,17 +117,19 @@
 							    <td align="center">${booking.dateOut}</td>
 							   	<td align="center">${booking.dateOfBooking}</td>
 							   	<td align="center">${booking.bookingStatus.toArray()[0].title}</td>
-
-							   <td align="center">
+								<td align="center">
+									<div><span>
 							   		<c:choose>
 										<c:when test="${booking.bookingStatus.toArray()[0].title eq 'unconfirmed'}">
-											<div><span><a href="controller?command=confirm-booking&booking_id=${booking.id}">confirm</a></span></div>
+											<a href="controller?command=confirm-booking&booking_id=${booking.id}">confirm</a>
 										</c:when>
 										<c:when test="${booking.bookingStatus.toArray()[0].title ne 'unconfirmed'}">
-											<div><span>see bill</span></div>
+											<a href="#">see bill</a>
 										</c:when>
 									</c:choose>
+									</span></div>
 								</td>
+								<td align="center"><div><span><a href="controller?command=delete-booking&booking_id=${booking.id}">reject</a></span></div></td>
 							</tr>
 						</c:forEach>
 					</table>

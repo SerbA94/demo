@@ -46,6 +46,18 @@ public class BookingDAO implements EntityMapper<Booking> {
 	private static final String SQL__FIND_BOOKINGS_BY_USER_ID = SELECT_ALL_WITH_JOINS
 					+ " WHERE bookings.user_id=?";
 
+	private static final String SQL__FIND_ACTIVE_BOOKINGS_BY_USER_ID = SELECT_ALL_WITH_JOINS
+			+ " WHERE bookings.user_id=? AND bookings.booking_status_id IN "
+				+ "(SELECT booking_status.booking_status_id FROM booking_status "
+					+ "WHERE booking_status.booking_status_title='active')";
+
+	private static final String SQL__FIND_HANDLING_BOOKINGS_BY_USER_ID = SELECT_ALL_WITH_JOINS
+			+ " WHERE bookings.user_id=?"
+			+ " AND bookings.booking_status_id IN ("
+				+ "SELECT booking_status.booking_status_id "
+			    + "FROM booking_status "
+				+ "WHERE booking_status.booking_status_title IN ('not paid','unconfirmed'))";
+
 	private static final String SQL__FIND_BOOKINGS_BY_ROOM_ID = SELECT_ALL_WITH_JOINS
 					+ " WHERE bookings.room_id=?";
 
@@ -77,6 +89,11 @@ public class BookingDAO implements EntityMapper<Booking> {
 					+ "VALUES (?, ?, ?, ?, ?, "
 						+ "(SELECT booking_status.booking_status_id FROM booking_status "
 							+ "WHERE booking_status.booking_status_title=?))";
+
+	private static final String SQL__DELETE_BOOKING =
+			"DELETE FROM bookings WHERE bookings.booking_id=?";
+
+
 
 
     /**
@@ -269,6 +286,78 @@ public class BookingDAO implements EntityMapper<Booking> {
 	}
 
 	/**
+     * Returns active bookings of the given user.
+     *
+     * @param user
+     *            User entity.
+     * @return List of booking entities.
+     */
+	public List<Booking> findActiveBookingsByUser(User user) {
+		List<Booking> bookings = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		try {
+			con = DBManager.getInstance().getConnection();
+			pstmt = con.prepareStatement(SQL__FIND_ACTIVE_BOOKINGS_BY_USER_ID);
+			pstmt.setLong(1, user.getId());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Booking booking = mapRow(rs);
+				Room room = booking.getRoom();
+				List<Image> images = new ImageDAO().findRoomImages(booking.getRoom());
+				room.setImages(images);
+				booking.setRoom(room);
+				bookings.add(booking);
+			}
+			rs.close();
+			pstmt.close();
+		} catch (SQLException ex) {
+			DBManager.getInstance().rollbackAndClose(con);
+			ex.printStackTrace();
+		} finally {
+			DBManager.getInstance().commitAndClose(con);
+		}
+		return bookings;
+	}
+
+	/**
+     * Returns handling bookings of the given user.
+     *
+     * @param user
+     *            User entity.
+     * @return List of booking entities.
+     */
+	public List<Booking> findHandlingBookingsByUser(User user) {
+		List<Booking> bookings = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		try {
+			con = DBManager.getInstance().getConnection();
+			pstmt = con.prepareStatement(SQL__FIND_HANDLING_BOOKINGS_BY_USER_ID);
+			pstmt.setLong(1, user.getId());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Booking booking = mapRow(rs);
+				Room room = booking.getRoom();
+				List<Image> images = new ImageDAO().findRoomImages(booking.getRoom());
+				room.setImages(images);
+				booking.setRoom(room);
+				bookings.add(booking);
+			}
+			rs.close();
+			pstmt.close();
+		} catch (SQLException ex) {
+			DBManager.getInstance().rollbackAndClose(con);
+			ex.printStackTrace();
+		} finally {
+			DBManager.getInstance().commitAndClose(con);
+		}
+		return bookings;
+	}
+
+	/**
      * Returns bookings of the given room.
      *
      * @param room
@@ -433,6 +522,34 @@ public class BookingDAO implements EntityMapper<Booking> {
 		pstmt.setLong(k, booking.getId());
 		pstmt.executeUpdate();
 		pstmt.close();
+	}
+
+	/**
+     * Delete booking.
+     *
+     * @param booking
+     *            Booking to delete.
+	 * @throws SQLException
+     */
+	public void deleteBooking(Booking booking) throws SQLException {
+		PreparedStatement pstmt = null;
+		Connection con = null;
+		Room room = booking.getRoom();
+		room.setRoomStatus(Collections.singleton(RoomStatus.FREE));
+		try {
+			con = DBManager.getInstance().getConnection();
+			pstmt = con.prepareStatement(SQL__DELETE_BOOKING);
+			pstmt.setLong(1, booking.getId());
+			pstmt.execute();
+			pstmt.close();
+			RoomDAO.updateRoom(con, room);
+		} catch (SQLException ex) {
+			DBManager.getInstance().rollbackAndClose(con);
+			ex.printStackTrace();
+			throw new SQLException();
+		} finally {
+			DBManager.getInstance().commitAndClose(con);
+		}
 	}
 
 	/**

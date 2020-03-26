@@ -35,16 +35,18 @@ public class AccountViewCommand extends Command {
 
 		BookingRequestDAO bookingRequestDAO =  new BookingRequestDAO();
 		List<BookingRequest> bookingRequests = bookingRequestDAO.findBookingRequestsByUser(user);
+		log.trace("bookingRequests size : size --> " + bookingRequests.size());
 		request.setAttribute("bookingRequests", bookingRequests);
 
-		System.out.println("=================================> "+bookingRequests);
-
 		BookingDAO bookingDAO = new BookingDAO();
-		List<Booking> bookings = bookingDAO.findBookingsByUser(user);
-		request.setAttribute("bookings", bookings);
 
-		System.out.println("=================================> "+bookings);
+		List<Booking> activeBookings = bookingDAO.findActiveBookingsByUser(user);
+		log.trace("activeBookings size : size --> " + activeBookings.size());
+		request.setAttribute("activeBookings", activeBookings);
 
+		List<Booking> handlingBookings = bookingDAO.findHandlingBookingsByUser(user);
+		log.trace("handlingBookings size : size --> " + handlingBookings.size());
+		request.setAttribute("handlingBookings", handlingBookings);
 
 		log.debug("Command finished");
 		return forward;

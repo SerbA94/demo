@@ -55,7 +55,7 @@ public class RoomViewCommand extends Command {
 		}
 
 		RoomStatus roomStatus = (RoomStatus) room.getRoomStatus().toArray()[0];
-		if(!roomStatus.equals(RoomStatus.FREE)) {
+		if(roomStatus.equals(RoomStatus.INACCESSIBLE)) {
 			errorMessage = "Room inaccesible : room number --> " + room.getNumber();
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
