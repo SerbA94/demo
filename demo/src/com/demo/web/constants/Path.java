@@ -20,6 +20,7 @@ public final class Path {
 	public static final String PAGE__CUSTOMER_BOOKING_REQUEST_CREATE = "/WEB-INF/jsp/customer/booking-request-create.jsp";
 	public static final String PAGE__CUSTOMER_BOOKING_CREATE = "/WEB-INF/jsp/customer/booking-create.jsp";
 	public static final String PAGE__CUSTOMER_ACCOUNT = "/WEB-INF/jsp/customer/account.jsp";
+	public static final String PAGE__CUSTOMER_BILL = "/WEB-INF/jsp/customer/bill.jsp";
 
 	public static final String PAGE__MANAGER_BOOKING_REQUEST = "/WEB-INF/jsp/manager/booking-request.jsp";
 	public static final String PAGE__MANAGER_BOOKING_REQUEST_LIST = "/WEB-INF/jsp/manager/booking-request-list.jsp";

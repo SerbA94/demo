@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import com.demo.web.command.forward.AccountViewCommand;
 import com.demo.web.command.forward.ActivationViewCommand;
+import com.demo.web.command.forward.BillViewCommand;
 import com.demo.web.command.forward.BookingRequestCreateViewCommand;
 import com.demo.web.command.forward.BookingRequestListViewCommand;
 import com.demo.web.command.forward.BookingRequestViewCommand;
@@ -65,6 +66,7 @@ public class CommandContainer {
 		commands.put("delete-booking-request", new BookingRequestDeleteCommand());
 		commands.put("create-booking", new BookingCreateCommand());
 		commands.put("bill-mail", new BillMailCommand());
+		commands.put("view-bill", new BillViewCommand());
 		commands.put("confirm-booking", new BookingConfirmCommand());
 		commands.put("delete-booking", new BookingDeleteCommand());
 

@@ -106,6 +106,7 @@
 			<param-value>
 				view-room-list
 				view-room
+				view-bill
 				view-booking-request-create
 				view-booking-create
 				view-account

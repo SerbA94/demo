@@ -124,7 +124,7 @@
 											<a href="controller?command=confirm-booking&booking_id=${booking.id}">confirm</a>
 										</c:when>
 										<c:when test="${booking.bookingStatus.toArray()[0].title ne 'unconfirmed'}">
-											<a href="#">see bill</a>
+											<a href="controller?command=view-bill&booking_id=${booking.id}">see bill</a>
 										</c:when>
 									</c:choose>
 									</span></div>
