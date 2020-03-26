@@ -76,6 +76,15 @@ public class Booking extends Entity {
 		}
 	}
 
+	// change to plusDays after testing
+	public Timestamp getExpiringDate() {
+
+		if(this.dateOfBooking == null){
+			return null;
+		}
+		return Timestamp.valueOf(this.dateOfBooking.toLocalDateTime().plusMinutes(5));
+	}
+
 	public User getUser() {
 		return user;
 	}

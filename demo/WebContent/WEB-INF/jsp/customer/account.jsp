@@ -94,6 +94,7 @@
 						    <th>Date in</th>
 						    <th>Date out</th>
 						    <th>Date of booking</th>
+						    <th>Expiring date</th>
 						    <th>Booking status</th>
 						    <th></th>
 						    <th></th>
@@ -116,6 +117,7 @@
 							    <td align="center">${booking.dateIn}</td>
 							    <td align="center">${booking.dateOut}</td>
 							   	<td align="center">${booking.dateOfBooking}</td>
+							   	<td align="center">${booking.getExpiringDate()}</td>
 							   	<td align="center">${booking.bookingStatus.toArray()[0].title}</td>
 								<td align="center">
 									<div><span>
