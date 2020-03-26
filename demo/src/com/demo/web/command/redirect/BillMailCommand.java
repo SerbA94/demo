@@ -32,7 +32,7 @@ public class BillMailCommand extends Command implements Redirector {
 		String redirect = Path.COMMAND__VIEW_ACCOUNT;
 
 		User user = (User)request.getSession().getAttribute("user");
-		//log.trace("user from session --> " + user);
+		log.trace("user from session --> " + user);
 
 		Long bookingId = null;
 		Booking booking = null;
@@ -41,6 +41,14 @@ public class BillMailCommand extends Command implements Redirector {
 			booking = new BookingDAO().findBookingById(bookingId);
 		} catch (NumberFormatException | SQLException e) {
 			errorMessage = "Invalid booking id : id --> " + bookingId;
+			log.error("errorMessage --> " + errorMessage);
+			request.setAttribute("errorMessage", errorMessage);
+			redirect = Path.COMMAND__VIEW_ERROR;
+			return redirect;
+		}
+		
+		if (!booking.getUser().getId().equals(user.getId())) {
+			errorMessage = "You dont have booking with id : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
 			redirect = Path.COMMAND__VIEW_ERROR;
