@@ -94,8 +94,6 @@ public class BookingDAO implements EntityMapper<Booking> {
 			"DELETE FROM bookings WHERE bookings.booking_id=?";
 
 
-
-
     /**
      * Returns booking with given id
      *
@@ -435,6 +433,8 @@ public class BookingDAO implements EntityMapper<Booking> {
 			con = DBManager.getInstance().getConnection();
 			booking = createBooking(con, booking);
 			RoomDAO.updateRoom(con, room);
+			createBookingDeleteEvent(con,booking);
+			createRoomUpdateEvent(con,booking);
 		} catch (SQLException ex) {
 			DBManager.getInstance().rollbackAndClose(con);
 			ex.printStackTrace();
@@ -491,10 +491,14 @@ public class BookingDAO implements EntityMapper<Booking> {
      * @throws SQLException
      */
 	public void updateBooking(Booking booking) throws SQLException {
+		BookingStatus bookingStatus = (BookingStatus) booking.getBookingStatus().toArray()[0];
 		Connection con = null;
 		try {
 			con = DBManager.getInstance().getConnection();
 			updateBooking(con, booking);
+			if(bookingStatus.equals(BookingStatus.ACTIVE) || bookingStatus.equals(BookingStatus.EXPIRED)) {
+				dropBookingEvents(con,booking);
+			}
 		} catch (SQLException ex) {
 			DBManager.getInstance().rollbackAndClose(con);
 			ex.printStackTrace();
@@ -543,6 +547,7 @@ public class BookingDAO implements EntityMapper<Booking> {
 			pstmt.execute();
 			pstmt.close();
 			RoomDAO.updateRoom(con, room);
+			dropBookingEvents(con, booking);
 		} catch (SQLException ex) {
 			DBManager.getInstance().rollbackAndClose(con);
 			ex.printStackTrace();
@@ -550,6 +555,79 @@ public class BookingDAO implements EntityMapper<Booking> {
 		} finally {
 			DBManager.getInstance().commitAndClose(con);
 		}
+	}
+
+	// before deploy change to : INTERVAL 2 DAYS
+	/**
+     * Create booking delete event.
+     *
+     * @param booking
+     *            Booking to delete.
+     * @param con
+     *            Connection to db.
+     * @throws SQLException
+     */
+	private void createBookingDeleteEvent(Connection con, Booking booking) throws SQLException {
+		Statement stmt = con.createStatement();
+
+		String sqlRequest =
+				"CREATE EVENT delete_booking_" + booking.getId() + "_event "
+					+ "ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 5 MINUTE "
+					+ "ON COMPLETION PRESERVE "
+					+ "DO "
+					+ "DELETE FROM bookings WHERE bookings.booking_id=" + booking.getId() + ";";
+
+		stmt.execute(sqlRequest);
+		stmt.close();
+	}
+
+	// before deploy change to : INTERVAL 2 DAYS
+	/**
+     * Create room update event.
+     *
+     * @param booking
+     *            Booking room to update.
+     * @param con
+     *            Connection to db.
+     * @throws SQLException
+     */
+	private void createRoomUpdateEvent(Connection con, Booking booking) throws SQLException {
+		Statement stmt = con.createStatement();
+
+		String sqlRequest =
+				"CREATE EVENT update_booking_" + booking.getId() + "_room_event "
+					+ "ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 5 MINUTE "
+					+ "ON COMPLETION PRESERVE "
+					+ "DO "
+					+ "UPDATE rooms "
+						+ "SET rooms.room_status_id=("
+							+ "SELECT room_status.room_status_id "
+							+ "FROM room_status "
+							+ "WHERE room_status.room_status_title='free') "
+						+ "WHERE rooms.room_id='" + booking.getRoom().getId() + "';";
+
+		stmt.execute(sqlRequest);
+		stmt.close();
+	}
+
+	/**
+     * Drops event associated with booking.
+     *
+     * @param booking
+     *            Booking of event to drop.
+     * @param con
+     *            Connection to db.
+     * @throws SQLException
+     */
+	private void dropBookingEvents(Connection con, Booking booking) throws SQLException {
+		Statement stmt = con.createStatement();
+
+		String bookingDeleteEvent = "DROP EVENT IF EXISTS delete_booking_" + booking.getId() + "_event;";
+		String roomUpdateEvent = "DROP EVENT IF EXISTS update_booking_" + booking.getId() + "_room_event;";
+
+		stmt.execute(bookingDeleteEvent);
+		stmt.execute(roomUpdateEvent);
+		stmt.close();
 	}
 
 	/**
