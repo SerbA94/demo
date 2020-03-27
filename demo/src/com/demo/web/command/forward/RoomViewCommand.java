@@ -64,7 +64,7 @@ public class RoomViewCommand extends Command {
 		}
 
 		String localeName = null;
-		if(user.getLocaleName()!=null) {
+		if(user!=null && user.getLocaleName()!=null) {
 			localeName = user.getLocaleName();
 		} else {
 			localeName = "ru";
