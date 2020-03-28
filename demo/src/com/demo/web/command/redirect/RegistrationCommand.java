@@ -26,25 +26,25 @@ public class RegistrationCommand extends Command implements Redirector {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		log.debug("Command starts");
+		log.debug("Command started.");
+
 		String redirect = Path.COMMAND__VIEW_ERROR;
 		String errorMessage = null;
 		UserDAO userDao = new UserDAO();
-		HttpSession session = request.getSession();
 
 		String login = request.getParameter("login");
 		log.trace("Request parameter: loging --> " + login);
-		if(!login.matches(Regex.LOGIN)) {
-			errorMessage = "Login must: "+System.lineSeparator()+
-							"		- starts with a letter "+System.lineSeparator()+
-							"		- ends with a letter or digit "+System.lineSeparator()+
-							"		- contain 2 - 20 characters";
+		if(login == null || login.isEmpty()) {
+			errorMessage = "Login can't be empty or null.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
 			return redirect;
 		}
-		if(userDao.findUserByLogin(login)!=null) {
-			errorMessage = "User exists";
+		if(!login.matches(Regex.LOGIN)) {
+			errorMessage = "Login must: " + System.lineSeparator() +
+							"		- starts with a letter " + System.lineSeparator() +
+							"		- ends with a letter or digit " + System.lineSeparator() +
+							"		- contain 2 - 20 characters";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
 			return redirect;
@@ -52,12 +52,26 @@ public class RegistrationCommand extends Command implements Redirector {
 
 		String email = request.getParameter("email");
 		log.trace("Request parameter: email --> " + email);
-		if(!email.matches(Regex.EMAIL)) {
-			errorMessage = "Invalid email syntaxis";
+		if(email == null || email.isEmpty()) {
+			errorMessage = "Email can't be empty or null.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
 			return redirect;
 		}
+		if(!email.matches(Regex.EMAIL)) {
+			errorMessage = "Invalid email syntaxis.";
+			request.setAttribute("errorMessage", errorMessage);
+			log.error("errorMessage --> " + errorMessage);
+			return redirect;
+		}
+
+		if(userDao.findUserByLogin(login) != null) {
+			errorMessage = "User exists";
+			request.setAttribute("errorMessage", errorMessage);
+			log.error("errorMessage --> " + errorMessage);
+			return redirect;
+		}
+
 		if(userDao.findUserByEmail(email)!=null) {
 			errorMessage = "Email exists";
 			request.setAttribute("errorMessage", errorMessage);
@@ -70,21 +84,34 @@ public class RegistrationCommand extends Command implements Redirector {
 
 		String password = request.getParameter("password");
 		log.trace("Request parameter: password --> " + password);
-
-		String passwordCheck = request.getParameter("password-check");
-		log.trace("Request parameter: passwordCheck --> " + passwordCheck);
-
-		if(!password.equals(passwordCheck)) {
-			errorMessage = "Passwords not matched";
+		if(password == null || password.isEmpty()) {
+			errorMessage = "Password can't be empty or null.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
 			return redirect;
 		}
+
+		String passwordCheck = request.getParameter("password-check");
+		log.trace("Request parameter: passwordCheck --> " + passwordCheck);
+		if(passwordCheck == null || passwordCheck.isEmpty()) {
+			errorMessage = "Password can't be empty or null.";
+			request.setAttribute("errorMessage", errorMessage);
+			log.error("errorMessage --> " + errorMessage);
+			return redirect;
+		}
+
+		if(!password.equals(passwordCheck)) {
+			errorMessage = "Passwords don't match.";
+			request.setAttribute("errorMessage", errorMessage);
+			log.error("errorMessage --> " + errorMessage);
+			return redirect;
+		}
+
 		if(!password.matches(Regex.PASSWORD)){
-			errorMessage = "Password should contain at least:"+System.lineSeparator()+
-							"		- 1 lowercase alphabetical character "+System.lineSeparator()+
-							"		- 1 uppercase alphabetical character "+System.lineSeparator()+
-							"		- 1 numeric character "+System.lineSeparator()+
+			errorMessage = "Password should contain at least : " + System.lineSeparator() +
+							"		- 1 lowercase alphabetical character " + System.lineSeparator() +
+							"		- 1 uppercase alphabetical character " + System.lineSeparator() +
+							"		- 1 numeric character " + System.lineSeparator() +
 							"		- password must contain 8 - 20 characters";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
@@ -94,20 +121,31 @@ public class RegistrationCommand extends Command implements Redirector {
 		User user = new User(login,EncodeUtil.hashSHA256(password),localeName,email,
 							 Collections.singleton(Role.INACTIVE),
 							 EncodeUtil.hashSHA256(email+login));
-		userDao.createUser(user);
 
-		log.trace("User registered:--> " + user.toString());
+		user = userDao.createUser(user);
+
+		if(user == null) {
+			errorMessage = "Registration failed, user was not created.";
+			request.setAttribute("errorMessage", errorMessage);
+			log.error("errorMessage --> " + errorMessage);
+			return redirect;
+		}
+		log.trace("User registered : id --> " + user.getId());
+
+		redirect = Path.COMMAND__ACTIVATION_MAIL;
+
+		HttpSession session = request.getSession();
 
 		session.setAttribute("user", user);
 		log.trace("Set the session attribute: user --> " + user);
 
-		session.setAttribute("userRole", Role.INACTIVE);
-		log.trace("Set the session attribute: userRole --> " + Role.INACTIVE);
+		Role userRole = (Role) user.getRole().toArray()[0];
+		session.setAttribute("userRole", userRole);
+		log.trace("Set the session attribute: userRole --> " + userRole);
 
-		log.info("User " + user + " logged as " + Role.INACTIVE);
+		log.info("User " + user + " logged as " + userRole.getTitle());
 
-		redirect = Path.COMMAND__ACTIVATION_MAIL;
+		log.debug("Command finished.");
 		return redirect;
 	}
-
 }

@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.demo.db.DBManager;
 import com.demo.db.constants.Fields;
@@ -191,26 +192,28 @@ public class UserDAO implements EntityMapper<User> {
 	}
 
 	/**
-     * Create user.
+     * Create & return created user.
      *
      * @param user
      *            User to create.
      */
-	public void createUser(User user) {
+	public User createUser(User user) {
 		Connection con = null;
+		User createdUser = null;
 		try {
 			con = DBManager.getInstance().getConnection();
-			createUser(con, user);
+			createdUser = createUser(con, user);
 		} catch (SQLException ex) {
 			DBManager.getInstance().rollbackAndClose(con);
 			ex.printStackTrace();
 		} finally {
 			DBManager.getInstance().commitAndClose(con);
 		}
+		return createdUser;
 	}
 
 	/**
-     * Create user.
+     * Create & return created user.
      *
      * @param user
      *            User to create.
@@ -218,8 +221,8 @@ public class UserDAO implements EntityMapper<User> {
      *            Connection to db.
      * @throws SQLException
      */
-	private void createUser(Connection con, User user) throws SQLException {
-		PreparedStatement pstmt = con.prepareStatement(SQL_CREATE_USER);
+	private User createUser(Connection con, User user) throws SQLException {
+		PreparedStatement pstmt = con.prepareStatement(SQL_CREATE_USER,Statement.RETURN_GENERATED_KEYS);
 		Role role = (Role) user.getRole().toArray()[0];
 		int k = 1;
 		pstmt.setString(k++, user.getLogin());
@@ -229,7 +232,20 @@ public class UserDAO implements EntityMapper<User> {
 		pstmt.setString(k++, user.getEmail());
 		pstmt.setString(k++, user.getActivationToken());
 		pstmt.executeUpdate();
-		pstmt.close();
+
+		Long id = null;
+        try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                id = generatedKeys.getLong(1);
+            }
+            else {
+                throw new SQLException("Creating room failed, no ID obtained.");
+            }
+        }finally{
+        	pstmt.close();
+        }
+        user.setId(id);
+        return user;
 	}
 
 	/**
