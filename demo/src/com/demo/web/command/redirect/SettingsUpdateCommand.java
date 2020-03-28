@@ -26,10 +26,9 @@ public class SettingsUpdateCommand extends Command implements Redirector{
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
-		log.debug("Command starts");
+		log.debug("Command started.");
 
 		User user = (User)request.getSession().getAttribute("user");
-		boolean updateUser = false;
 
 		String localeToSet = request.getParameter("localeToSet");
 		if (localeToSet != null && !localeToSet.isEmpty()) {
@@ -39,15 +38,11 @@ public class SettingsUpdateCommand extends Command implements Redirector{
 
 			if(user != null) {
 				user.setLocaleName(localeToSet);
-				updateUser = true;
+				new UserDAO().updateUser(user);
 			}
 		}
 
-		if (updateUser == true) {
-			new UserDAO().updateUser(user);
-		}
-
-		log.debug("Command finished");
+		log.debug("Command finished.");
 		return Path.COMMAND__VIEW_SETTINGS;
 	}
 

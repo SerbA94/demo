@@ -154,7 +154,7 @@ public class UserDAO implements EntityMapper<User> {
      * @param user
      *            User to update.
      */
-	public void updateUser(User user) {
+	public User updateUser(User user) {
 		Connection con = null;
 		try {
 			con = DBManager.getInstance().getConnection();
@@ -162,9 +162,11 @@ public class UserDAO implements EntityMapper<User> {
 		} catch (SQLException ex) {
 			DBManager.getInstance().rollbackAndClose(con);
 			ex.printStackTrace();
+			return null;
 		} finally {
 			DBManager.getInstance().commitAndClose(con);
 		}
+		return user;
 	}
 
 	/**
