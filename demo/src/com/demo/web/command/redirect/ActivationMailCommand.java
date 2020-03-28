@@ -23,7 +23,7 @@ public class ActivationMailCommand extends Command implements Redirector {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		log.debug("Command starts");
+		log.debug("Command started.");
 
 		String errorMessage = null;
 		String redirect = Path.COMMAND__VIEW_ACTIVATION;
@@ -40,17 +40,13 @@ public class ActivationMailCommand extends Command implements Redirector {
 
 			new MailUtil().sendEmail(user.getEmail(), subject, messageText);
 
-			errorMessage = "If you didnt get confirmation email, check your spam folder"+
-						   " and email for correctness. If not resend confirmation email.";
-			request.setAttribute("errorMessage", errorMessage);
-			log.debug("User : " + user + " - activated.");
 		}else {
-			errorMessage = "User :" + user + " - already activated.";
+			errorMessage = "User already activated : email --> " + user.getEmail();
 			request.setAttribute("errorMessage", errorMessage);
 			redirect = Path.COMMAND__VIEW_ERROR;
 			log.debug("Activation failed : " + errorMessage);
 		}
-		log.debug("Command ends");
+		log.debug("Command finished.");
 		return redirect;
 	}
 
