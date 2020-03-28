@@ -1,7 +1,6 @@
 package com.demo.web.command.redirect;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,14 +18,14 @@ import com.demo.web.constants.Path;
 public class BookingDeleteCommand extends Command implements Redirector {
 
 	private static final long serialVersionUID = -9036453675202149509L;
-
 	private static final Logger log = Logger.getLogger(BookingCreateCommand.class);
 
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		log.debug("Command starts");
+		log.debug("Command started.");
+
 		String errorMessage = null;
 		String redirect = Path.COMMAND__VIEW_ACCOUNT;
 
@@ -38,7 +37,7 @@ public class BookingDeleteCommand extends Command implements Redirector {
 		try {
 			bookingId = Long.parseLong(request.getParameter("booking_id"));
 			booking = new BookingDAO().findBookingById(bookingId);
-		} catch (NumberFormatException | SQLException e) {
+		} catch (NumberFormatException e) {
 			errorMessage = "Invalid booking id : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
@@ -46,7 +45,7 @@ public class BookingDeleteCommand extends Command implements Redirector {
 			return redirect;
 		}
 
-		if (!booking.getUser().getId().equals(user.getId())) {
+		if (booking == null || !booking.getUser().getId().equals(user.getId())) {
 			errorMessage = "You dont have booking with id : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
@@ -54,11 +53,8 @@ public class BookingDeleteCommand extends Command implements Redirector {
 			return redirect;
 		}
 
-		BookingStatus bookingStatus = (BookingStatus) booking.getBookingStatus().toArray()[0];
-		log.trace("BookingStatus --> " + bookingStatus.getTitle());
-
-		if (!bookingStatus.equals(BookingStatus.NOT_PAID)
-				&& !bookingStatus.equals(BookingStatus.UNCONFIRMED)) {
+		if (!booking.getBookingStatus().contains(BookingStatus.UNCONFIRMED) ||
+				!booking.getBookingStatus().contains(BookingStatus.NOT_PAID)) {
 			errorMessage = "Booking can't be deleted : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
@@ -66,17 +62,10 @@ public class BookingDeleteCommand extends Command implements Redirector {
 			return redirect;
 		}
 
-		try {
-			new BookingDAO().deleteBooking(booking);
-		} catch (SQLException e) {
-			errorMessage = "Invalid booking.";
-			log.error("errorMessage --> " + errorMessage);
-			request.setAttribute("errorMessage", errorMessage);
-			redirect = Path.COMMAND__VIEW_ERROR;
-			return redirect;
-		}
-		log.trace("Booking deleted --> " + booking);
-		log.debug("Command ends");
+		new BookingDAO().deleteBooking(booking);
+
+		log.trace("Booking deleted : id --> " + booking.getId());
+		log.debug("Command finished.");
 		return redirect;
 	}
 
