@@ -489,7 +489,7 @@ public class BookingDAO implements EntityMapper<Booking> {
      *            Booking to update.
      * @throws SQLException
      */
-	public void updateBooking(Booking booking) throws SQLException {
+	public void updateBooking(Booking booking){
 		BookingStatus bookingStatus = (BookingStatus) booking.getBookingStatus().toArray()[0];
 		Connection con = null;
 		try {
@@ -501,7 +501,6 @@ public class BookingDAO implements EntityMapper<Booking> {
 		} catch (SQLException ex) {
 			DBManager.getInstance().rollbackAndClose(con);
 			ex.printStackTrace();
-			throw new SQLException();
 		} finally {
 			DBManager.getInstance().commitAndClose(con);
 		}
