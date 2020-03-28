@@ -47,7 +47,7 @@ This is the CONTENT, containing the main part of the page.
 
 
 	<div>
-	<a href="controller?command=activationMail">
+	<a href="controller?command=activation-mail">
 		resend email
 	</a>
 	</div>

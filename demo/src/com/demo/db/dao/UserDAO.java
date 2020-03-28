@@ -120,8 +120,10 @@ public class UserDAO implements EntityMapper<User> {
      * @param email
      *     	User email.
      * @return User entity.
+     *
+	 * @throws SQLException
      */
-	public User findUserByEmail(String email) {
+	public User findUserByEmail(String email){
 		User user = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
