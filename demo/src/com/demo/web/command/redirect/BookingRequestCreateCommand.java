@@ -29,56 +29,60 @@ public class BookingRequestCreateCommand extends Command implements Redirector {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		log.debug("Command starts");
+		log.debug("Command started.");
+
 		String redirect = Path.COMMAND__VIEW_ACCOUNT;
 		String errorMessage = null;
 
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		log.trace("user from session --> " + user);
+		log.trace("User from session --> " + user);
 
-		String capacityStr = request.getParameter("capacity");
-		log.trace("Request parameter: capacity --> " + capacityStr);
-		Integer capacity = Integer.parseInt(capacityStr);
+		Integer capacity = null;
+		try {
+			capacity = Integer.parseInt(request.getParameter("capacity"));
+		} catch (NumberFormatException e) {
+			errorMessage = "Invalid capacity input format.";
+			log.error("errorMessage --> " + errorMessage);
+			request.setAttribute("errorMessage", errorMessage);
+			redirect = Path.COMMAND__VIEW_ERROR;
+			return redirect;
+		}
+		log.trace("Request parameter: capacity --> " + capacity);
 
-		if(capacityStr == null || capacityStr.isEmpty() || capacity == null) {
-			errorMessage = "Invalid capacity input format : " + capacityStr;
+		String roomClassParam = request.getParameter("roomClass");
+		log.trace("Request parameter: roomClass --> " + roomClassParam);
+
+		Set<RoomClass> roomClass = null;
+		if(roomClassParam != null){
+			roomClass = RoomClassDAO.getRoomClassSet(roomClassParam);
+		}
+
+		if(roomClass == null) {
+			errorMessage = "Invalid roomClass input format : " + roomClassParam;
+			request.setAttribute("errorMessage", errorMessage);
+			log.error("errorMessage --> " + errorMessage);
+			redirect = Path.COMMAND__VIEW_ERROR;
+			return redirect;
+		}
+		log.trace("Matched room class: roomClass --> " + roomClass);
+
+		String dateInParam = request.getParameter("dateIn");
+		log.trace("Request parameter: dateIn --> " + dateInParam);
+		Timestamp dateIn = dateInParam == null ? null : TimestampUtil.parseTimestamp(dateInParam);
+		if(dateIn == null) {
+			errorMessage = "Invalid dateIn input format : " + dateInParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
 			redirect = Path.COMMAND__VIEW_ERROR;
 			return redirect;
 		}
 
-		String roomClassStr = request.getParameter("roomClass");
-		log.trace("Request parameter: roomClass --> " + roomClassStr);
-		Set<RoomClass> roomClass = RoomClassDAO.getRoomClassSet(roomClassStr);
-
-		if(roomClassStr == null || roomClassStr.isEmpty() || roomClass == null || roomClass.isEmpty()) {
-			errorMessage = "Invalid roomClass input format : " + roomClassStr;
-			request.setAttribute("errorMessage", errorMessage);
-			log.error("errorMessage --> " + errorMessage);
-			redirect = Path.COMMAND__VIEW_ERROR;
-			return redirect;
-		}
-
-		String dateInStr = request.getParameter("dateIn");
-		log.trace("Request parameter: dateIn --> " + dateInStr);
-		Timestamp dateIn = TimestampUtil.parseTimestamp(dateInStr);
-
-		if(dateInStr == null || dateInStr.isEmpty() || dateIn == null) {
-			errorMessage = "Invalid dateIn input format : " + dateInStr;
-			request.setAttribute("errorMessage", errorMessage);
-			log.error("errorMessage --> " + errorMessage);
-			redirect = Path.COMMAND__VIEW_ERROR;
-			return redirect;
-		}
-
-		String dateOutStr = request.getParameter("dateOut");
-		log.trace("Request parameter: dateOut --> " + dateOutStr);
-		Timestamp dateOut = TimestampUtil.parseTimestamp(dateOutStr);
-
-		if(dateOutStr == null || dateOutStr.isEmpty() || dateOut == null) {
-			errorMessage = "Invalid dateOut input format : " + dateOutStr;
+		String dateOutParam = request.getParameter("dateOut");
+		log.trace("Request parameter: dateOut --> " + dateOutParam);
+		Timestamp dateOut = dateOutParam == null ? null : TimestampUtil.parseTimestamp(dateOutParam);
+		if(dateOut == null) {
+			errorMessage = "Invalid dateOut input format : " + dateOutParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
 			redirect = Path.COMMAND__VIEW_ERROR;
@@ -100,7 +104,7 @@ public class BookingRequestCreateCommand extends Command implements Redirector {
 		BookingRequestDAO bookingRequestDAO = new BookingRequestDAO();
 		bookingRequestDAO.createBookingRequest(bookingRequest);
 
-		log.debug("Command ends");
+		log.debug("Command finished.");
 		return redirect;
 	}
 
