@@ -102,7 +102,7 @@ public class BookingDAO implements EntityMapper<Booking> {
      * @return Booking entity.
      * @throws SQLException
      */
-	public Booking findBookingById(Long id) throws SQLException {
+	public Booking findBookingById(Long id){
 		Booking booking = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -120,7 +120,6 @@ public class BookingDAO implements EntityMapper<Booking> {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			DBManager.getInstance().rollbackAndClose(con);
-			throw new SQLException();
 		} finally {
 			DBManager.getInstance().commitAndClose(con);
 		}

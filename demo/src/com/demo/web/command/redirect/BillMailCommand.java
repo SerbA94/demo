@@ -1,7 +1,6 @@
 package com.demo.web.command.redirect;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +25,7 @@ public class BillMailCommand extends Command implements Redirector {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		log.debug("Command starts");
+		log.debug("Command started.");
 
 		String errorMessage = null;
 		String redirect = Path.COMMAND__VIEW_ACCOUNT;
@@ -39,23 +38,23 @@ public class BillMailCommand extends Command implements Redirector {
 		try {
 			bookingId = Long.parseLong(request.getParameter("booking_id"));
 			booking = new BookingDAO().findBookingById(bookingId);
-		} catch (NumberFormatException | SQLException e) {
+		} catch (NumberFormatException e) {
 			errorMessage = "Invalid booking id : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
 			redirect = Path.COMMAND__VIEW_ERROR;
 			return redirect;
 		}
-		
-		if (!booking.getUser().getId().equals(user.getId())) {
-			errorMessage = "You dont have booking with id : id --> " + bookingId;
+
+		if (booking == null || !booking.getUser().getId().equals(user.getId())) {
+			errorMessage = "You don't have booking with id : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
 			redirect = Path.COMMAND__VIEW_ERROR;
 			return redirect;
 		}
 
-		if(booking.getBookingStatus().toArray()[0].equals(BookingStatus.NOT_PAID)) {
+		if(booking.getBookingStatus().contains(BookingStatus.NOT_PAID)) {
 			String subject = "Booking bill.";
 			String messageText = "Bill for booking : " + booking + System.lineSeparator()
 								 + "Total price : " + booking.getTotalPrice();
@@ -67,8 +66,7 @@ public class BillMailCommand extends Command implements Redirector {
 			request.setAttribute("errorMessage", errorMessage);
 			redirect = Path.COMMAND__VIEW_ERROR;
 		}
-		log.debug("Command ends");
+		log.debug("Command finished.");
 		return redirect;
 	}
-
 }
