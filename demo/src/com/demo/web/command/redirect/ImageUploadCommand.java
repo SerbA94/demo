@@ -24,19 +24,27 @@ public class ImageUploadCommand extends Command implements Redirector{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		log.debug("Command starts");
+		log.debug("Command started.");
 
+		String redirect = null;
 		String errorMessage = null;
-		ImageDAO imageDAO = new ImageDAO();
 
-		Long roomId = Long.parseLong(request.getParameter("edit_room_id"));
-		log.trace("Request parameter: edit_room_id --> " + roomId);
-		String redirect = Path.COMMAND__VIEW_ROOM_EDIT + "&edit_room_id=" + roomId;
-
+		Long roomId = null;
+		try {
+			roomId = Long.parseLong(request.getParameter("edit_room_id"));
+			log.trace("Request parameter: edit_room_id --> " + roomId);
+			redirect = Path.COMMAND__VIEW_ROOM_EDIT + "&edit_room_id=" + roomId;
+		} catch (NumberFormatException e) {
+			errorMessage = "Invalid room id format : id --> " + roomId;
+			request.setAttribute("errorMessage", errorMessage);
+			log.error("errorMessage --> " + errorMessage);
+			redirect = Path.COMMAND__VIEW_ERROR;
+			return redirect;
+		}
 
 		Part part  = request.getPart("image");
 		if(part == null) {
-			errorMessage = "No image to upload";
+			errorMessage = "No image to upload.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
 			redirect = Path.COMMAND__VIEW_ERROR;
@@ -50,8 +58,9 @@ public class ImageUploadCommand extends Command implements Redirector{
 		String name = part.getSubmittedFileName();
 		Image image = new Image(name,data,roomId);
 		log.trace("Image to upload : image --> " + image);
-		imageDAO.createImage(image);
-		log.debug("Command ends");
+		new ImageDAO().createImage(image);
+
+		log.debug("Command finished.");
 		return redirect;
 	}
 
