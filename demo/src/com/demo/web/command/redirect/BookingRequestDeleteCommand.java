@@ -1,7 +1,6 @@
 package com.demo.web.command.redirect;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +21,8 @@ public class BookingRequestDeleteCommand extends Command implements Redirector{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		log.debug("Command starts");
+		log.debug("Command started.");
+
 		String redirect = Path.COMMAND__VIEW_BOOKING_REQUEST_LIST;
 		String errorMessage = null;
 
@@ -32,14 +32,14 @@ public class BookingRequestDeleteCommand extends Command implements Redirector{
 			BookingRequest bookingRequest = new BookingRequest();
 			bookingRequest.setId(bookingRequestId);
 			new BookingRequestDAO().deleteBookingRequest(bookingRequest);
-		} catch (NumberFormatException | SQLException e) {
+		} catch (NumberFormatException e) {
 			errorMessage = "Invalid booking request id : id --> " + bookingRequestId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
 			redirect = Path.COMMAND__VIEW_ERROR;
 		}
 
-		log.debug("Command ends");
+		log.debug("Command finished.");
 		return redirect;
 	}
 
