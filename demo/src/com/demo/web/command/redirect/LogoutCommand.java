@@ -23,14 +23,14 @@ public class LogoutCommand extends Command implements Redirector {
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
-		log.debug("Command starts");
+		log.debug("Command started.");
 
 		HttpSession session = request.getSession(false);
 		if (session != null) {
 			session.invalidate();
 		}
 
-		log.debug("Command finished");
+		log.debug("Command finished.");
 		return Path.COMMAND__VIEW_LOGIN;
 	}
 
