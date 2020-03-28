@@ -520,7 +520,7 @@ public class RoomDAO implements EntityMapper<Room>{
      * @param room
      *            Room to update.
      */
-	public void updateRoom(Room room) {
+	public Room updateRoom(Room room) {
 		Connection con = null;
 		try {
 			con = DBManager.getInstance().getConnection();
@@ -533,9 +533,11 @@ public class RoomDAO implements EntityMapper<Room>{
 		} catch (SQLException ex) {
 			DBManager.getInstance().rollbackAndClose(con);
 			ex.printStackTrace();
+			return null;
 		} finally {
 			DBManager.getInstance().commitAndClose(con);
 		}
+		return room;
 	}
 
 	/**
