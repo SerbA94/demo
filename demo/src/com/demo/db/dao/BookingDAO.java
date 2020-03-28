@@ -426,6 +426,7 @@ public class BookingDAO implements EntityMapper<Booking> {
      */
 	public Booking createBooking(Booking booking) {
 		Connection con = null;
+		Booking bookingReturn = null;
 		Room room = booking.getRoom();
 		room.setRoomStatus(Collections.singleton(RoomStatus.BOOKED));
 		try {
@@ -434,13 +435,14 @@ public class BookingDAO implements EntityMapper<Booking> {
 			RoomDAO.updateRoom(con, room);
 			createBookingDeleteEvent(con,booking);
 			createRoomUpdateEvent(con,booking);
+			bookingReturn = booking;
 		} catch (SQLException ex) {
 			DBManager.getInstance().rollbackAndClose(con);
 			ex.printStackTrace();
 		} finally {
 			DBManager.getInstance().commitAndClose(con);
 		}
-		return booking;
+		return bookingReturn;
 	}
 
 	/**

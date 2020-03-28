@@ -1,7 +1,6 @@
 package com.demo.web.command.redirect;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Set;
@@ -38,7 +37,8 @@ public class BookingCreateCommand extends Command implements Redirector {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		log.debug("Command starts");
+		log.debug("Command started.");
+
 		String redirect = null;
 		String errorMessage = null;
 
@@ -75,7 +75,7 @@ public class BookingCreateCommand extends Command implements Redirector {
 				BookingRequest bookingRequest = new BookingRequest();
 				bookingRequest.setId(bookingRequestId);
 				new BookingRequestDAO().deleteBookingRequest(bookingRequest);
-			} catch (NumberFormatException | SQLException e) {
+			} catch (NumberFormatException e) {
 				errorMessage = "Invalid booking request id : id --> " + bookingRequestId;
 				log.error("errorMessage --> " + errorMessage);
 				request.setAttribute("errorMessage", errorMessage);
@@ -109,10 +109,9 @@ public class BookingCreateCommand extends Command implements Redirector {
 			redirect = Path.COMMAND__VIEW_ERROR;
 			return redirect;
 		}
-		log.trace("Room from db  --> " + room);
+		log.trace("Room from db : id --> " + room.getId());
 
-		RoomStatus roomStatus = (RoomStatus) room.getRoomStatus().toArray()[0];
-		if(!roomStatus.equals(RoomStatus.FREE)) {
+		if(!room.getRoomStatus().contains(RoomStatus.FREE)) {
 			errorMessage = "Room cant be booked : room number --> " + room.getNumber();
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
@@ -120,22 +119,22 @@ public class BookingCreateCommand extends Command implements Redirector {
 			return redirect;
 		}
 
-		String dateInStr = request.getParameter("dateIn");
-		log.trace("Request parameter: dateIn --> " + dateInStr);
-		Timestamp dateIn = TimestampUtil.parseTimestamp(dateInStr);
-		if(dateInStr == null || dateInStr.isEmpty() || dateIn == null) {
-			errorMessage = "Invalid dateIn input format : " + dateInStr;
+		String dateInParam = request.getParameter("dateIn");
+		log.trace("Request parameter: dateIn --> " + dateInParam);
+		Timestamp dateIn = dateInParam == null ? null : TimestampUtil.parseTimestamp(dateInParam);
+		if(dateIn == null) {
+			errorMessage = "Invalid dateIn input format : " + dateInParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
 			redirect = Path.COMMAND__VIEW_ERROR;
 			return redirect;
 		}
 
-		String dateOutStr = request.getParameter("dateOut");
-		log.trace("Request parameter: dateOut --> " + dateOutStr);
-		Timestamp dateOut = TimestampUtil.parseTimestamp(dateOutStr);
-		if(dateOutStr == null || dateOutStr.isEmpty() || dateOut == null) {
-			errorMessage = "Invalid dateOut input format : " + dateOutStr;
+		String dateOutParam = request.getParameter("dateOut");
+		log.trace("Request parameter: dateOut --> " + dateOutParam);
+		Timestamp dateOut = dateOutParam == null ? null : TimestampUtil.parseTimestamp(dateOutParam);
+		if(dateOut == null) {
+			errorMessage = "Invalid dateOut input format : " + dateOutParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
 			redirect = Path.COMMAND__VIEW_ERROR;
@@ -154,15 +153,24 @@ public class BookingCreateCommand extends Command implements Redirector {
 		}
 
 		BookingDAO bookingDAO = new BookingDAO();
-		Booking booking = bookingDAO.createBooking(new Booking(user, room, bookingStatus, dateIn, dateOut, dateOfBooking));
-		log.trace("Booking created --> " + booking);
+		Booking booking = bookingDAO.createBooking(
+				new Booking(user, room, bookingStatus, dateIn, dateOut, dateOfBooking));
+
+		if(booking == null) {
+			errorMessage = "Booking was not created.";
+			request.setAttribute("errorMessage", errorMessage);
+			log.error("errorMessage --> " + errorMessage);
+			redirect = Path.COMMAND__VIEW_ERROR;
+			return redirect;
+		}else {
+			log.trace("Booking created : id --> " + booking.getId());
+		}
 
 		if(redirect == null) {
 			redirect = Path.COMMAND__BILL_MAIL + "&booking_id=" + booking.getId();
 		}
 
-		log.debug("Command ends");
+		log.debug("Command finished.");
 		return redirect;
 	}
-
 }

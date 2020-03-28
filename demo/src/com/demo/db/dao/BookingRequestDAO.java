@@ -145,7 +145,7 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
      *            Booking request to delete.
 	 * @throws SQLException
      */
-	public void deleteBookingRequest(BookingRequest bookingRequest) throws SQLException {
+	public void deleteBookingRequest(BookingRequest bookingRequest){
 		PreparedStatement pstmt = null;
 		Connection con = null;
 		try {
@@ -157,7 +157,6 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 		} catch (SQLException ex) {
 			DBManager.getInstance().rollbackAndClose(con);
 			ex.printStackTrace();
-			throw new SQLException();
 		} finally {
 			DBManager.getInstance().commitAndClose(con);
 		}
