@@ -16,6 +16,32 @@
 				<%-- ERROR HANDLING --%>
 
 				<div><h1><span>Rooms Page</span></h1></div>
+
+					<form action="controller">
+						<input type="hidden" name="command" value="view-room-list" />
+						<div>
+							<p>order by</p>
+							<select name="orderBy">
+							<c:if test="${ not empty orderBy }">
+								<option value="${ orderBy }">
+									<c:choose>
+										<c:when test="${orderBy eq 'price'}">Price[SELECTED]</c:when>
+										<c:when test="${orderBy eq 'capacity'}">Capacity[SELECTED]</c:when>
+										<c:when test="${orderBy eq 'room_class_title'}">Class[SELECTED]</c:when>
+										<c:when test="${orderBy eq 'room_status_title'}">Status[SELECTED]</c:when>
+									</c:choose>
+								</option>
+							</c:if>
+								<option value="price">Price</option>
+								<option value="capacity">Capacity</option>
+								<option value="room_class_title">Class</option>
+								<option value="room_status_title">Status</option>
+							</select>
+						</div>
+
+						<input type="submit" value='submit'>
+					</form>
+
 					<table border="1">
 					    <tr>
 					    	<th>Image</th>

@@ -17,6 +17,31 @@
 
 				<div><h1><span>Rooms Page</span></h1></div>
 
+					<form action="controller">
+						<input type="hidden" name="command" value="view-room-list" />
+						<div>
+							<p>order by</p>
+							<select name="orderBy">
+							<c:if test="${ not empty orderBy }">
+								<option value="${ orderBy }">
+
+									<c:choose>
+										<c:when test="${orderBy eq 'price'}">Price[SELECTED]</c:when>
+										<c:when test="${orderBy eq 'capacity'}">Capacity[SELECTED]</c:when>
+										<c:when test="${orderBy eq 'room_class_title'}">Class[SELECTED]</c:when>
+									</c:choose>
+
+								</option>
+							</c:if>
+								<option value="price">Price</option>
+								<option value="capacity">Capacity</option>
+								<option value="room_class_title">Class</option>
+							</select>
+						</div>
+
+						<input type="submit" value='submit'>
+					</form>
+
 					<c:choose>
 					<c:when test="${empty rooms}">
 						<div><span>No free rooms</span></div>
@@ -43,7 +68,6 @@
 						            <td align="center">${room.price}</td>
 						            <td align="center"><a href="controller?command=view-booking-create&room_id=${room.id}"><span>book</span></a></td>
 						            <td align="center"><a href="controller?command=view-room&room_id=${room.id}"><span>room details</span></a></td>
-
 						        </tr>
 						    </c:forEach>
 						</table>

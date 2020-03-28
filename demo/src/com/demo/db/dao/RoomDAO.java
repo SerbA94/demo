@@ -203,6 +203,39 @@ public class RoomDAO implements EntityMapper<Room>{
 	}
 
 	/**
+     * Returns list of all ordered rooms.
+     *
+     * @param orderBy
+     * 				 Field to order by.
+     *
+     * @return List of room entities.
+     */
+	public List<Room> findAllOrderedRooms(String orderBy) {
+		List<Room> rooms = new ArrayList<>();
+		String sqlRequest = SQL__FIND_ALL_ROOMS + " ORDER BY " + orderBy;
+		Statement stmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		try {
+			con = DBManager.getInstance().getConnection();
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sqlRequest);
+			while (rs.next()) {
+				Room room = mapRow(rs);
+				room.setDescriptions(findRoomDescriptions(con,room));
+				room.setImages(new ImageDAO().findRoomImages(room));
+				rooms.add(room);
+			}
+			rs.close();
+			stmt.close();
+			con.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return rooms;
+	}
+
+	/**
      * Returns list of all accessible rooms.
      *
      * @return List of room entities.
@@ -216,6 +249,39 @@ public class RoomDAO implements EntityMapper<Room>{
 			con = DBManager.getInstance().getConnection();
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(SQL__FIND_ALL_ACCESSIBLE_ROOMS);
+			while (rs.next()) {
+				Room room = mapRow(rs);
+				room.setDescriptions(findRoomDescriptions(con,room));
+				room.setImages(new ImageDAO().findRoomImages(room));
+				rooms.add(room);
+			}
+			rs.close();
+			stmt.close();
+			con.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return rooms;
+	}
+
+	/**
+     * Returns list of all free ordered rooms.
+     *
+     * @param orderBy
+     * 				 Field to order by.
+     *
+     * @return List of room entities.
+     */
+	public List<Room> findAllFreeOrderedRooms(String orderBy) {
+		List<Room> rooms = new ArrayList<>();
+		String sqlRequest = SQL__FIND_ALL_FREE_ROOMS + " ORDER BY " + orderBy;
+		Statement stmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		try {
+			con = DBManager.getInstance().getConnection();
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(sqlRequest);
 			while (rs.next()) {
 				Room room = mapRow(rs);
 				room.setDescriptions(findRoomDescriptions(con,room));
