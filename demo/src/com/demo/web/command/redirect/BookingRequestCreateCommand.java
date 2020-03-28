@@ -23,7 +23,6 @@ import com.demo.web.utils.TimestampUtil;
 public class BookingRequestCreateCommand extends Command implements Redirector {
 
 	private static final long serialVersionUID = 6937732969299796074L;
-
 	private static final Logger log = Logger.getLogger(BookingRequestCreateCommand.class);
 
 	@Override
@@ -31,7 +30,7 @@ public class BookingRequestCreateCommand extends Command implements Redirector {
 			throws IOException, ServletException {
 		log.debug("Command started.");
 
-		String redirect = Path.COMMAND__VIEW_ACCOUNT;
+		String redirect = Path.COMMAND__VIEW_ERROR;
 		String errorMessage = null;
 
 		HttpSession session = request.getSession();
@@ -45,7 +44,6 @@ public class BookingRequestCreateCommand extends Command implements Redirector {
 			errorMessage = "Invalid capacity input format.";
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			redirect = Path.COMMAND__VIEW_ERROR;
 			return redirect;
 		}
 		log.trace("Request parameter: capacity --> " + capacity);
@@ -53,16 +51,12 @@ public class BookingRequestCreateCommand extends Command implements Redirector {
 		String roomClassParam = request.getParameter("roomClass");
 		log.trace("Request parameter: roomClass --> " + roomClassParam);
 
-		Set<RoomClass> roomClass = null;
-		if(roomClassParam != null){
-			roomClass = RoomClassDAO.getRoomClassSet(roomClassParam);
-		}
-
-		if(roomClass == null) {
+		Set<RoomClass> roomClass = roomClassParam == null ? null
+				: RoomClassDAO.getRoomClassSet(roomClassParam);
+		if(roomClass.contains(null)) {
 			errorMessage = "Invalid roomClass input format : " + roomClassParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			redirect = Path.COMMAND__VIEW_ERROR;
 			return redirect;
 		}
 		log.trace("Matched room class: roomClass --> " + roomClass);
@@ -74,7 +68,6 @@ public class BookingRequestCreateCommand extends Command implements Redirector {
 			errorMessage = "Invalid dateIn input format : " + dateInParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			redirect = Path.COMMAND__VIEW_ERROR;
 			return redirect;
 		}
 
@@ -85,7 +78,6 @@ public class BookingRequestCreateCommand extends Command implements Redirector {
 			errorMessage = "Invalid dateOut input format : " + dateOutParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			redirect = Path.COMMAND__VIEW_ERROR;
 			return redirect;
 		}
 
@@ -96,13 +88,20 @@ public class BookingRequestCreateCommand extends Command implements Redirector {
 							+ " dateIn cant be less then or equal current date";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			redirect = Path.COMMAND__VIEW_ERROR;
 			return redirect;
 		}
 
 		BookingRequest bookingRequest = new BookingRequest(user, capacity, dateIn, dateOut, roomClass);
-		BookingRequestDAO bookingRequestDAO = new BookingRequestDAO();
-		bookingRequestDAO.createBookingRequest(bookingRequest);
+		bookingRequest = new BookingRequestDAO().createBookingRequest(bookingRequest);
+
+		if(bookingRequest == null || bookingRequest.getId() == null) {
+			errorMessage = "Booking request creation failed : Booking request was not created.";
+			request.setAttribute("errorMessage", errorMessage);
+			log.error("errorMessage --> " + errorMessage);
+			return redirect;
+		}
+
+		redirect = Path.COMMAND__VIEW_ACCOUNT;
 
 		log.debug("Command finished.");
 		return redirect;

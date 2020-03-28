@@ -168,17 +168,19 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
      * @param booking request
      *            Booking request to update.
      */
-	public void createBookingRequest(BookingRequest bookingRequest) {
+	public BookingRequest createBookingRequest(BookingRequest bookingRequest) {
 		Connection con = null;
+		BookingRequest createdBookingRequest = null;
 		try {
 			con = DBManager.getInstance().getConnection();
-			createBookingRequest(con, bookingRequest);
+			createdBookingRequest = createBookingRequest(con, bookingRequest);
 		} catch (SQLException ex) {
 			DBManager.getInstance().rollbackAndClose(con);
 			ex.printStackTrace();
 		} finally {
 			DBManager.getInstance().commitAndClose(con);
 		}
+		return createdBookingRequest;
 	}
 
 	/**
@@ -190,8 +192,8 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
      *            Connection to db.
      * @throws SQLException
      */
-    private void createBookingRequest(Connection con, BookingRequest bookingRequest) throws SQLException {
-    	PreparedStatement pstmt = con.prepareStatement(SQL__CREATE_BOOKING_REQUEST);
+    private BookingRequest createBookingRequest(Connection con, BookingRequest bookingRequest) throws SQLException {
+    	PreparedStatement pstmt = con.prepareStatement(SQL__CREATE_BOOKING_REQUEST,Statement.RETURN_GENERATED_KEYS);
     	RoomClass roomClass = (RoomClass) bookingRequest.getRoomClass().toArray()[0];
 
 		int k = 1;
@@ -201,7 +203,21 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 		pstmt.setInt(k++, bookingRequest.getCapacity());
 		pstmt.setString(k++, roomClass.getTitle());
 		pstmt.executeUpdate();
-		pstmt.close();
+
+		Long id = null;
+        try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                id = generatedKeys.getLong(1);
+            }
+            else {
+                throw new SQLException("Creating room failed, no ID obtained.");
+            }
+        }finally{
+        	pstmt.close();
+        }
+        bookingRequest.setId(id);
+
+		return bookingRequest;
     }
 
 	/**

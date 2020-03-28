@@ -1,7 +1,6 @@
 package com.demo.web.command.forward;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +37,7 @@ public class BillViewCommand extends Command {
 		try {
 			bookingId = Long.parseLong(request.getParameter("booking_id"));
 			booking = new BookingDAO().findBookingById(bookingId);
-		} catch (NumberFormatException | SQLException e) {
+		} catch (NumberFormatException e) {
 			errorMessage = "Invalid booking id : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
