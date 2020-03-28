@@ -23,15 +23,15 @@ public class ImageDeleteCommand extends Command implements Redirector{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		log.debug("Command starts");
+		log.debug("Command Started.");
+
 		String errorMessage = null;
 		String redirect = Path.COMMAND__VIEW_ERROR;
-		ImageDAO imageDAO = new ImageDAO();
 
 		try {
 			Long imageId = Long.parseLong(request.getParameter("image_id"));
 			log.trace("Request parameter: image_id --> " + imageId);
-			imageDAO.deleteImage(imageId);
+			new ImageDAO().deleteImage(imageId);
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid image id.";
 			log.error(errorMessage);
@@ -42,15 +42,16 @@ public class ImageDeleteCommand extends Command implements Redirector{
 			log.trace("Request parameter: edit_room_id --> " + roomId);
 			Room room = new RoomDAO().findRoomById(roomId);
 			request.setAttribute("room", room);
-			log.trace("room to edit sent on view --> " + room);
 			redirect = Path.COMMAND__VIEW_ROOM_EDIT + "&edit_room_id=" + roomId;
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid room id.";
 			log.error(errorMessage);
 		}
 
-		request.setAttribute("errorMessage", errorMessage);
-		log.debug("Command ends");
+		if(errorMessage != null) {
+			request.setAttribute("errorMessage", errorMessage);
+		}
+		log.debug("Command finished.");
 		return redirect;
 	}
 
