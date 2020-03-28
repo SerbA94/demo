@@ -26,19 +26,17 @@ public class ImageUploadCommand extends Command implements Redirector{
 			throws IOException, ServletException {
 		log.debug("Command started.");
 
-		String redirect = null;
+		String redirect = Path.COMMAND__VIEW_ERROR;
 		String errorMessage = null;
 
 		Long roomId = null;
 		try {
 			roomId = Long.parseLong(request.getParameter("edit_room_id"));
 			log.trace("Request parameter: edit_room_id --> " + roomId);
-			redirect = Path.COMMAND__VIEW_ROOM_EDIT + "&edit_room_id=" + roomId;
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid room id format : id --> " + roomId;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			redirect = Path.COMMAND__VIEW_ERROR;
 			return redirect;
 		}
 
@@ -47,7 +45,6 @@ public class ImageUploadCommand extends Command implements Redirector{
 			errorMessage = "No image to upload.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			redirect = Path.COMMAND__VIEW_ERROR;
 			return redirect;
 		}else {
 			log.debug("Got file to upload : name/size --> "
@@ -55,11 +52,22 @@ public class ImageUploadCommand extends Command implements Redirector{
 		}
 
 		byte[] data = IOUtils.toByteArray(part.getInputStream());
+
 		String name = part.getSubmittedFileName();
+
 		Image image = new Image(name,data,roomId);
 		log.trace("Image to upload : image --> " + image);
-		new ImageDAO().createImage(image);
 
+		image = new ImageDAO().createImage(image);
+		if(image == null || image.getId() == null) {
+			errorMessage = "Image creation failed : Image was not created.";
+			request.setAttribute("errorMessage", errorMessage);
+			log.error("errorMessage --> " + errorMessage);
+			return redirect;
+		}
+		log.trace("Image successfuly created : id --> " + image.getId());
+
+		redirect = Path.COMMAND__VIEW_ROOM_EDIT + "&edit_room_id=" + roomId;
 		log.debug("Command finished.");
 		return redirect;
 	}

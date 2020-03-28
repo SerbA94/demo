@@ -176,18 +176,24 @@ public class ImageDAO implements EntityMapper<Image> {
      *
      * @param image
      *            image to create.
+     * @param con
+     *            Connection to db.
+     *
+     * @return Created image entity.
      */
-	public void createImage(Image image) {
+	public Image createImage(Image image) {
 		Connection con = null;
+		Image createdImage = null;
 		try {
 			con = DBManager.getInstance().getConnection();
-			createImage(con, image);
+			createdImage = createImage(con, image);
 		} catch (SQLException ex) {
 			DBManager.getInstance().rollbackAndClose(con);
 			ex.printStackTrace();
 		} finally {
 			DBManager.getInstance().commitAndClose(con);
 		}
+		return createdImage;
 	}
 
 	/**
@@ -197,16 +203,32 @@ public class ImageDAO implements EntityMapper<Image> {
      *            image to create.
      * @param con
      *            Connection to db.
+     *
+     * @return Created image entity.
+     *
      * @throws SQLException
      */
-	private void createImage(Connection con, Image image) throws SQLException {
+	private Image createImage(Connection con, Image image) throws SQLException {
 		PreparedStatement pstmt = con.prepareStatement(SQL__CREATE_IMAGE);
 		int k = 1;
 		pstmt.setString(k++, image.getName());
 		pstmt.setBytes(k++, image.getData());
 		pstmt.setLong(k++, image.getRoomId());
 		pstmt.executeUpdate();
-		pstmt.close();
+
+		Long id = null;
+        try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                id = generatedKeys.getLong(1);
+            }
+            else {
+                throw new SQLException("Creating room failed, no ID obtained.");
+            }
+        }finally{
+        	pstmt.close();
+        }
+        image.setId(id);
+        return image;
 	}
 
 	/**
