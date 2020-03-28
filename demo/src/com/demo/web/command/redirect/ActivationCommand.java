@@ -55,7 +55,9 @@ public class ActivationCommand extends Command implements Redirector {
 
 		HttpSession session = request.getSession();
 		if(!user.getRole().contains(Role.INACTIVE)) {
-			log.trace("Activation failed : User already activated. User role : " + user.getRole().toArray()[0]);
+			log.trace("Activation failed : User already activated. User role : "
+					+ user.getRole().toArray()[0]);
+
 			request.setAttribute("errorMessage", errorMessage);
 			return redirect;
 		}
@@ -82,8 +84,11 @@ public class ActivationCommand extends Command implements Redirector {
 		session.setAttribute("user", user);
 		log.trace("Set the session attribute: user --> " + user);
 
-		session.setAttribute("userRole", Role.CUSTOMER);
-		log.trace("Set the session attribute: userRole --> " + Role.CUSTOMER);
+		Role userRole = (Role) user.getRole().toArray()[0];
+		session.setAttribute("userRole", userRole);
+		log.trace("Set the session attribute: userRole --> " + userRole);
+
+		log.info("User " + user + " logged as " + userRole.getTitle());
 
 		log.debug("Command finished.");
 		return redirect;
