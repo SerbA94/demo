@@ -128,7 +128,11 @@ public class RoomStatusDAO {
      * @return Room status enum set.
      */
     public static Set<RoomStatus> getRoomStatusSet(String title) {
-    	return Collections.singleton(getRoomStatus(title));
+    	if(title == null || getRoomStatus(title) == null) {
+    		return null;
+    	}else {
+    		return Collections.singleton(getRoomStatus(title));
+    	}
     }
 
     /**
@@ -139,7 +143,11 @@ public class RoomStatusDAO {
      * @return Room status enum.
      */
     public RoomStatus findRoomStatusByTitle(String title) {
-    	return getRoomStatus(title);
+     	if(title == null || getRoomStatus(title) == null) {
+    		return null;
+    	}else {
+    		return getRoomStatus(title);
+    	}
     }
 
     /**

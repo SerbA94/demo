@@ -59,9 +59,8 @@ public class RoomCreateCommand extends Command implements Redirector {
 
 		String roomStatusParam = request.getParameter("roomStatus");
 		log.trace("Request parameter: roomStatus --> " + roomStatusParam);
-		Set<RoomStatus> roomStatus = roomStatusParam == null ? null
-				: RoomStatusDAO.getRoomStatusSet(roomStatusParam);
-		if(roomStatus.contains(null)) {
+		Set<RoomStatus> roomStatus = RoomStatusDAO.getRoomStatusSet(roomStatusParam);
+		if(roomStatus == null && roomStatusParam != null && !roomStatusParam.isEmpty()) {
 			errorMessage = "Room creation failed : No such room status : "
 					+ "roomStatusParam --> " + roomStatusParam;
 			request.setAttribute("errorMessage", errorMessage);
@@ -71,9 +70,8 @@ public class RoomCreateCommand extends Command implements Redirector {
 
 		String roomClassParam = request.getParameter("roomClass");
 		log.trace("Request parameter: roomClass --> " + roomClassParam);
-		Set<RoomClass> roomClass = roomClassParam == null ? null
-				: RoomClassDAO.getRoomClassSet(roomClassParam);
-		if(roomClass.contains(null)) {
+		Set<RoomClass> roomClass = RoomClassDAO.getRoomClassSet(roomClassParam);
+		if(roomClass == null && roomClassParam != null && !roomClassParam.isEmpty()) {
 			errorMessage = "Room creation failed : No such room class : "
 					+ "roomClassParam --> " + roomClassParam;
 			request.setAttribute("errorMessage", errorMessage);
