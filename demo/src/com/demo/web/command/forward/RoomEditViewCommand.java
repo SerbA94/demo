@@ -28,7 +28,7 @@ public class RoomEditViewCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		log.debug("Command starts");
+		log.debug("Command started.");
 
 		String errorMessage = null;
 		String forward = Path.COMMAND__VIEW_ERROR;
