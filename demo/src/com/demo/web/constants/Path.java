@@ -4,6 +4,8 @@ package com.demo.web.constants;
 
 public final class Path {
 
+	public static final String PAGE = "/WEB-INF/jsp/";
+
 	// pages
 	public static final String PAGE__LOGIN = "/WEB-INF/jsp/login.jsp";
 	public static final String PAGE__REGISTRATION = "/WEB-INF/jsp/registration.jsp";

@@ -16,10 +16,9 @@ import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 import com.demo.web.utils.MailUtil;
 
-public class BillMailCommand extends Command implements Redirector {
+public class BillMailCommand extends Command {
 
 	private static final long serialVersionUID = -5375942259978927403L;
-
 	private static final Logger log = Logger.getLogger(BillMailCommand.class);
 
 	@Override

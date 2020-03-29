@@ -21,7 +21,7 @@ import com.demo.db.entity.RoomStatus;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
-public class RoomEditCommand extends Command implements Redirector {
+public class RoomEditCommand extends Command {
 
 	private static final long serialVersionUID = -5392301052207392889L;
 	private static final Logger log = Logger.getLogger(RoomEditCommand.class);

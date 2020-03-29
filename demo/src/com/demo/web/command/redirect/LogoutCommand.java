@@ -14,10 +14,9 @@ import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
 
-public class LogoutCommand extends Command implements Redirector {
+public class LogoutCommand extends Command {
 
 	private static final long serialVersionUID = -2785976616686657267L;
-
 	private static final Logger log = Logger.getLogger(LogoutCommand.class);
 
 	@Override

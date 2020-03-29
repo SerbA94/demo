@@ -18,7 +18,7 @@ import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 import com.demo.web.utils.EncodeUtil;
 
-public class RegistrationCommand extends Command implements Redirector {
+public class RegistrationCommand extends Command {
 
 	private static final long serialVersionUID = -5994772745509837239L;
 	private static final Logger log = Logger.getLogger(RegistrationCommand.class);

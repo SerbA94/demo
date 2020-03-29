@@ -16,7 +16,7 @@ import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
 
-public class ImageUploadCommand extends Command implements Redirector{
+public class ImageUploadCommand extends Command {
 
 	private static final long serialVersionUID = 4854668554533486764L;
 	private static final Logger log = Logger.getLogger(ImageUploadCommand.class);

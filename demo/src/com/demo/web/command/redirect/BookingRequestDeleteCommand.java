@@ -13,7 +13,7 @@ import com.demo.db.entity.BookingRequest;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
-public class BookingRequestDeleteCommand extends Command implements Redirector{
+public class BookingRequestDeleteCommand extends Command {
 
 	private static final long serialVersionUID = -9036453675202149509L;
 	private static final Logger log = Logger.getLogger(BookingRequestDeleteCommand.class);

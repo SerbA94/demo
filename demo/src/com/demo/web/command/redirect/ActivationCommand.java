@@ -16,7 +16,7 @@ import com.demo.db.entity.User;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
-public class ActivationCommand extends Command implements Redirector {
+public class ActivationCommand extends Command {
 
 	private static final long serialVersionUID = 4828904762551760108L;
 	private static final Logger log = Logger.getLogger(ActivationCommand.class);

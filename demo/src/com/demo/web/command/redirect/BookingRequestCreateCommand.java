@@ -20,7 +20,7 @@ import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 import com.demo.web.utils.TimestampUtil;
 
-public class BookingRequestCreateCommand extends Command implements Redirector {
+public class BookingRequestCreateCommand extends Command {
 
 	private static final long serialVersionUID = 6937732969299796074L;
 	private static final Logger log = Logger.getLogger(BookingRequestCreateCommand.class);

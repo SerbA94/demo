@@ -16,10 +16,9 @@ import com.demo.db.entity.User;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
-public class SettingsUpdateCommand extends Command implements Redirector{
+public class SettingsUpdateCommand extends Command {
 
 	private static final long serialVersionUID = 7732286214029478505L;
-
 	private static final Logger log = Logger.getLogger(SettingsUpdateCommand.class);
 
 	@Override

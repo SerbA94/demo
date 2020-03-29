@@ -21,7 +21,7 @@ import com.demo.db.entity.RoomStatus;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
-public class RoomCreateCommand extends Command implements Redirector {
+public class RoomCreateCommand extends Command {
 
 	private static final long serialVersionUID = -446157167371195998L;
 	private static final Logger log = Logger.getLogger(RoomCreateCommand.class);

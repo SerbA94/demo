@@ -18,7 +18,7 @@ import javax.servlet.jsp.jstl.core.Config;
 import java.io.IOException;
 
 
-public class LoginCommand extends Command implements Redirector {
+public class LoginCommand extends Command {
 
 	private static final long serialVersionUID = -3071536593627692473L;
 	private static final Logger log = Logger.getLogger(LoginCommand.class);

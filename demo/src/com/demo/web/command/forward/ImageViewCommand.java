@@ -54,8 +54,10 @@ public class ImageViewCommand extends Command {
  		InputStream inputStream = new ByteArrayInputStream(image.getData());
  		IOUtils.copy(inputStream, response.getOutputStream());
 
+ 		forward = "image";
+
 		log.debug("Command finished.");
-		return null;
+		return forward;
 	}
 
 }
