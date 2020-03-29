@@ -23,11 +23,10 @@ public class BillViewCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-
-		log.debug("Command starts");
+		log.debug("Command started.");
 
 		String errorMessage = null;
-		String forward = Path.PAGE__CUSTOMER_BILL;
+		String forward = Path.PAGE__ERROR;
 
 		User user = (User) request.getSession().getAttribute("user");
 		log.trace("user from session --> " + user);
@@ -41,7 +40,6 @@ public class BillViewCommand extends Command {
 			errorMessage = "Invalid booking id : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			forward = Path.PAGE__ERROR;
 			return forward;
 		}
 
@@ -49,20 +47,20 @@ public class BillViewCommand extends Command {
 			errorMessage = "You dont have booking with id : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			forward = Path.PAGE__ERROR;
 			return forward;
 		}
 
-		if (booking.getBookingStatus().toArray()[0].equals(BookingStatus.NOT_PAID)) {
-			String billDetails = "Bill for booking : " + booking + System.lineSeparator() + "Total price : "
-					+ booking.getTotalPrice();
+		if (booking.getBookingStatus().contains(BookingStatus.NOT_PAID)) {
+			String billDetails = "Bill for booking : " + booking + System.lineSeparator()
+									+ "Total price : " + booking.getTotalPrice();
 			request.setAttribute("billDetails", billDetails);
+			forward = Path.PAGE__CUSTOMER_BILL;
 		} else {
 			errorMessage = "No bill for booking : id --> " + booking.getId();
 			request.setAttribute("errorMessage", errorMessage);
-			forward = Path.PAGE__ERROR;
 		}
-		log.debug("Command ends");
+
+		log.debug("Command finished.");
 		return forward;
 	}
 
