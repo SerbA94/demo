@@ -13,6 +13,7 @@ import com.demo.db.entity.Room;
 import com.demo.db.entity.RoomStatus;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
+import com.demo.web.utils.TimestampUtil;
 
 public class BookingCreateViewCommand extends Command {
 
@@ -54,8 +55,17 @@ public class BookingCreateViewCommand extends Command {
 		}
 
 		uri = Path.PAGE__CUSTOMER_BOOKING_CREATE;
+
 		log.trace("Room sent on view : number --> " + room.getNumber());
 		request.setAttribute("room", room);
+
+		String nextDateIn = TimestampUtil.getNextDateIn("yyyy-MM-dd");
+		log.trace("Next date in : nextDateIn --> " + nextDateIn);
+		request.setAttribute("nextDateIn", nextDateIn);
+
+		String nextDateOut = TimestampUtil.getNextDateOut("yyyy-MM-dd");
+		log.trace("Next date out : nextDateOut --> " + nextDateOut);
+		request.setAttribute("nextDateOut", nextDateOut);
 
 		log.debug("Command finished.");
 		return uri;

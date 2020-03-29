@@ -26,11 +26,11 @@
 					<input type="hidden" name="room_id" value="${room.id}" />
 						<div>
 						<p>date in</p>
-						<input type="date" name="dateIn" value="2020-03-01">
+						<input type="date" name="dateIn" value="${nextDateIn}">
 					</div>
 					<div>
 						<p>date out</p>
-						<input type="date" name="dateOut" value="2020-03-02">
+						<input type="date" name="dateOut" value="${nextDateOut}">
 					</div>
 					<input type="submit" value="submit">
 				</form>

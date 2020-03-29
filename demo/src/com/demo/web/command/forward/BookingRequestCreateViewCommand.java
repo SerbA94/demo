@@ -14,6 +14,7 @@ import com.demo.db.dao.RoomDAO;
 import com.demo.db.entity.RoomClass;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
+import com.demo.web.utils.TimestampUtil;
 
 public class BookingRequestCreateViewCommand extends Command {
 
@@ -33,6 +34,14 @@ public class BookingRequestCreateViewCommand extends Command {
 		List<RoomClass> roomClasses = new RoomClassDAO().findAllRoomClasses();
 		log.trace("roomClasses sent on view --> " + roomClasses);
 		request.setAttribute("roomClasses", roomClasses);
+
+		String nextDateIn = TimestampUtil.getNextDateIn("yyyy-MM-dd");
+		log.trace("Next date in : nextDateIn --> " + nextDateIn);
+		request.setAttribute("nextDateIn", nextDateIn);
+
+		String nextDateOut = TimestampUtil.getNextDateOut("yyyy-MM-dd");
+		log.trace("Next date out : nextDateOut --> " + nextDateOut);
+		request.setAttribute("nextDateOut", nextDateOut);
 
 		log.debug("Command finished.");
 		return Path.PAGE__CUSTOMER_BOOKING_REQUEST_CREATE;

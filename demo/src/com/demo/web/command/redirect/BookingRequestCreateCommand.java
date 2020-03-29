@@ -81,11 +81,21 @@ public class BookingRequestCreateCommand extends Command {
 			return uri;
 		}
 
-		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
-		if(dateIn.after(dateOut) || dateIn.equals(dateOut) ||
-				currentDate.after(dateIn) || currentDate.equals(dateIn) ) {
-			errorMessage = "DateOut cant be less then or equal dateIn,"
-							+ " dateIn cant be less then or equal current date";
+		StringBuilder errorBuilder = new StringBuilder();
+		if(dateIn.before(TimestampUtil.getNextDateIn())) {
+			errorBuilder
+				.append("Booking on : ").append(dateIn).append(" - closed.").append(System.lineSeparator())
+				.append("The closest open booking date : ").append(TimestampUtil.getNextDateIn());
+		}
+		if(dateIn.after(dateOut) || dateIn.equals(dateOut)) {
+			if(errorBuilder.length() != 0) {
+				errorBuilder.append(System.lineSeparator());
+			}
+			errorBuilder.append("Date out can't be less than or equal date in.");
+		}
+
+		if(errorBuilder.length() != 0) {
+			errorMessage = errorBuilder.toString();
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
 			return uri;
