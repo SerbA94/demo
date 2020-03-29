@@ -26,7 +26,7 @@ public class ImageUploadCommand extends Command {
 			throws IOException, ServletException {
 		log.debug("Command started.");
 
-		String link = Path.PAGE__ERROR;
+		String uri = Path.PAGE__ERROR;
 		String errorMessage = null;
 
 		Long roomId = null;
@@ -37,7 +37,7 @@ public class ImageUploadCommand extends Command {
 			errorMessage = "Invalid room id format : id --> " + roomId;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return link;
+			return uri;
 		}
 
 		Part part  = request.getPart("image");
@@ -45,7 +45,7 @@ public class ImageUploadCommand extends Command {
 			errorMessage = "No image to upload.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return link;
+			return uri;
 		}else {
 			log.debug("Got file to upload : name/size --> "
 					+ part.getSubmittedFileName() + "/" + part.getSize());
@@ -63,13 +63,13 @@ public class ImageUploadCommand extends Command {
 			errorMessage = "Image creation failed : Image was not created.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return link;
+			return uri;
 		}
 		log.trace("Image successfuly created : id --> " + image.getId());
 
-		link = Path.COMMAND__VIEW_ROOM_EDIT + "&edit_room_id=" + roomId;
+		uri = Path.COMMAND__VIEW_ROOM_EDIT + "&edit_room_id=" + roomId;
 		log.debug("Command finished.");
-		return link;
+		return uri;
 	}
 
 }

@@ -27,7 +27,7 @@ public class BillMailCommand extends Command {
 		log.debug("Command started.");
 
 		String errorMessage = null;
-		String link = Path.PAGE__ERROR;
+		String uri = Path.PAGE__ERROR;
 
 		User user = (User)request.getSession().getAttribute("user");
 		log.trace("user from session --> " + user);
@@ -41,14 +41,14 @@ public class BillMailCommand extends Command {
 			errorMessage = "Invalid booking id : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 
 		if (booking == null || !booking.getUser().getId().equals(user.getId())) {
 			errorMessage = "You don't have booking with id : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 
 		if(booking.getBookingStatus().contains(BookingStatus.NOT_PAID)) {
@@ -57,13 +57,13 @@ public class BillMailCommand extends Command {
 								 + "Total price : " + booking.getTotalPrice();
 			new MailUtil().sendEmail(user.getEmail(), subject, messageText);
 
-			link = Path.COMMAND__VIEW_ACCOUNT;
+			uri = Path.COMMAND__VIEW_ACCOUNT;
 			// Add message
 		}else {
 			errorMessage = "Booking closed for payment.";
 			request.setAttribute("errorMessage", errorMessage);
 		}
 		log.debug("Command finished.");
-		return link;
+		return uri;
 	}
 }

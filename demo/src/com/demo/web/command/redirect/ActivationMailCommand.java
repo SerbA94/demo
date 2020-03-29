@@ -25,7 +25,7 @@ public class ActivationMailCommand extends Command {
 		log.debug("Command started.");
 
 		String errorMessage = null;
-		String link = Path.COMMAND__VIEW_ACTIVATION;
+		String uri = Path.COMMAND__VIEW_ACTIVATION;
 
 		User user = (User)request.getSession().getAttribute("user");
 
@@ -42,11 +42,11 @@ public class ActivationMailCommand extends Command {
 		}else {
 			errorMessage = "User already activated : email --> " + user.getEmail();
 			request.setAttribute("errorMessage", errorMessage);
-			link = Path.PAGE__ERROR;
+			uri = Path.PAGE__ERROR;
 			log.debug("Activation failed : " + errorMessage);
 		}
 		log.debug("Command finished.");
-		return link;
+		return uri;
 	}
 
 }

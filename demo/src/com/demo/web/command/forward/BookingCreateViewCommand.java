@@ -24,7 +24,7 @@ public class BookingCreateViewCommand extends Command {
 			throws IOException, ServletException {
 		log.debug("Command started.");
 
-		String link = Path.PAGE__ERROR;
+		String uri = Path.PAGE__ERROR;
 		String errorMessage = null;
 
 		Long id = null;
@@ -34,7 +34,7 @@ public class BookingCreateViewCommand extends Command {
 			errorMessage = "Invalid id format.";
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 		log.trace("Room id from request --> " + id);
 
@@ -43,22 +43,22 @@ public class BookingCreateViewCommand extends Command {
 			errorMessage = "No room with id : id --> " + id;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 
 		if(!room.getRoomStatus().contains(RoomStatus.FREE)) {
 			errorMessage = "Room cant be booked : room number --> " + room.getNumber();
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 
-		link = Path.PAGE__CUSTOMER_BOOKING_CREATE;
+		uri = Path.PAGE__CUSTOMER_BOOKING_CREATE;
 		log.trace("Room sent on view : number --> " + room.getNumber());
 		request.setAttribute("room", room);
 
 		log.debug("Command finished.");
-		return link;
+		return uri;
 	}
 
 }

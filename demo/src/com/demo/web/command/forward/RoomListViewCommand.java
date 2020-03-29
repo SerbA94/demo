@@ -26,7 +26,7 @@ public class RoomListViewCommand extends Command {
 		log.debug("Command started.");
 
 		String[] sortingFields = new String[]{"capacity","room_class_title","price","room_status_title"};
-		String link = null;
+		String uri = null;
 
 		User user = (User) request.getSession().getAttribute("user");
 		log.trace("User from session --> " + user);
@@ -38,32 +38,32 @@ public class RoomListViewCommand extends Command {
 
 		if(user != null && (Role) user.getRole().toArray()[0] == Role.ADMIN) {
 			log.trace("userRole --> " + (Role) user.getRole().toArray()[0]);
-			link = Path.PAGE__ADMIN_ROOM_LIST;
+			uri = Path.PAGE__ADMIN_ROOM_LIST;
 
 			if(orderBy != null) {
 				request.setAttribute("rooms", new RoomDAO().findAllOrderedRooms(orderBy));
 				request.setAttribute("orderBy", orderBy);
 				log.debug("Command finished");
-				return link;
+				return uri;
 			}else {
 				request.setAttribute("rooms", new RoomDAO().findAllRooms());
 				log.debug("Command finished");
-				return link;
+				return uri;
 			}
 		}
 
-		link = Path.PAGE__CUSTOMER_ROOM_LIST;
+		uri = Path.PAGE__CUSTOMER_ROOM_LIST;
 
 		if(orderBy != null) {
 			request.setAttribute("rooms", new RoomDAO().findAllFreeOrderedRooms(orderBy));
 			request.setAttribute("orderBy", orderBy);
 			log.debug("Command finished");
-			return link;
+			return uri;
 		}
 
 		request.setAttribute("rooms", new RoomDAO().findAllFreeRooms());
 
 		log.debug("Command finished.");
-		return link;
+		return uri;
 	}
 }

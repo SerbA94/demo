@@ -38,7 +38,7 @@ public class BookingCreateCommand extends Command {
 			throws IOException, ServletException {
 		log.debug("Command started.");
 
-		String link = Path.PAGE__ERROR;
+		String uri = Path.PAGE__ERROR;
 		String errorMessage = null;
 
 		Set<BookingStatus> bookingStatus = null;
@@ -63,7 +63,7 @@ public class BookingCreateCommand extends Command {
 				errorMessage = "No user with id : id --> " + userId;
 				log.error("errorMessage --> " + errorMessage);
 				request.setAttribute("errorMessage", errorMessage);
-				return link;
+				return uri;
 			}
 
 			Long bookingRequestId = null;
@@ -76,7 +76,7 @@ public class BookingCreateCommand extends Command {
 				errorMessage = "Invalid booking request id : id --> " + bookingRequestId;
 				log.error("errorMessage --> " + errorMessage);
 				request.setAttribute("errorMessage", errorMessage);
-				return link;
+				return uri;
 			}
 		}else {
 			bookingStatus = Collections.singleton(BookingStatus.NOT_PAID);
@@ -90,7 +90,7 @@ public class BookingCreateCommand extends Command {
 			errorMessage = "Invalid id format.";
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 		log.trace("Room id from request --> " + roomId);
 
@@ -100,7 +100,7 @@ public class BookingCreateCommand extends Command {
 			errorMessage = "No room with id : id --> " + roomId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 		log.trace("Room from db : id --> " + room.getId());
 
@@ -108,7 +108,7 @@ public class BookingCreateCommand extends Command {
 			errorMessage = "Room cant be booked : room number --> " + room.getNumber();
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 
 		String dateInParam = request.getParameter("dateIn");
@@ -118,7 +118,7 @@ public class BookingCreateCommand extends Command {
 			errorMessage = "Invalid dateIn input format : " + dateInParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return link;
+			return uri;
 		}
 
 		String dateOutParam = request.getParameter("dateOut");
@@ -128,7 +128,7 @@ public class BookingCreateCommand extends Command {
 			errorMessage = "Invalid dateOut input format : " + dateOutParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return link;
+			return uri;
 		}
 
 		Timestamp dateOfBooking = new Timestamp(System.currentTimeMillis());
@@ -138,7 +138,7 @@ public class BookingCreateCommand extends Command {
 							+ " dateIn cant be less then or equal current date";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return link;
+			return uri;
 		}
 
 		BookingDAO bookingDAO = new BookingDAO();
@@ -149,17 +149,17 @@ public class BookingCreateCommand extends Command {
 			errorMessage = "Booking creation failed : Booking was not created.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return link;
+			return uri;
 		}
 		log.trace("Booking successfuly created : id --> " + booking.getId());
 
 		if(loggedUser.getRole().contains(Role.MANAGER)) {
-			link = Path.COMMAND__VIEW_BOOKING_REQUEST_LIST;
+			uri = Path.COMMAND__VIEW_BOOKING_REQUEST_LIST;
 		}else {
-			link = Path.COMMAND__BILL_MAIL + "&booking_id=" + booking.getId();
+			uri = Path.COMMAND__BILL_MAIL + "&booking_id=" + booking.getId();
 		}
 
 		log.debug("Command finished.");
-		return link;
+		return uri;
 	}
 }

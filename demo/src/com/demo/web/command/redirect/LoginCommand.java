@@ -29,7 +29,7 @@ public class LoginCommand extends Command {
 		log.debug("Command started.");
 
 		String errorMessage = null;
-		String link = Path.PAGE__LOGIN;
+		String uri = Path.PAGE__LOGIN;
 
 		String login = request.getParameter("login");
 		log.trace("Request parameter: loging --> " + login);
@@ -37,7 +37,7 @@ public class LoginCommand extends Command {
 			errorMessage = "Login can't be empty or null.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return link;
+			return uri;
 		}
 
 		String password = request.getParameter("password");
@@ -45,7 +45,7 @@ public class LoginCommand extends Command {
 			errorMessage = "Password can't be empty or null.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return link;
+			return uri;
 		}
 		password = EncodeUtil.hashSHA256(password);
 		log.trace("Request parameter: password --> ********");
@@ -57,23 +57,23 @@ public class LoginCommand extends Command {
 			errorMessage = "No such user : login --> " + login;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return link;
+			return uri;
 		}
 
 		if (!password.equals(user.getPassword())) {
 			errorMessage = "Password wrong.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return link;
+			return uri;
 		}
 
 		Role userRole = (Role) user.getRole().toArray()[0];
 		log.trace("userRole --> " + userRole);
 
 		if (userRole == Role.INACTIVE) {
-			link = Path.COMMAND__VIEW_ACTIVATION;
+			uri = Path.COMMAND__VIEW_ACTIVATION;
 		}else{
-			link = Path.COMMAND__VIEW_WELCOME;
+			uri = Path.COMMAND__VIEW_WELCOME;
 		}
 
 		HttpSession session = request.getSession();
@@ -97,6 +97,6 @@ public class LoginCommand extends Command {
 		}
 
 		log.debug("Command finished.");
-		return link;
+		return uri;
 	}
 }

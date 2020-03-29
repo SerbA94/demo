@@ -31,7 +31,7 @@ public class RoomEditViewCommand extends Command {
 		log.debug("Command started.");
 
 		String errorMessage = null;
-		String link = Path.PAGE__ERROR;
+		String uri = Path.PAGE__ERROR;
 
 		User user = (User) request.getSession().getAttribute("user");
 		log.trace("User from session --> " + user);
@@ -40,7 +40,7 @@ public class RoomEditViewCommand extends Command {
 			errorMessage = "You do not have permission to access the requested resource.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return link;
+			return uri;
 		}
 
 		Room room = null;
@@ -52,14 +52,14 @@ public class RoomEditViewCommand extends Command {
 			errorMessage = "Invalid room id format.";
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 
 		if(room == null) {
 			errorMessage = "No such room : id --> " + roomId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 
 		request.setAttribute("room", room);
@@ -73,9 +73,9 @@ public class RoomEditViewCommand extends Command {
 		log.trace("roomClasses sent on view --> " + roomClasses);
 		request.setAttribute("roomClasses", roomClasses);
 
-		link = Path.PAGE__ADMIN_ROOM_EDIT;
+		uri = Path.PAGE__ADMIN_ROOM_EDIT;
 
 		log.debug("Command finished.");
-		return link;
+		return uri;
 	}
 }

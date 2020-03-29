@@ -30,7 +30,7 @@ public class BookingRequestCreateCommand extends Command {
 			throws IOException, ServletException {
 		log.debug("Command started.");
 
-		String redirect = Path.PAGE__ERROR;
+		String uri = Path.PAGE__ERROR;
 		String errorMessage = null;
 
 		HttpSession session = request.getSession();
@@ -44,7 +44,7 @@ public class BookingRequestCreateCommand extends Command {
 			errorMessage = "Invalid capacity input format.";
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return redirect;
+			return uri;
 		}
 		log.trace("Request parameter: capacity --> " + capacity);
 
@@ -57,7 +57,7 @@ public class BookingRequestCreateCommand extends Command {
 			errorMessage = "Invalid roomClass input format : " + roomClassParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return uri;
 		}
 		log.trace("Matched room class: roomClass --> " + roomClass);
 
@@ -68,7 +68,7 @@ public class BookingRequestCreateCommand extends Command {
 			errorMessage = "Invalid dateIn input format : " + dateInParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return uri;
 		}
 
 		String dateOutParam = request.getParameter("dateOut");
@@ -78,7 +78,7 @@ public class BookingRequestCreateCommand extends Command {
 			errorMessage = "Invalid dateOut input format : " + dateOutParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return uri;
 		}
 
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
@@ -88,7 +88,7 @@ public class BookingRequestCreateCommand extends Command {
 							+ " dateIn cant be less then or equal current date";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return uri;
 		}
 
 		BookingRequest bookingRequest = new BookingRequest(user, capacity, dateIn, dateOut, roomClass);
@@ -98,13 +98,13 @@ public class BookingRequestCreateCommand extends Command {
 			errorMessage = "Booking request creation failed : Booking request was not created.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return uri;
 		}
 
-		redirect = Path.COMMAND__VIEW_ACCOUNT;
+		uri = Path.COMMAND__VIEW_ACCOUNT;
 
 		log.debug("Command finished.");
-		return redirect;
+		return uri;
 	}
 
 }

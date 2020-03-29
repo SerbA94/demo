@@ -32,7 +32,7 @@ public class RoomCreateCommand extends Command {
 		log.debug("Command started.");
 
 		String errorMessage = null;
-		String link = Path.PAGE__ERROR;
+		String uri = Path.PAGE__ERROR;
 
 		String capacityParam = request.getParameter("capacity");
 		log.trace("Request parameter: capacity --> " + capacityParam);
@@ -55,7 +55,7 @@ public class RoomCreateCommand extends Command {
 					+ capacityParam + "/" + priceParam + "/" + numberParam;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 
 		String roomStatusParam = request.getParameter("roomStatus");
@@ -66,7 +66,7 @@ public class RoomCreateCommand extends Command {
 					+ "roomStatusParam --> " + roomStatusParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return link;
+			return uri;
 		}
 
 		String roomClassParam = request.getParameter("roomClass");
@@ -77,7 +77,7 @@ public class RoomCreateCommand extends Command {
 					+ "roomClassParam --> " + roomClassParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return link;
+			return uri;
 		}
 
 		String description_ru = request.getParameter("description_ru");
@@ -90,7 +90,7 @@ public class RoomCreateCommand extends Command {
 			errorMessage = "Room creation failed : description can't be null.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return link;
+			return uri;
 		}
 
 		List<Description> descriptions = new ArrayList<>();
@@ -103,14 +103,14 @@ public class RoomCreateCommand extends Command {
 			errorMessage = "Room creation failed : room was not created.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return link;
+			return uri;
 		}
 		log.trace("Room created successfuly : id --> " + room.getId());
 
-		link = Path.COMMAND__VIEW_ROOM_LIST;
+		uri = Path.COMMAND__VIEW_ROOM_LIST;
 
 		log.debug("Command finished.");
-		return link;
+		return uri;
 	}
 
 }

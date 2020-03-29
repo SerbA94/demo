@@ -27,7 +27,7 @@ public class BookingDeleteCommand extends Command {
 		log.debug("Command started.");
 
 		String errorMessage = null;
-		String link = Path.PAGE__ERROR;
+		String uri = Path.PAGE__ERROR;
 
 		User user = (User)request.getSession().getAttribute("user");
 		log.trace("user from session --> " + user);
@@ -41,14 +41,14 @@ public class BookingDeleteCommand extends Command {
 			errorMessage = "Invalid booking id : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 
 		if (booking == null || !booking.getUser().getId().equals(user.getId())) {
 			errorMessage = "You dont have booking with id : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 
 		if (!booking.getBookingStatus().contains(BookingStatus.UNCONFIRMED) ||
@@ -56,16 +56,16 @@ public class BookingDeleteCommand extends Command {
 			errorMessage = "Booking can't be deleted : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 
-		link = Path.COMMAND__VIEW_ACCOUNT;
+		uri = Path.COMMAND__VIEW_ACCOUNT;
 
 		new BookingDAO().deleteBooking(booking);
 		log.trace("Booking deleted : id --> " + booking.getId());
 
 		log.debug("Command finished.");
-		return link;
+		return uri;
 	}
 
 }

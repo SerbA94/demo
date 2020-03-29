@@ -26,7 +26,7 @@ public class BillViewCommand extends Command {
 		log.debug("Command started.");
 
 		String errorMessage = null;
-		String link = Path.PAGE__ERROR;
+		String uri = Path.PAGE__ERROR;
 
 		User user = (User) request.getSession().getAttribute("user");
 		log.trace("user from session --> " + user);
@@ -40,28 +40,28 @@ public class BillViewCommand extends Command {
 			errorMessage = "Invalid booking id : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 
 		if (booking == null || !booking.getUser().getId().equals(user.getId())) {
 			errorMessage = "You dont have booking with id : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 
 		if (booking.getBookingStatus().contains(BookingStatus.NOT_PAID)) {
 			String billDetails = "Bill for booking : " + booking + System.lineSeparator()
 									+ "Total price : " + booking.getTotalPrice();
 			request.setAttribute("billDetails", billDetails);
-			link = Path.PAGE__CUSTOMER_BILL;
+			uri = Path.PAGE__CUSTOMER_BILL;
 		} else {
 			errorMessage = "No bill for booking : id --> " + booking.getId();
 			request.setAttribute("errorMessage", errorMessage);
 		}
 
 		log.debug("Command finished.");
-		return link;
+		return uri;
 	}
 
 }

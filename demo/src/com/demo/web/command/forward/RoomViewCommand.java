@@ -26,7 +26,7 @@ public class RoomViewCommand extends Command {
 			throws IOException, ServletException {
 		log.debug("Command started.");
 
-		String link = Path.PAGE__ERROR;
+		String uri = Path.PAGE__ERROR;
 		String errorMessage = null;
 
 		User user = (User) request.getSession().getAttribute("user");
@@ -41,24 +41,24 @@ public class RoomViewCommand extends Command {
 			errorMessage = "Invalid id format.";
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 
 		if(room == null) {
 			errorMessage = "No room with id : id --> " + id;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 
 		if(room.getRoomStatus().contains(RoomStatus.INACCESSIBLE)) {
 			errorMessage = "Room inaccesible : room number --> " + room.getNumber();
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 
-		link = Path.PAGE__CUSTOMER_ROOM;
+		uri = Path.PAGE__CUSTOMER_ROOM;
 
 		String localeName = null;
 		if(user!=null && user.getLocaleName()!=null) {
@@ -77,6 +77,6 @@ public class RoomViewCommand extends Command {
 		request.setAttribute("room", room);
 
 		log.debug("Command finished.");
-		return link;
+		return uri;
 	}
 }

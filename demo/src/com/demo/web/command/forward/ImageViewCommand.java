@@ -30,7 +30,7 @@ public class ImageViewCommand extends Command {
 		log.debug("Command started.");
 
  		String errorMessage = null;
- 		String link = Path.PAGE__ERROR;
+ 		String uri = Path.PAGE__ERROR;
 
 		Image image = null;
 		try {
@@ -40,24 +40,24 @@ public class ImageViewCommand extends Command {
 			errorMessage = "Invalid image id format.";
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 
 		if(image == null) {
 			errorMessage = "No such image.";
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return link;
+			return uri;
 		}
 
  		response.setContentType("image/jpeg");
  		InputStream inputStream = new ByteArrayInputStream(image.getData());
  		IOUtils.copy(inputStream, response.getOutputStream());
 
- 		link = "image";
+ 		uri = "image";
 
 		log.debug("Command finished.");
-		return link;
+		return uri;
 	}
 
 }

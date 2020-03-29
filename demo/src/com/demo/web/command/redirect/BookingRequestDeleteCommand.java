@@ -23,7 +23,7 @@ public class BookingRequestDeleteCommand extends Command {
 			throws IOException, ServletException {
 		log.debug("Command started.");
 
-		String link = Path.COMMAND__VIEW_BOOKING_REQUEST_LIST;
+		String uri = Path.COMMAND__VIEW_BOOKING_REQUEST_LIST;
 		String errorMessage = null;
 
 		Long bookingRequestId = null;
@@ -36,11 +36,11 @@ public class BookingRequestDeleteCommand extends Command {
 			errorMessage = "Invalid booking request id : id --> " + bookingRequestId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			link = Path.PAGE__ERROR;
+			uri = Path.PAGE__ERROR;
 		}
 
 		log.debug("Command finished.");
-		return link;
+		return uri;
 	}
 
 }

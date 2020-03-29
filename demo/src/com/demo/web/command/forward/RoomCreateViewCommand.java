@@ -30,7 +30,7 @@ public class RoomCreateViewCommand extends Command {
 		log.debug("Command started.");
 
 		String errorMessage = null;
-		String link = Path.PAGE__ERROR;
+		String uri = Path.PAGE__ERROR;
 
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
@@ -40,9 +40,9 @@ public class RoomCreateViewCommand extends Command {
 			errorMessage = "You do not have permission to access the requested resource.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return link;
+			return uri;
 		}
-		link = Path.PAGE__ADMIN_ROOM_CREATE;
+		uri = Path.PAGE__ADMIN_ROOM_CREATE;
 
 		List<RoomStatus> roomStatuses = new RoomStatusDAO().findAllRoomStatuses();
 		log.trace("roomStatuses sent on view --> " + roomStatuses);
@@ -53,7 +53,7 @@ public class RoomCreateViewCommand extends Command {
 		request.setAttribute("roomClasses", roomClasses);
 
 		log.debug("Command finished.");
-		return link;
+		return uri;
 
 
 	}
