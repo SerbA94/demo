@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -24,7 +23,6 @@ import com.demo.web.constants.Path;
 public class RoomEditViewCommand extends Command {
 
 	private static final long serialVersionUID = -3071536593627692473L;
-
 	private static final Logger log = Logger.getLogger(RoomEditViewCommand.class);
 
 	@Override
@@ -35,39 +33,49 @@ public class RoomEditViewCommand extends Command {
 		String errorMessage = null;
 		String forward = Path.COMMAND__VIEW_ERROR;
 
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
+		User user = (User) request.getSession().getAttribute("user");
 		log.trace("User from session --> " + user);
-		Long id =  Long.parseLong(request.getParameter("edit_room_id"));
-		log.trace("Room id from request --> " + id);
 
-		if(user != null) {
-			Role userRole = (Role) user.getRole().toArray()[0];
-			log.trace("userRole --> " + userRole);
-
-			if (userRole == Role.ADMIN) {
-				List<RoomStatus> roomStatuses = new RoomStatusDAO().findAllRoomStatuses();
-				log.trace("roomStatuses sent on view --> " + roomStatuses);
-				request.setAttribute("roomStatuses", roomStatuses);
-
-				List<RoomClass> roomClasses = new RoomClassDAO().findAllRoomClasses();
-				log.trace("roomClasses sent on view --> " + roomClasses);
-				request.setAttribute("roomClasses", roomClasses);
-
-				Room room = new RoomDAO().findRoomById(id);
-				request.setAttribute("room", room);
-				log.trace("room to edit sent on view --> " + room);
-
-				log.debug("Command finished");
-				return Path.PAGE__ADMIN_ROOM_EDIT;
-			}
+		if(user == null || !user.getRole().contains(Role.ADMIN) ) {
+			errorMessage = "You do not have permission to access the requested resource.";
+			request.setAttribute("errorMessage", errorMessage);
+			log.error("errorMessage --> " + errorMessage);
+			return forward;
 		}
-		errorMessage = "You do not have permission to access the requested resource.";
-		request.setAttribute("errorMessage", errorMessage);
-		log.error("errorMessage --> " + errorMessage);
 
-		log.debug("Command finished");
+		Room room = null;
+		Long roomId = null;
+		try {
+			roomId = Long.parseLong(request.getParameter("edit_room_id"));;
+			room  = new RoomDAO().findRoomById(roomId);
+		} catch (NumberFormatException e) {
+			errorMessage = "Invalid room id format.";
+			log.error("errorMessage --> " + errorMessage);
+			request.setAttribute("errorMessage", errorMessage);
+			return forward;
+		}
+
+		if(room == null) {
+			errorMessage = "No such room : id --> " + roomId;
+			log.error("errorMessage --> " + errorMessage);
+			request.setAttribute("errorMessage", errorMessage);
+			return forward;
+		}
+
+		request.setAttribute("room", room);
+		log.trace("Room to edit sent on view : id --> " + room.getId());
+
+		List<RoomStatus> roomStatuses = new RoomStatusDAO().findAllRoomStatuses();
+		log.trace("roomStatuses sent on view --> " + roomStatuses);
+		request.setAttribute("roomStatuses", roomStatuses);
+
+		List<RoomClass> roomClasses = new RoomClassDAO().findAllRoomClasses();
+		log.trace("roomClasses sent on view --> " + roomClasses);
+		request.setAttribute("roomClasses", roomClasses);
+
+		forward = Path.PAGE__ADMIN_ROOM_EDIT;
+
+		log.debug("Command finished.");
 		return forward;
 	}
-
 }
