@@ -22,8 +22,9 @@ public class BookingCreateViewCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		log.debug("Command starts");
-		String forward = Path.PAGE__CUSTOMER_BOOKING_CREATE;
+		log.debug("Command started.");
+
+		String forward = Path.PAGE__ERROR;
 		String errorMessage = null;
 
 		Long id = null;
@@ -33,7 +34,6 @@ public class BookingCreateViewCommand extends Command {
 			errorMessage = "Invalid id format.";
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			forward = Path.PAGE__ERROR;
 			return forward;
 		}
 		log.trace("Room id from request --> " + id);
@@ -43,22 +43,20 @@ public class BookingCreateViewCommand extends Command {
 			errorMessage = "No room with id : id --> " + id;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			forward = Path.PAGE__ERROR;
 			return forward;
 		}
 
-		RoomStatus roomStatus = (RoomStatus) room.getRoomStatus().toArray()[0];
-		if(!roomStatus.equals(RoomStatus.FREE)) {
+		if(!room.getRoomStatus().contains(RoomStatus.FREE)) {
 			errorMessage = "Room cant be booked : room number --> " + room.getNumber();
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			forward = Path.PAGE__ERROR;
 			return forward;
 		}
-
-		log.trace("Room from db  sent on view --> " + room);
+		forward = Path.PAGE__CUSTOMER_BOOKING_CREATE;
+		log.trace("Room sent on view : number --> " + room.getNumber());
 		request.setAttribute("room", room);
-		log.debug("Command finished");
+
+		log.debug("Command finished.");
 		return forward;
 	}
 
