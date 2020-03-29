@@ -5,7 +5,6 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -25,43 +24,41 @@ public class RoomViewCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		log.debug("Command starts");
-		String forward = Path.PAGE__CUSTOMER_ROOM;
+		log.debug("Command started.");
+
+		String forward = Path.PAGE__ERROR;
 		String errorMessage = null;
 
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
-		log.trace("user from session --> " + user);
+		User user = (User) request.getSession().getAttribute("user");
+		log.trace("User from session --> " + user);
 
 		Long id = null;
+		Room room = null;
 		try {
 			id = Long.parseLong(request.getParameter("room_id"));
+			room = new RoomDAO().findRoomById(id);
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid id format.";
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			forward = Path.PAGE__ERROR;
 			return forward;
 		}
-		log.trace("Room id from request --> " + id);
 
-		Room room = new RoomDAO().findRoomById(id);
 		if(room == null) {
 			errorMessage = "No room with id : id --> " + id;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			forward = Path.PAGE__ERROR;
 			return forward;
 		}
 
-		RoomStatus roomStatus = (RoomStatus) room.getRoomStatus().toArray()[0];
-		if(roomStatus.equals(RoomStatus.INACCESSIBLE)) {
+		if(room.getRoomStatus().contains(RoomStatus.INACCESSIBLE)) {
 			errorMessage = "Room inaccesible : room number --> " + room.getNumber();
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			forward = Path.PAGE__ERROR;
 			return forward;
 		}
+
+		forward = Path.PAGE__CUSTOMER_ROOM;
 
 		String localeName = null;
 		if(user!=null && user.getLocaleName()!=null) {
@@ -76,9 +73,10 @@ public class RoomViewCommand extends Command {
 			}
 		}
 
-		log.trace("Room from db  sent on view --> " + room);
+		log.trace("Room sent on view : number --> " + room.getNumber());
 		request.setAttribute("room", room);
-		log.debug("Command finished");
+
+		log.debug("Command finished.");
 		return forward;
 	}
 }
