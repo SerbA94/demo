@@ -52,6 +52,7 @@ public class BookingCreateViewCommand extends Command {
 			request.setAttribute("errorMessage", errorMessage);
 			return forward;
 		}
+
 		forward = Path.PAGE__CUSTOMER_BOOKING_CREATE;
 		log.trace("Room sent on view : number --> " + room.getNumber());
 		request.setAttribute("room", room);
