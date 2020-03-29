@@ -209,7 +209,7 @@ public class ImageDAO implements EntityMapper<Image> {
      * @throws SQLException
      */
 	private Image createImage(Connection con, Image image) throws SQLException {
-		PreparedStatement pstmt = con.prepareStatement(SQL__CREATE_IMAGE);
+		PreparedStatement pstmt = con.prepareStatement(SQL__CREATE_IMAGE,Statement.RETURN_GENERATED_KEYS);
 		int k = 1;
 		pstmt.setString(k++, image.getName());
 		pstmt.setBytes(k++, image.getData());
