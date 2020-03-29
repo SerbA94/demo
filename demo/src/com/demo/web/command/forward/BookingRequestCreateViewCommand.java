@@ -24,7 +24,7 @@ public class BookingRequestCreateViewCommand extends Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		log.debug("Command starts");
+		log.debug("Command started.");
 		String forward = Path.PAGE__CUSTOMER_BOOKING_REQUEST_CREATE;
 
 		Integer maxCapacity = new RoomDAO().findMaxFreeRoomCapacity();
@@ -35,7 +35,7 @@ public class BookingRequestCreateViewCommand extends Command {
 		log.trace("roomClasses sent on view --> " + roomClasses);
 		request.setAttribute("roomClasses", roomClasses);
 
-		log.debug("Command finished");
+		log.debug("Command finished.");
 		return forward;
 	}
 
