@@ -30,7 +30,7 @@ public class BookingRequestCreateCommand extends Command {
 			throws IOException, ServletException {
 		log.debug("Command started.");
 
-		String redirect = Path.COMMAND__VIEW_ERROR;
+		String redirect = Path.PAGE__ERROR;
 		String errorMessage = null;
 
 		HttpSession session = request.getSession();

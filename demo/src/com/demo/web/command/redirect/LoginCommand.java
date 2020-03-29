@@ -26,11 +26,10 @@ public class LoginCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
-
 		log.debug("Command started.");
 
 		String errorMessage = null;
-		String redirect = null;
+		String link = Path.PAGE__LOGIN;
 
 		String login = request.getParameter("login");
 		log.trace("Request parameter: loging --> " + login);
@@ -38,8 +37,7 @@ public class LoginCommand extends Command {
 			errorMessage = "Login can't be empty or null.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			redirect = Path.COMMAND__VIEW_ERROR;
-			return redirect;
+			return link;
 		}
 
 		String password = request.getParameter("password");
@@ -47,8 +45,7 @@ public class LoginCommand extends Command {
 			errorMessage = "Password can't be empty or null.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			redirect = Path.COMMAND__VIEW_ERROR;
-			return redirect;
+			return link;
 		}
 		password = EncodeUtil.hashSHA256(password);
 		log.trace("Request parameter: password --> ********");
@@ -60,23 +57,23 @@ public class LoginCommand extends Command {
 			errorMessage = "No such user : login --> " + login;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return link;
 		}
 
 		if (!password.equals(user.getPassword())) {
 			errorMessage = "Password wrong.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return link;
 		}
 
 		Role userRole = (Role) user.getRole().toArray()[0];
 		log.trace("userRole --> " + userRole);
 
 		if (userRole == Role.INACTIVE) {
-			redirect = Path.COMMAND__VIEW_ACTIVATION;
+			link = Path.COMMAND__VIEW_ACTIVATION;
 		}else{
-			redirect = Path.COMMAND__VIEW_WELCOME;
+			link = Path.COMMAND__VIEW_WELCOME;
 		}
 
 		HttpSession session = request.getSession();
@@ -100,6 +97,6 @@ public class LoginCommand extends Command {
 		}
 
 		log.debug("Command finished.");
-		return redirect;
+		return link;
 	}
 }

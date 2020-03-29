@@ -26,8 +26,7 @@ public class AccountViewCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		log.debug("Command starts");
-		String forward = Path.PAGE__CUSTOMER_ACCOUNT;
+		log.debug("Command started.");
 
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
@@ -48,8 +47,8 @@ public class AccountViewCommand extends Command {
 		log.trace("handlingBookings size : size --> " + handlingBookings.size());
 		request.setAttribute("handlingBookings", handlingBookings);
 
-		log.debug("Command finished");
-		return forward;
+		log.debug("Command finished.");
+		return Path.PAGE__CUSTOMER_ACCOUNT;
 	}
 
 }

@@ -24,7 +24,6 @@ public class SettingsUpdateCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
-
 		log.debug("Command started.");
 
 		User user = (User)request.getSession().getAttribute("user");

@@ -22,16 +22,14 @@ public class BookingRequestListViewCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-
 		log.debug("Command started.");
-		String forward = Path.PAGE__MANAGER_BOOKING_REQUEST_LIST;
 
 		BookingRequestDAO bookingRequestDAO = new BookingRequestDAO();
 		List<BookingRequest> bookingRequests = bookingRequestDAO.findAllBookingRequests();
 		request.setAttribute("bookingRequests", bookingRequests);
 
 		log.debug("Command finished.");
-		return forward;
+		return Path.PAGE__MANAGER_BOOKING_REQUEST_LIST;
 	}
 
 }

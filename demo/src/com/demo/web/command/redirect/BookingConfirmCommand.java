@@ -25,8 +25,9 @@ public class BookingConfirmCommand extends Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		log.debug("Command started.");
+
 		String errorMessage = null;
-		String redirect = Path.COMMAND__VIEW_ACCOUNT;
+		String link = Path.PAGE__ERROR;
 
 		User user = (User)request.getSession().getAttribute("user");
 		log.trace("user from session --> " + user);
@@ -40,23 +41,24 @@ public class BookingConfirmCommand extends Command {
 			errorMessage = "Invalid booking id : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			redirect = Path.COMMAND__VIEW_ERROR;
-			return redirect;
+			return link;
 		}
 
 		if (booking==null || !booking.getUser().getId().equals(user.getId())) {
 			errorMessage = "You dont have booking with id : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			redirect = Path.COMMAND__VIEW_ERROR;
-			return redirect;
+			return link;
 		}
+
+		link = Path.COMMAND__VIEW_ACCOUNT;
 
 		booking.setBookingStatus(Collections.singleton(BookingStatus.NOT_PAID));
 		new BookingDAO().updateBooking(booking);
 		log.trace("Booking updated : id --> " + booking.getId());
-		log.debug("Command ends");
-		return redirect;
+
+		log.debug("Command finished.");
+		return link;
 	}
 
 }

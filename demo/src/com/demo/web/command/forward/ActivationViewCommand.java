@@ -21,9 +21,9 @@ public class ActivationViewCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		log.debug("Command starts");
+		log.debug("Command started.");
 
-		log.debug("Command finished");
+		log.debug("Command finished.");
 		return Path.PAGE__INACTIVE_ACTIVATION;
 	}
 

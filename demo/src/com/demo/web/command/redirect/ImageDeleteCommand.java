@@ -22,10 +22,10 @@ public class ImageDeleteCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		log.debug("Command Started.");
+		log.debug("Command started.");
 
 		String errorMessage = null;
-		String redirect = Path.COMMAND__VIEW_ERROR;
+		String link = Path.PAGE__ERROR;
 
 		try {
 			Long imageId = Long.parseLong(request.getParameter("image_id"));
@@ -41,7 +41,7 @@ public class ImageDeleteCommand extends Command {
 			log.trace("Request parameter: edit_room_id --> " + roomId);
 			Room room = new RoomDAO().findRoomById(roomId);
 			request.setAttribute("room", room);
-			redirect = Path.COMMAND__VIEW_ROOM_EDIT + "&edit_room_id=" + roomId;
+			link = Path.COMMAND__VIEW_ROOM_EDIT + "&edit_room_id=" + roomId;
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid room id.";
 			log.error(errorMessage);
@@ -51,7 +51,7 @@ public class ImageDeleteCommand extends Command {
 			request.setAttribute("errorMessage", errorMessage);
 		}
 		log.debug("Command finished.");
-		return redirect;
+		return link;
 	}
 
 }

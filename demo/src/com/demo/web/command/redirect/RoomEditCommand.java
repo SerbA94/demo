@@ -29,9 +29,9 @@ public class RoomEditCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-
 		log.debug("Command started.");
-		String redirect = Path.COMMAND__VIEW_ERROR;
+
+		String link = Path.PAGE__ERROR;
 		String errorMessage = null;
 
 		RoomDAO roomDAO = new RoomDAO();
@@ -47,13 +47,13 @@ public class RoomEditCommand extends Command {
 			errorMessage = "Invalid room id format : id --> " + roomIdParam;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return redirect;
+			return link;
 		}
 		if(room == null) {
 			errorMessage = "No room with id: edit_room_id  --> " + roomIdParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return link;
 		}
 
 		String numberParam = request.getParameter("number").trim();
@@ -71,7 +71,7 @@ public class RoomEditCommand extends Command {
 			errorMessage = "Invalid number : number --> " + numberParam;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return redirect;
+			return link;
 		}
 
 		String capacityParam = request.getParameter("capacity").trim();
@@ -89,7 +89,7 @@ public class RoomEditCommand extends Command {
 			errorMessage = "Invalid capacity : capacity --> " + capacityParam;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return redirect;
+			return link;
 		}
 
 		String priceParam = request.getParameter("price").trim();
@@ -107,7 +107,7 @@ public class RoomEditCommand extends Command {
 			errorMessage = "Invalid price : price --> " + priceParam;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return redirect;
+			return link;
 		}
 
 		String roomClassParam = request.getParameter("roomClass").trim();
@@ -117,7 +117,7 @@ public class RoomEditCommand extends Command {
 			errorMessage = "Room class not exists : roomClassParam --> " + roomClassParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return link;
 		}
 		room.setRoomClass(roomClass);
 
@@ -128,7 +128,7 @@ public class RoomEditCommand extends Command {
 			errorMessage = "Room status not exists : roomStatusParam --> " + roomStatusParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return link;
 		}
 		room.setRoomStatus(roomStatus);
 
@@ -158,14 +158,14 @@ public class RoomEditCommand extends Command {
 			errorMessage = "Room updating failed : room was not updated.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return link;
 		}
 
 		log.trace("Room with id updated: id --> " + room.getId());
 
-		redirect = Path.COMMAND__VIEW_ROOM_LIST;
+		link = Path.COMMAND__VIEW_ROOM_LIST;
 
 		log.debug("Command finished.");
-		return redirect;
+		return link;
 	}
 }

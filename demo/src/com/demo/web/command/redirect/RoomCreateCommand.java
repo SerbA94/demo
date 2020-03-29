@@ -30,8 +30,9 @@ public class RoomCreateCommand extends Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		log.debug("Command started.");
+
 		String errorMessage = null;
-		String redirect = Path.COMMAND__VIEW_ERROR;
+		String link = Path.PAGE__ERROR;
 
 		String capacityParam = request.getParameter("capacity");
 		log.trace("Request parameter: capacity --> " + capacityParam);
@@ -54,7 +55,7 @@ public class RoomCreateCommand extends Command {
 					+ capacityParam + "/" + priceParam + "/" + numberParam;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return redirect;
+			return link;
 		}
 
 		String roomStatusParam = request.getParameter("roomStatus");
@@ -65,7 +66,7 @@ public class RoomCreateCommand extends Command {
 					+ "roomStatusParam --> " + roomStatusParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return link;
 		}
 
 		String roomClassParam = request.getParameter("roomClass");
@@ -76,7 +77,7 @@ public class RoomCreateCommand extends Command {
 					+ "roomClassParam --> " + roomClassParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return link;
 		}
 
 		String description_ru = request.getParameter("description_ru");
@@ -89,7 +90,7 @@ public class RoomCreateCommand extends Command {
 			errorMessage = "Room creation failed : description can't be null.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return link;
 		}
 
 		List<Description> descriptions = new ArrayList<>();
@@ -102,14 +103,14 @@ public class RoomCreateCommand extends Command {
 			errorMessage = "Room creation failed : room was not created.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return link;
 		}
 		log.trace("Room created successfuly : id --> " + room.getId());
 
-		redirect = Path.COMMAND__VIEW_ROOM_LIST;
+		link = Path.COMMAND__VIEW_ROOM_LIST;
 
 		log.debug("Command finished.");
-		return redirect;
+		return link;
 	}
 
 }

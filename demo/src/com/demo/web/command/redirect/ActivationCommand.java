@@ -27,7 +27,7 @@ public class ActivationCommand extends Command {
 			throws IOException, ServletException {
 		log.debug("Command started.");
 
-		String redirect = Path.COMMAND__VIEW_ERROR;
+		String link = Path.PAGE__ERROR;
 		String errorMessage =  "Link invalid.";
 
 		String email = request.getParameter("email");
@@ -39,7 +39,7 @@ public class ActivationCommand extends Command {
 		if(email == null || activationToken == null) {
 			log.trace("Activation failed : Request is null.");
 			request.setAttribute("errorMessage", errorMessage);
-			return redirect;
+			return link;
 		}
 
 		UserDAO userDao = new UserDAO();
@@ -48,7 +48,7 @@ public class ActivationCommand extends Command {
 		if(user == null) {
 			log.trace("No user in db : email --> " + email);
 			request.setAttribute("errorMessage", errorMessage);
-			return redirect;
+			return link;
 		}else {
 			log.trace("User loaded from db : email --> " + email);
 		}
@@ -59,22 +59,22 @@ public class ActivationCommand extends Command {
 					+ user.getRole().toArray()[0]);
 
 			request.setAttribute("errorMessage", errorMessage);
-			return redirect;
+			return link;
 		}
 
 		if(user.getActivationToken() == null) {
 			log.trace("Activation failed : User activation token is null.");
 			request.setAttribute("errorMessage", errorMessage);
-			return redirect;
+			return link;
 		}
 
 		if(user.getActivationToken() != activationToken) {
 			log.trace("Activation failed : Activation tokens did not matched.");
 			request.setAttribute("errorMessage", errorMessage);
-			return redirect;
+			return link;
 		}
 
-		redirect = Path.COMMAND__VIEW_WELCOME;
+		link = Path.COMMAND__VIEW_WELCOME;
 
 		user.setRole(Collections.singleton(Role.CUSTOMER));
 		user.setActivationToken(null);
@@ -91,7 +91,6 @@ public class ActivationCommand extends Command {
 		log.info("User " + user + " logged as " + userRole.getTitle());
 
 		log.debug("Command finished.");
-		return redirect;
-
+		return link;
 	}
 }

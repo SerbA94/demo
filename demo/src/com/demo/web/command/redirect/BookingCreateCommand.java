@@ -38,7 +38,7 @@ public class BookingCreateCommand extends Command {
 			throws IOException, ServletException {
 		log.debug("Command started.");
 
-		String redirect = Path.COMMAND__VIEW_ERROR;
+		String link = Path.PAGE__ERROR;
 		String errorMessage = null;
 
 		Set<BookingStatus> bookingStatus = null;
@@ -46,10 +46,9 @@ public class BookingCreateCommand extends Command {
 
 		HttpSession session = request.getSession();
 		User loggedUser = (User) session.getAttribute("user");
-		log.trace("user from session --> " + loggedUser);
-		Role userRole = (Role) loggedUser.getRole().toArray()[0];
+		log.trace("User from session --> " + loggedUser);
 
-		if(userRole.equals(Role.MANAGER)) {
+		if(loggedUser.getRole().contains(Role.MANAGER)) {
 
 			bookingStatus = Collections.singleton(BookingStatus.UNCONFIRMED);
 			Long userId = null;
@@ -64,7 +63,7 @@ public class BookingCreateCommand extends Command {
 				errorMessage = "No user with id : id --> " + userId;
 				log.error("errorMessage --> " + errorMessage);
 				request.setAttribute("errorMessage", errorMessage);
-				return redirect;
+				return link;
 			}
 
 			Long bookingRequestId = null;
@@ -77,7 +76,7 @@ public class BookingCreateCommand extends Command {
 				errorMessage = "Invalid booking request id : id --> " + bookingRequestId;
 				log.error("errorMessage --> " + errorMessage);
 				request.setAttribute("errorMessage", errorMessage);
-				return redirect;
+				return link;
 			}
 		}else {
 			bookingStatus = Collections.singleton(BookingStatus.NOT_PAID);
@@ -91,7 +90,7 @@ public class BookingCreateCommand extends Command {
 			errorMessage = "Invalid id format.";
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return redirect;
+			return link;
 		}
 		log.trace("Room id from request --> " + roomId);
 
@@ -101,7 +100,7 @@ public class BookingCreateCommand extends Command {
 			errorMessage = "No room with id : id --> " + roomId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return redirect;
+			return link;
 		}
 		log.trace("Room from db : id --> " + room.getId());
 
@@ -109,7 +108,7 @@ public class BookingCreateCommand extends Command {
 			errorMessage = "Room cant be booked : room number --> " + room.getNumber();
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return redirect;
+			return link;
 		}
 
 		String dateInParam = request.getParameter("dateIn");
@@ -119,7 +118,7 @@ public class BookingCreateCommand extends Command {
 			errorMessage = "Invalid dateIn input format : " + dateInParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return link;
 		}
 
 		String dateOutParam = request.getParameter("dateOut");
@@ -129,7 +128,7 @@ public class BookingCreateCommand extends Command {
 			errorMessage = "Invalid dateOut input format : " + dateOutParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return link;
 		}
 
 		Timestamp dateOfBooking = new Timestamp(System.currentTimeMillis());
@@ -139,7 +138,7 @@ public class BookingCreateCommand extends Command {
 							+ " dateIn cant be less then or equal current date";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return link;
 		}
 
 		BookingDAO bookingDAO = new BookingDAO();
@@ -150,17 +149,17 @@ public class BookingCreateCommand extends Command {
 			errorMessage = "Booking creation failed : Booking was not created.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return redirect;
+			return link;
 		}
 		log.trace("Booking successfuly created : id --> " + booking.getId());
 
-		if(userRole.equals(Role.MANAGER)) {
-			redirect = Path.COMMAND__VIEW_BOOKING_REQUEST_LIST;
+		if(loggedUser.getRole().contains(Role.MANAGER)) {
+			link = Path.COMMAND__VIEW_BOOKING_REQUEST_LIST;
 		}else {
-			redirect = Path.COMMAND__BILL_MAIL + "&booking_id=" + booking.getId();
+			link = Path.COMMAND__BILL_MAIL + "&booking_id=" + booking.getId();
 		}
 
 		log.debug("Command finished.");
-		return redirect;
+		return link;
 	}
 }
