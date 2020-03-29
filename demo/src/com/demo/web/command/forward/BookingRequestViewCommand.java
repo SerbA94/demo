@@ -25,8 +25,9 @@ public class BookingRequestViewCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-		log.debug("Command starts");
-		String forward = Path.PAGE__MANAGER_BOOKING_REQUEST;
+		log.debug("Command started.");
+
+		String forward = Path.PAGE__ERROR;
 		String errorMessage = null;
 
 		Long id = null;
@@ -36,7 +37,6 @@ public class BookingRequestViewCommand extends Command {
 			errorMessage = "Invalid id format.";
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			forward = Path.PAGE__ERROR;
 			return forward;
 		}
 		log.trace("Booking request id from request --> " + id);
@@ -47,16 +47,19 @@ public class BookingRequestViewCommand extends Command {
 			errorMessage = "No booking request with id : id --> " + id;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			forward = Path.PAGE__ERROR;
 			return forward;
 		}
 
+		forward = Path.PAGE__MANAGER_BOOKING_REQUEST;
+
 		List<Room> rooms = new RoomDAO().findFreeFilteredRooms(
 				bookingRequest.getCapacity(), (RoomClass)bookingRequest.getRoomClass().toArray()[0]);
-		log.trace("Rooms sent on view : rooms --> " + rooms);
+		log.trace("Rooms amount sent on view : amount --> " + rooms.size());
+
 		request.setAttribute("bookingRequest", bookingRequest);
 		request.setAttribute("rooms", rooms);
-		log.debug("Command finished");
+
+		log.debug("Command finished.");
 		return forward;
 	}
 
