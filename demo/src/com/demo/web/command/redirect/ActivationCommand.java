@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.command.redirect;
 
 import java.io.IOException;
@@ -16,6 +19,12 @@ import com.demo.db.entity.User;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
+/**
+ * Activation command.
+ *
+ * @author A.Serbin
+ *
+ */
 public class ActivationCommand extends Command {
 
 	private static final long serialVersionUID = 4828904762551760108L;

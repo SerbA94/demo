@@ -1,5 +1,7 @@
+/**
+ *
+ */
 package com.demo.web.listener;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +14,19 @@ import javax.servlet.ServletContextListener;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-
+/**
+ * Context listener.
+ *
+ * @author A.Serbin
+ *
+ */
 public class ContextListener implements ServletContextListener {
 
 	private static final Logger log = Logger.getLogger(ContextListener.class);
 
 	public void contextDestroyed(ServletContextEvent event) {
 		log("Servlet context destruction starts");
-		// do nothing
+
 		log("Servlet context destruction finished");
 	}
 
@@ -34,6 +41,12 @@ public class ContextListener implements ServletContextListener {
 		log("Servlet context initialization finished");
 	}
 
+	/**
+	 * Initializes i18n subsystem.
+	 *
+	 * @param servletContext
+	 * 			ServletContext
+	 */
 	private void initI18N(ServletContext servletContext) {
 		log.debug("I18N subsystem initialization started");
 
@@ -55,6 +68,12 @@ public class ContextListener implements ServletContextListener {
 		log.debug("I18N subsystem initialization finished");
 	}
 
+	/**
+	 * Initializes log4j framework.
+	 *
+	 * @param servletContext
+	 * 			ServletContext
+	 */
 	private void initLog4J(ServletContext servletContext) {
 		log("Log4J initialization started");
 		try {
@@ -66,12 +85,12 @@ public class ContextListener implements ServletContextListener {
 		log("Log4J initialization finished");
 	}
 
-
+	/**
+	 * Initializes CommandContainer.
+	 */
 	private void initCommandContainer() {
 		log.debug("Command container initialization started");
 
-		// initialize commands container
-		// just load class to JVM
 		try {
 			Class.forName("com.demo.web.command.CommandContainer");
 		} catch (ClassNotFoundException ex) {

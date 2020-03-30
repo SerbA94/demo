@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.command.forward;
 
 import java.io.IOException;
@@ -15,6 +18,12 @@ import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 import com.demo.web.utils.TimestampUtil;
 
+/**
+ * Booking create view.
+ *
+ * @author A.Serbin
+ *
+ */
 public class BookingCreateViewCommand extends Command {
 
 	private static final long serialVersionUID = -2582379197846722054L;

@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.command.redirect;
 
 import java.io.IOException;
@@ -14,6 +17,12 @@ import com.demo.db.entity.Room;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
+/**
+ * Image delete command.
+ *
+ * @author A.Serbin
+ *
+ */
 public class ImageDeleteCommand extends Command {
 
 	private static final long serialVersionUID = -8890724231959971213L;

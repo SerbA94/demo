@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.command.forward;
 
 import java.io.IOException;
@@ -16,6 +19,12 @@ import com.demo.db.entity.User;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
+/**
+ * Room view.
+ *
+ * @author A.Serbin
+ *
+ */
 public class RoomViewCommand extends Command {
 
 	private static final long serialVersionUID = 1741486663765168907L;

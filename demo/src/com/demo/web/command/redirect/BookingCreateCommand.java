@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.command.redirect;
 
 import java.io.IOException;
@@ -27,6 +30,12 @@ import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 import com.demo.web.utils.TimestampUtil;
 
+/**
+ * Booking create command.
+ *
+ * @author A.Serbin
+ *
+ */
 public class BookingCreateCommand extends Command {
 
 	private static final long serialVersionUID = -3958465045591852433L;
@@ -130,7 +139,7 @@ public class BookingCreateCommand extends Command {
 			log.error("errorMessage --> " + errorMessage);
 			return uri;
 		}
-		
+
 		Timestamp dateOfBooking = new Timestamp(System.currentTimeMillis());
 
 		StringBuilder errorBuilder = new StringBuilder();

@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.utils;
 
 import java.io.IOException;
@@ -13,8 +16,24 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * Mail sending util.
+ *
+ * @author A.Serbin
+ *
+ */
 public class MailUtil {
 
+	/**
+	 * Send email.
+	 *
+	 * @param address
+	 * 			Email address.
+	 * @param subject
+	 * 			Email subject.
+	 * @param messageText
+	 *			Text of mail message.
+	 */
 	public void sendEmail(String address, String subject, String messageText) {
 
 		Properties prop = getProperties();

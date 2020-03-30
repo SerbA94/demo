@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.command.redirect;
 
 import java.io.IOException;
@@ -20,6 +23,12 @@ import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 import com.demo.web.utils.TimestampUtil;
 
+/**
+ * Booking request create command.
+ *
+ * @author A.Serbin
+ *
+ */
 public class BookingRequestCreateCommand extends Command {
 
 	private static final long serialVersionUID = 6937732969299796074L;

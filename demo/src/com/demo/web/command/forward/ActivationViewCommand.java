@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.command.forward;
 
 import java.io.IOException;
@@ -12,6 +15,12 @@ import com.demo.web.command.Command;
 import com.demo.web.command.redirect.ActivationCommand;
 import com.demo.web.constants.Path;
 
+/**
+ * User account activation view.
+ *
+ * @author A.Serbin
+ *
+ */
 public class ActivationViewCommand extends Command {
 
 	private static final long serialVersionUID = 4438395985208271977L;

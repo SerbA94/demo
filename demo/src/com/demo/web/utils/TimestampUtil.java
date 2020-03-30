@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.utils;
 
 import java.sql.Timestamp;
@@ -6,16 +9,27 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+/**
+ * Timestamp util.
+ *
+ * @author A.Serbin
+ *
+ */
 public class TimestampUtil {
 
 	private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	private static final String SHIFT_CHANGE_TIME = "12:00:00";
 
 	/**
-	 * 	Input string format      : "yyyy-MM-dd"
-	 * 	Parsing timestamp format : "yyyy-MM-dd HH:mm:ss"
-	 * 	Output timestamp format  : "yyyy-MM-dd 12:00:00"
-	 * */
+	 * Parse timestamp in format : yyyy-MM-dd HH:mm:ss.
+	 *
+	 * @param timestampParam
+	 * 			Timestamp string to parse.
+	 * 			Expected format : yyyy-MM-dd.
+	 *
+	 * @return Timestamp
+	 * 			Timestamp in format : yyyy-MM-dd 12:00:00.
+	 */
 	public static Timestamp parseTimestamp(String timestampParam) {
 		Timestamp timestamp = null;
 		try {
@@ -27,6 +41,12 @@ public class TimestampUtil {
 		return timestamp;
 	}
 
+	/**
+	 * Calculates closest date of shift change.
+	 *
+	 * @return Timestamp
+	 * 			Timestamp in format : yyyy-MM-dd 12:00:00.
+	 */
 	public static Timestamp getNextDateIn() {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 		Timestamp currentShiftChangeTimestamp = getCurrentShiftChangeTimestamp();
@@ -37,18 +57,48 @@ public class TimestampUtil {
 		}
 	}
 
+	/**
+	 * Calculates closest date of shift change.
+	 *
+	 * @param pattern
+	 * 			returning string format.
+	 *
+	 * @return String
+	 * 			String in given format.
+	 */
 	public static String getNextDateIn(String pattern) {
 		return getNextDateIn().toLocalDateTime().format(DateTimeFormatter.ofPattern(pattern));
 	}
 
+	/**
+	 * Calculates next posible date of leaving shift change.
+	 *
+	 * @return Timestamp
+	 * 			Timestamp in format : yyyy-MM-dd 12:00:00.
+	 */
 	public static Timestamp getNextDateOut() {
 		return Timestamp.valueOf(getNextDateIn().toLocalDateTime().plusDays(1));
 	}
 
+	/**
+	 * Calculates next posible date of leaving shift change.
+	 *
+	 * @param pattern
+	 * 			returning string format.
+	 *
+	 * @return String
+	 * 			String in given format.
+	 */
 	public static String getNextDateOut(String pattern) {
 		return getNextDateOut().toLocalDateTime().format(DateTimeFormatter.ofPattern(pattern));
 	}
 
+	/**
+	 * Calculates current date of shift change.
+	 *
+	 * @return Timestamp
+	 * 			Timestamp in format : yyyy-MM-dd 12:00:00.
+	 */
 	public static Timestamp getCurrentShiftChangeTimestamp() {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 		int year = currentTimestamp.toLocalDateTime().getYear();

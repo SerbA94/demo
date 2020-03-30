@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.command.redirect;
 
 import java.io.IOException;
@@ -16,6 +19,12 @@ import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 import com.demo.web.utils.MailUtil;
 
+/**
+ * Bill mail send command.
+ *
+ * @author A.Serbin
+ *
+ */
 public class BillMailCommand extends Command {
 
 	private static final long serialVersionUID = -5375942259978927403L;

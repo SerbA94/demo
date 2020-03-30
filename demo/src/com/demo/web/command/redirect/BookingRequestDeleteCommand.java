@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.command.redirect;
 
 import java.io.IOException;
@@ -13,6 +16,12 @@ import com.demo.db.entity.BookingRequest;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
+/**
+ * Booking request delete command.
+ *
+ * @author A.Serbin
+ *
+ */
 public class BookingRequestDeleteCommand extends Command {
 
 	private static final long serialVersionUID = -9036453675202149509L;

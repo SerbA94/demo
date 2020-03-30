@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.command.redirect;
 
 import java.io.IOException;
@@ -15,7 +18,12 @@ import com.demo.db.entity.Image;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
-
+/**
+ * Image upload command.
+ *
+ * @author A.Serbin
+ *
+ */
 public class ImageUploadCommand extends Command {
 
 	private static final long serialVersionUID = 4854668554533486764L;

@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.command.redirect;
 
 import java.io.IOException;
@@ -14,6 +17,12 @@ import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 import com.demo.web.utils.MailUtil;
 
+/**
+ * Activation mail send command.
+ *
+ * @author A.Serbin
+ *
+ */
 public class ActivationMailCommand extends Command {
 
 	private static final long serialVersionUID = -7628581063499337507L;

@@ -1,5 +1,7 @@
+/**
+ *
+ */
 package com.demo.web.filter;
-
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,19 +24,23 @@ import org.apache.log4j.Logger;
 import com.demo.db.entity.Role;
 import com.demo.web.constants.Path;
 
-
+/**
+ * Security filter.
+ *
+ * @author A.Serbin
+ *
+ */
 public class CommandAccessFilter implements Filter {
 
 	private static final Logger log = Logger.getLogger(CommandAccessFilter.class);
 
-	// commands access
 	private static Map<Role, List<String>> accessMap = new HashMap<Role, List<String>>();
 	private static List<String> commons = new ArrayList<String>();
 	private static List<String> outOfControl = new ArrayList<String>();
 
 	public void destroy() {
 		log.debug("Filter destruction starts");
-		// do nothing
+
 		log.debug("Filter destruction finished");
 	}
 
@@ -51,24 +57,24 @@ public class CommandAccessFilter implements Filter {
 			Role userRole = (Role)session.getAttribute("userRole");
 			log.trace("Role from session : userRole --> " + userRole);
 
-			String forwardCommand = Path.PAGE__ERROR;
+			String uri = Path.PAGE__ERROR;
 			String errorMessasge = "You do not have permission to access the requested resource.";
 
 			if (userRole != null) {
 				if(userRole == Role.INACTIVE) {
-					forwardCommand = Path.PAGE__INACTIVE_ACTIVATION;
+					uri = Path.PAGE__INACTIVE_ACTIVATION;
 					errorMessasge = errorMessasge + "Please activate your account.";
 				}
 			}else {
-				forwardCommand = Path.PAGE__LOGIN;
+				uri = Path.PAGE__LOGIN;
 				errorMessasge = errorMessasge + "Please login.";
 			}
 
 			request.setAttribute("errorMessage", errorMessasge);
 			log.trace("Set the request attribute: errorMessage --> " + errorMessasge);
-			log.debug("Forvard to " + forwardCommand);
+			log.debug("Forvard to " + uri);
 
-			request.getRequestDispatcher(forwardCommand).forward(request, response);
+			request.getRequestDispatcher(uri).forward(request, response);
 		}
 	}
 
@@ -93,24 +99,28 @@ public class CommandAccessFilter implements Filter {
 	public void init(FilterConfig fConfig) throws ServletException {
 		log.debug("Filter initialization starts");
 
-		// roles
 		accessMap.put(Role.ADMIN, asList(fConfig.getInitParameter("admin")));
 		accessMap.put(Role.MANAGER, asList(fConfig.getInitParameter("manager")));
 		accessMap.put(Role.CUSTOMER, asList(fConfig.getInitParameter("customer")));
 		accessMap.put(Role.INACTIVE, asList(fConfig.getInitParameter("inactive")));
 		log.trace("Access map --> " + accessMap);
 
-		// commons
 		commons = asList(fConfig.getInitParameter("common"));
 		log.trace("Common commands --> " + commons);
 
-		// out of control
 		outOfControl = asList(fConfig.getInitParameter("out-of-control"));
 		log.trace("Out of control commands --> " + outOfControl);
 
 		log.debug("Filter initialization finished");
 	}
 
+	/**
+	 * Extracts parameter values from string.
+	 *
+	 * @param str
+	 *            parameter values string.
+	 * @return list of parameter values.
+	 */
 	private List<String> asList(String str) {
 		List<String> list = new ArrayList<String>();
 		StringTokenizer st = new StringTokenizer(str);

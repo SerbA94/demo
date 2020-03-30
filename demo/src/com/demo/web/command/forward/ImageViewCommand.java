@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.command.forward;
 
 import java.io.ByteArrayInputStream;
@@ -16,11 +19,15 @@ import com.demo.db.entity.Image;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
-
+/**
+ * Image view.
+ *
+ * @author A.Serbin
+ *
+ */
 public class ImageViewCommand extends Command {
 
 	private static final long serialVersionUID = 6322143108140190894L;
-
 	private static final Logger log = Logger.getLogger(ImageViewCommand.class);
 
 

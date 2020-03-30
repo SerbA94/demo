@@ -1,5 +1,7 @@
+/**
+ *
+ */
 package com.demo.web.filter;
-
 
 import java.io.IOException;
 
@@ -13,7 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
-
+/**
+ * Encoding filter.
+ *
+ * @author A.Serbin
+ *
+ */
 public class EncodingFilter implements Filter {
 
 	private static final Logger log = Logger.getLogger(EncodingFilter.class);
@@ -22,7 +29,7 @@ public class EncodingFilter implements Filter {
 
 	public void destroy() {
 		log.debug("Filter destruction starts");
-		// do nothing
+
 		log.debug("Filter destruction finished");
 	}
 

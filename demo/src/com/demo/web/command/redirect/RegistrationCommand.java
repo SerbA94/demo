@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.command.redirect;
 
 import java.io.IOException;
@@ -18,6 +21,12 @@ import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 import com.demo.web.utils.EncodeUtil;
 
+/**
+ * Registration command.
+ *
+ * @author A.Serbin
+ *
+ */
 public class RegistrationCommand extends Command {
 
 	private static final long serialVersionUID = -5994772745509837239L;

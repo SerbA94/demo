@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.jsp.taglib;
 
 import java.io.IOException;
@@ -7,6 +10,13 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.SkipPageException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
+/**
+ * Price formating tag (JSP custom tag - format).
+ * Brings price into format : $###,###.00
+ *
+ * @author A.Serbin
+ *
+ */
 public class PriceFormatter extends SimpleTagSupport {
 
 	private static final String FORMAT = "$###,###.00";

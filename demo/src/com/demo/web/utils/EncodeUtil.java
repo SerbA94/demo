@@ -1,14 +1,32 @@
+/**
+ *
+ */
 package com.demo.web.utils;
 
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Encoding util.
+ *
+ * @author A.Serbin
+ *
+ */
 public class EncodeUtil {
 
 	private static final String MD5 = "MD5";
 	private static final String SHA256 = "SHA-256";
 
+	/**
+	 * Encode string with SHA256 alg.
+	 *
+	 * @param input
+	 * 			String to encode
+	 *
+	 * @return String
+	 *
+	 */
 	public static String hashSHA256(String input){
 		String hash = null;
 		try {
@@ -19,6 +37,15 @@ public class EncodeUtil {
 		return hash;
 	}
 
+	/**
+	 * Encode string with MD5 alg.
+	 *
+	 * @param input
+	 * 			String to encode
+	 *
+	 * @return String
+	 *
+	 */
 	public static String hashMD5(String input){
 		String hash = null;
 		try {
@@ -29,6 +56,16 @@ public class EncodeUtil {
 		return hash;
 	}
 
+	/**
+	 * Encode string with given alg.
+	 *
+	 * @param input
+	 * 			String to encode.
+	 * @param algorithm
+	 * 			Encoding alg.
+	 * @return String
+	 *
+	 */
 	public static String hash(String input, String algorithm) throws NoSuchAlgorithmException {
 		StringBuilder sb = new StringBuilder();
 		MessageDigest digest = MessageDigest.getInstance(algorithm);
@@ -50,6 +87,15 @@ public class EncodeUtil {
 		return caseUp(sb.toString());
 	}
 
+	/**
+	 * Brings string into upper case format.
+	 *
+	 * @param str
+	 * 			String to upper case.
+	 *
+	 * @return String
+	 *
+	 */
 	private static String caseUp(String str) {
 		StringBuilder sb = new StringBuilder();
 		char[] ch = str.toCharArray();

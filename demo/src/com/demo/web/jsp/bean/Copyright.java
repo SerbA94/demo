@@ -1,7 +1,16 @@
+/**
+ *
+ */
 package com.demo.web.jsp.bean;
 
 import java.sql.Timestamp;
 
+/**
+ * Copyright (JSP JavaBean).
+ *
+ * @author A.Serbin
+ *
+ */
 public class Copyright {
 
 	public String getCopyright() {

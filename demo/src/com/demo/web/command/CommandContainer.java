@@ -1,5 +1,7 @@
+/**
+ *
+ */
 package com.demo.web.command;
-
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -41,7 +43,12 @@ import com.demo.web.command.redirect.RoomCreateCommand;
 import com.demo.web.command.redirect.RoomEditCommand;
 import com.demo.web.command.redirect.SettingsUpdateCommand;
 
-
+/**
+ * Holder for all commands.
+ *
+ * @author A.Serbin
+ *
+ */
 public class CommandContainer {
 
 	private static final Logger log = Logger.getLogger(CommandContainer.class);
@@ -50,7 +57,6 @@ public class CommandContainer {
 
 	static {
 
-		// commands
 		commands.put("login", new LoginCommand());
 		commands.put("logout", new LogoutCommand());
 		commands.put("no-command", new NoCommand());
@@ -70,7 +76,6 @@ public class CommandContainer {
 		commands.put("confirm-booking", new BookingConfirmCommand());
 		commands.put("delete-booking", new BookingDeleteCommand());
 
-		// view commands
 		commands.put("view-activation", new ActivationViewCommand());
 		commands.put("view-settings", new SettingsViewCommand());
 		commands.put("view-registration", new RegistrationViewCommand());
@@ -92,6 +97,14 @@ public class CommandContainer {
 		log.trace("Number of commands --> " + commands.size());
 	}
 
+	/**
+	 * Returns command object with the given name.
+	 *
+	 * @param commandName
+	 *            Name of the command.
+	 *
+	 * @return Command object.
+	 */
 	public static Command get(String commandName) {
 		if (commandName == null || !commands.containsKey(commandName)) {
 			log.trace("Command not found, name --> " + commandName);

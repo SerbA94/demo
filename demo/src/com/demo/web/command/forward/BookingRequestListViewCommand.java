@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.command.forward;
 
 import java.io.IOException;
@@ -14,6 +17,12 @@ import com.demo.db.entity.BookingRequest;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
+/**
+ * Booking requests list view.
+ *
+ * @author A.Serbin
+ *
+ */
 public class BookingRequestListViewCommand extends Command {
 
 	private static final long serialVersionUID = -6416961521160878247L;

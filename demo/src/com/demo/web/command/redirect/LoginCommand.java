@@ -1,5 +1,7 @@
+/**
+ *
+ */
 package com.demo.web.command.redirect;
-
 
 import org.apache.log4j.Logger;
 
@@ -17,7 +19,12 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.jstl.core.Config;
 import java.io.IOException;
 
-
+/**
+ * Login command.
+ *
+ * @author A.Serbin
+ *
+ */
 public class LoginCommand extends Command {
 
 	private static final long serialVersionUID = -3071536593627692473L;

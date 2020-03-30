@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.command.redirect;
 
 import java.io.IOException;
@@ -21,6 +24,12 @@ import com.demo.db.entity.RoomStatus;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
+/**
+ * Room edit command.
+ *
+ * @author A.Serbin
+ *
+ */
 public class RoomEditCommand extends Command {
 
 	private static final long serialVersionUID = -5392301052207392889L;

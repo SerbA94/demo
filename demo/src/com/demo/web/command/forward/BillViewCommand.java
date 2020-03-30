@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.command.forward;
 
 import java.io.IOException;
@@ -15,6 +18,12 @@ import com.demo.db.entity.User;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
+/**
+ * Booking bill view.
+ *
+ * @author A.Serbin
+ *
+ */
 public class BillViewCommand extends Command {
 
 	private static final long serialVersionUID = -1622755176744008420L;

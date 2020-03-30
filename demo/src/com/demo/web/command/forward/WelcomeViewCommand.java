@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.command.forward;
 
 import java.io.IOException;
@@ -11,6 +14,12 @@ import org.apache.log4j.Logger;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
+/**
+ * Welcome view.
+ *
+ * @author A.Serbin
+ *
+ */
 public class WelcomeViewCommand extends Command {
 
 	private static final long serialVersionUID = 7800664786060821390L;

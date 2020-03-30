@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.controller;
 
 import java.io.IOException;
@@ -15,6 +18,12 @@ import com.demo.web.command.Command;
 import com.demo.web.command.CommandContainer;
 import com.demo.web.constants.Path;
 
+/**
+ * Main servlet controller.
+ *
+ * @author A.Serbin
+ *
+ */
 @MultipartConfig(maxFileSize = 16177215)
 public class Controller extends HttpServlet {
 
@@ -31,6 +40,14 @@ public class Controller extends HttpServlet {
 		process(request, response);
 	}
 
+	/**
+	 * Processing method. Main controller logic.
+	 *
+	 * @param request
+	 * 			HttpServletRequest
+	 * @param response
+	 * 			HttpServletResponse
+	 */
 	private void process(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 

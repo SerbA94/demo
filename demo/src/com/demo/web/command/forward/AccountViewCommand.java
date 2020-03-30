@@ -1,3 +1,6 @@
+/**
+ *
+ */
 package com.demo.web.command.forward;
 
 import java.io.IOException;
@@ -18,6 +21,12 @@ import com.demo.db.entity.User;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
+/**
+ * User account view.
+ *
+ * @author A.Serbin
+ *
+ */
 public class AccountViewCommand extends Command {
 
 	private static final long serialVersionUID = -5091799202096985039L;

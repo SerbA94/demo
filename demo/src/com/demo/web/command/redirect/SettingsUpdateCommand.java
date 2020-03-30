@@ -1,5 +1,7 @@
+/**
+ *
+ */
 package com.demo.web.command.redirect;
-
 
 import java.io.IOException;
 
@@ -16,6 +18,12 @@ import com.demo.db.entity.User;
 import com.demo.web.command.Command;
 import com.demo.web.constants.Path;
 
+/**
+ * Settings update command.
+ *
+ * @author A.Serbin
+ *
+ */
 public class SettingsUpdateCommand extends Command {
 
 	private static final long serialVersionUID = 7732286214029478505L;
