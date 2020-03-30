@@ -1,7 +1,7 @@
 <%--===========================================================================
 Footer (bottom area).
 ===========================================================================--%>
-
+<jsp:useBean id="copyright" class="com.demo.web.jsp.bean.Copyright" />
 <tr>
-	<td id="footer">&copy;Demo app, 2020</td>
+	<td id="footer"><span>${copyright.copyright}</span></td>
 </tr>

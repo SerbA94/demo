@@ -68,8 +68,8 @@
 								<td align="center">${booking.room.roomClass.toArray()[0].title}</td>
 
 								<td align="center">${booking.getTotalBookingDays()}</td>
-								<td align="center">${booking.room.price}</td>
-								<td align="center">${booking.getTotalPrice()}</td>
+								<td align="center"><demo:format price="${booking.room.price}"/></td>
+								<td align="center"><demo:format price="${booking.getTotalPrice()}"/></td>
 
 							    <td align="center">${booking.dateIn}</td>
 							    <td align="center">${booking.dateOut}</td>
@@ -111,8 +111,8 @@
 								<td align="center">${booking.room.roomClass.toArray()[0].title}</td>
 
 								<td align="center">${booking.getTotalBookingDays()}</td>
-								<td align="center">${booking.room.price}</td>
-								<td align="center">${booking.getTotalPrice()}</td>
+								<td align="center"><demo:format price="${booking.room.price}"/></td>
+								<td align="center"><demo:format price="${booking.getTotalPrice()}"/></td>
 
 							    <td align="center">${booking.dateIn}</td>
 							    <td align="center">${booking.dateOut}</td>

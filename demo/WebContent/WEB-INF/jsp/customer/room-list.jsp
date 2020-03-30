@@ -65,7 +65,7 @@
 						            <td align="center">${room.capacity}</td>
 						            <td align="center">${room.roomClass}</td>
 						            <td align="center">${room.roomStatus}</td>
-						            <td align="center">${room.price}</td>
+						            <td align="center"><demo:format price="${room.price}"/></td>
 						            <td align="center"><a href="controller?command=view-booking-create&room_id=${room.id}"><span>book</span></a></td>
 						            <td align="center"><a href="controller?command=view-room&room_id=${room.id}"><span>room details</span></a></td>
 						        </tr>

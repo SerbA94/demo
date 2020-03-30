@@ -59,7 +59,7 @@
 					            <td align="center">${room.capacity}</td>
 					            <td align="center">${room.roomClass}</td>
 					            <td align="center">${room.roomStatus}</td>
-					            <td align="center">${room.price}</td>
+					            <td align="center"><demo:format price="${room.price}"/></td>
 					            <td align="center">
 					            	<form action="controller">
 					            		<input type="hidden" name="command" value="view-room-edit" />
