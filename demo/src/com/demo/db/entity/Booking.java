@@ -49,11 +49,23 @@ public class Booking extends Entity {
 		super();
 	}
 
+	/**
+	 * Calculates total booking price.
+	 *
+	 * @return Integer
+	 *			total booking price.
+	 */
     public Integer getTotalPrice() {
 		return room.getPrice()==null || getTotalBookingDays() == null ?
 				null :  room.getPrice() * getTotalBookingDays();
     }
 
+    /**
+	 * Calculates total booking days.
+	 *
+	 * @return Integer
+	 *			total booking days.
+	 */
 	public Integer getTotalBookingDays() {
 
 		if(this.dateIn == null || this.dateOut == null){
@@ -69,14 +81,21 @@ public class Booking extends Entity {
 		if((yearOut-yearIn) == 0) {
 			return  dayOut - dayIn;
 		}else if((yearOut-yearIn) == 1){
-			Integer daysInYear = TimestampUtil.parseTimestamp(yearIn + "-12-31").toLocalDateTime().getDayOfYear();
+			Integer daysInYear = TimestampUtil.parseTimestamp(yearIn
+					+ "-12-31").toLocalDateTime().getDayOfYear();
 			return dayOut + (daysInYear - dayIn);
 		} else {
 			return null;
 		}
 	}
 
-	// change to plusDays after testing
+	// change to plusDays 2 after testing
+	/**
+	 * Calculates booking expiring date.
+	 *
+	 * @return Timestamp
+	 *			booking expiring timestamp.
+	 */
 	public Timestamp getExpiringDate() {
 
 		if(this.dateOfBooking == null){
