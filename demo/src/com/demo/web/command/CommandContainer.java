@@ -8,41 +8,6 @@ import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 
-import com.demo.web.command.forward.AccountViewCommand;
-import com.demo.web.command.forward.ActivationViewCommand;
-import com.demo.web.command.forward.BillViewCommand;
-import com.demo.web.command.forward.BookingRequestCreateViewCommand;
-import com.demo.web.command.forward.BookingRequestListViewCommand;
-import com.demo.web.command.forward.BookingRequestViewCommand;
-import com.demo.web.command.forward.BookingCreateViewCommand;
-import com.demo.web.command.forward.ErrorViewCommand;
-import com.demo.web.command.forward.ImageViewCommand;
-import com.demo.web.command.forward.LoginViewCommand;
-import com.demo.web.command.forward.NoCommand;
-import com.demo.web.command.forward.RegistrationViewCommand;
-import com.demo.web.command.forward.RoomCreateViewCommand;
-import com.demo.web.command.forward.RoomEditViewCommand;
-import com.demo.web.command.forward.RoomListViewCommand;
-import com.demo.web.command.forward.RoomViewCommand;
-import com.demo.web.command.forward.SettingsViewCommand;
-import com.demo.web.command.forward.WelcomeViewCommand;
-import com.demo.web.command.redirect.ActivationCommand;
-import com.demo.web.command.redirect.ActivationMailCommand;
-import com.demo.web.command.redirect.BillMailCommand;
-import com.demo.web.command.redirect.BookingConfirmCommand;
-import com.demo.web.command.redirect.BookingCreateCommand;
-import com.demo.web.command.redirect.BookingDeleteCommand;
-import com.demo.web.command.redirect.BookingRequestCreateCommand;
-import com.demo.web.command.redirect.BookingRequestDeleteCommand;
-import com.demo.web.command.redirect.ImageDeleteCommand;
-import com.demo.web.command.redirect.ImageUploadCommand;
-import com.demo.web.command.redirect.LoginCommand;
-import com.demo.web.command.redirect.LogoutCommand;
-import com.demo.web.command.redirect.RegistrationCommand;
-import com.demo.web.command.redirect.RoomCreateCommand;
-import com.demo.web.command.redirect.RoomEditCommand;
-import com.demo.web.command.redirect.SettingsUpdateCommand;
-
 /**
  * Holder for all commands.
  *
