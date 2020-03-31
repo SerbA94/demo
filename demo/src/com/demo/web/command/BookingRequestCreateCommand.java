@@ -10,10 +10,10 @@ import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import com.demo.db.constants.Regex;
 import com.demo.db.dao.BookingRequestDAO;
 import com.demo.db.dao.RoomClassDAO;
 import com.demo.db.entity.BookingRequest;
@@ -41,8 +41,7 @@ public class BookingRequestCreateCommand extends Command {
 		String uri = Path.PAGE__ERROR;
 		String errorMessage = null;
 
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
+		User user = (User) request.getSession().getAttribute("user");
 		log.trace("User from session --> " + user);
 
 		Integer capacity = null;
@@ -52,7 +51,7 @@ public class BookingRequestCreateCommand extends Command {
 			errorMessage = "Invalid capacity input format.";
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return uri;
+			return new BookingRequestCreateViewCommand().execute(request, response);
 		}
 		log.trace("Request parameter: capacity --> " + capacity);
 
@@ -65,29 +64,29 @@ public class BookingRequestCreateCommand extends Command {
 			errorMessage = "Invalid roomClass input format : " + roomClassParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new BookingRequestCreateViewCommand().execute(request, response);
 		}
 		log.trace("Matched room class: roomClass --> " + roomClass);
 
 		String dateInParam = request.getParameter("dateIn");
 		log.trace("Request parameter: dateIn --> " + dateInParam);
-		Timestamp dateIn = dateInParam == null ? null : TimestampUtil.parseTimestamp(dateInParam);
-		if(dateIn == null) {
+		if(dateInParam == null || !dateInParam.matches(Regex.DATE_FORMAT)) {
 			errorMessage = "Invalid dateIn input format : " + dateInParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new BookingRequestCreateViewCommand().execute(request, response);
 		}
+		Timestamp dateIn = TimestampUtil.parseTimestamp(dateInParam);
 
 		String dateOutParam = request.getParameter("dateOut");
 		log.trace("Request parameter: dateOut --> " + dateOutParam);
-		Timestamp dateOut = dateOutParam == null ? null : TimestampUtil.parseTimestamp(dateOutParam);
-		if(dateOut == null) {
+		if(dateOutParam == null || !dateOutParam.matches(Regex.DATE_FORMAT)) {
 			errorMessage = "Invalid dateOut input format : " + dateOutParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new BookingRequestCreateViewCommand().execute(request, response);
 		}
+		Timestamp dateOut = TimestampUtil.parseTimestamp(dateOutParam);
 
 		StringBuilder errorBuilder = new StringBuilder();
 		if(dateIn.before(TimestampUtil.getNextDateIn())) {
@@ -106,7 +105,7 @@ public class BookingRequestCreateCommand extends Command {
 			errorMessage = errorBuilder.toString();
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new BookingRequestCreateViewCommand().execute(request, response);
 		}
 
 		BookingRequest bookingRequest = new BookingRequest(user, capacity, dateIn, dateOut, roomClass);

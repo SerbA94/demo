@@ -43,10 +43,10 @@ public class RegistrationCommand extends Command {
 		String login = request.getParameter("login");
 		log.trace("Request parameter: loging --> " + login);
 		if(login == null || login.isEmpty()) {
-			errorMessage = "Login can't be empty or null.";
+			errorMessage = "Login can't be empty.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new RegistrationViewCommand().execute(request, response);
 		}
 		if(!login.matches(Regex.LOGIN)) {
 			errorMessage = "Login must: " + System.lineSeparator() +
@@ -61,30 +61,30 @@ public class RegistrationCommand extends Command {
 		String email = request.getParameter("email");
 		log.trace("Request parameter: email --> " + email);
 		if(email == null || email.isEmpty()) {
-			errorMessage = "Email can't be empty or null.";
+			errorMessage = "Email can't be empty.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new RegistrationViewCommand().execute(request, response);
 		}
 		if(!email.matches(Regex.EMAIL)) {
 			errorMessage = "Invalid email syntaxis.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new RegistrationViewCommand().execute(request, response);
 		}
 
 		if(userDao.findUserByLogin(login) != null) {
 			errorMessage = "User with login exists : login --> " + login;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new RegistrationViewCommand().execute(request, response);
 		}
 
 		if(userDao.findUserByEmail(email)!=null) {
 			errorMessage = "User with email exists : email --> " + email;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new RegistrationViewCommand().execute(request, response);
 		}
 
 		String localeName = request.getParameter("locale-name");
@@ -93,26 +93,26 @@ public class RegistrationCommand extends Command {
 		String password = request.getParameter("password");
 		log.trace("Request parameter: password --> " + password);
 		if(password == null || password.isEmpty()) {
-			errorMessage = "Password can't be empty or null.";
+			errorMessage = "Password can't be empty.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new RegistrationViewCommand().execute(request, response);
 		}
 
 		String passwordCheck = request.getParameter("password-check");
 		log.trace("Request parameter: passwordCheck --> " + passwordCheck);
 		if(passwordCheck == null || passwordCheck.isEmpty()) {
-			errorMessage = "Password can't be empty or null.";
+			errorMessage = "Password can't be empty.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new RegistrationViewCommand().execute(request, response);
 		}
 
 		if(!password.equals(passwordCheck)) {
 			errorMessage = "Passwords don't match.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new RegistrationViewCommand().execute(request, response);
 		}
 
 		if(!password.matches(Regex.PASSWORD)){
@@ -123,7 +123,7 @@ public class RegistrationCommand extends Command {
 							"		- password must contain 8 - 20 characters";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new RegistrationViewCommand().execute(request, response);
 		}
 
 		User user = new User(login,EncodeUtil.hashSHA256(password),localeName,email,

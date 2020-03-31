@@ -79,7 +79,7 @@ public class RoomEditCommand extends Command {
 			errorMessage = "Invalid number : number --> " + numberParam;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return uri;
+			return new RoomEditViewCommand().execute(request, response);
 		}
 
 		String capacityParam = request.getParameter("capacity").trim();
@@ -97,7 +97,7 @@ public class RoomEditCommand extends Command {
 			errorMessage = "Invalid capacity : capacity --> " + capacityParam;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return uri;
+			return new RoomEditViewCommand().execute(request, response);
 		}
 
 		String priceParam = request.getParameter("price").trim();
@@ -115,7 +115,7 @@ public class RoomEditCommand extends Command {
 			errorMessage = "Invalid price : price --> " + priceParam;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return uri;
+			return new RoomEditViewCommand().execute(request, response);
 		}
 
 		String roomClassParam = request.getParameter("roomClass").trim();
@@ -125,7 +125,7 @@ public class RoomEditCommand extends Command {
 			errorMessage = "Room class not exists : roomClassParam --> " + roomClassParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new RoomEditViewCommand().execute(request, response);
 		}
 		room.setRoomClass(roomClass);
 
@@ -136,7 +136,7 @@ public class RoomEditCommand extends Command {
 			errorMessage = "Room status not exists : roomStatusParam --> " + roomStatusParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new RoomEditViewCommand().execute(request, response);
 		}
 		room.setRoomStatus(roomStatus);
 

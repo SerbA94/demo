@@ -41,7 +41,9 @@ public class ImageDeleteCommand extends Command {
 			new ImageDAO().deleteImage(imageId);
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid image id.";
+			request.setAttribute("errorMessage", errorMessage);
 			log.error(errorMessage);
+			return uri;
 		}
 
 		try {
@@ -52,11 +54,9 @@ public class ImageDeleteCommand extends Command {
 			uri = Path.COMMAND__VIEW_ROOM_EDIT + "&edit_room_id=" + roomId;
 		} catch (NumberFormatException e) {
 			errorMessage = "Invalid room id.";
-			log.error(errorMessage);
-		}
-
-		if(errorMessage != null) {
 			request.setAttribute("errorMessage", errorMessage);
+			log.error(errorMessage);
+			return uri;
 		}
 		log.debug("Command finished.");
 		return uri;

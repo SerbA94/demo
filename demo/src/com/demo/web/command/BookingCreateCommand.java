@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import com.demo.db.constants.Regex;
 import com.demo.db.dao.BookingDAO;
 import com.demo.db.dao.BookingRequestDAO;
 import com.demo.db.dao.RoomDAO;
@@ -56,6 +57,10 @@ public class BookingCreateCommand extends Command {
 		User loggedUser = (User) session.getAttribute("user");
 		log.trace("User from session --> " + loggedUser);
 
+		Timestamp dateIn = null;
+		Timestamp dateOut = null;
+		Timestamp dateOfBooking = new Timestamp(System.currentTimeMillis());
+
 		if(loggedUser.getRole().contains(Role.MANAGER)) {
 
 			bookingStatus = Collections.singleton(BookingStatus.UNCONFIRMED);
@@ -75,20 +80,67 @@ public class BookingCreateCommand extends Command {
 			}
 
 			Long bookingRequestId = null;
+			BookingRequest bookingRequest = null;
 			try {
 				bookingRequestId = Long.parseLong(request.getParameter("booking_request_id"));
-				BookingRequest bookingRequest = new BookingRequest();
-				bookingRequest.setId(bookingRequestId);
-				new BookingRequestDAO().deleteBookingRequest(bookingRequest);
+
+				BookingRequestDAO bookingRequestDAO = new BookingRequestDAO();
+				bookingRequest = bookingRequestDAO.findBookingRequestById(bookingRequestId);
+				bookingRequestDAO.deleteBookingRequest(bookingRequest);
 			} catch (NumberFormatException e) {
 				errorMessage = "Invalid booking request id : id --> " + bookingRequestId;
 				log.error("errorMessage --> " + errorMessage);
 				request.setAttribute("errorMessage", errorMessage);
 				return uri;
 			}
+
+			dateIn = bookingRequest.getDateIn();
+			dateOut = bookingRequest.getDateOut();
+
 		}else {
 			bookingStatus = Collections.singleton(BookingStatus.NOT_PAID);
 			user = loggedUser;
+
+			String dateInParam = request.getParameter("dateIn");
+			log.trace("Request parameter: dateIn --> " + dateInParam);
+			if(dateInParam == null || !dateInParam.matches(Regex.DATE_FORMAT)) {
+				errorMessage = "Invalid dateIn input format : " + dateInParam;
+				request.setAttribute("errorMessage", errorMessage);
+				log.error("errorMessage --> " + errorMessage);
+				return new BookingRequestCreateViewCommand().execute(request, response);
+			}
+			dateIn = TimestampUtil.parseTimestamp(dateInParam);
+
+			String dateOutParam = request.getParameter("dateOut");
+			log.trace("Request parameter: dateOut --> " + dateOutParam);
+			if(dateOutParam == null || !dateOutParam.matches(Regex.DATE_FORMAT)) {
+				errorMessage = "Invalid dateOut input format : " + dateOutParam;
+				request.setAttribute("errorMessage", errorMessage);
+				log.error("errorMessage --> " + errorMessage);
+				return new BookingRequestCreateViewCommand().execute(request, response);
+			}
+			dateOut = TimestampUtil.parseTimestamp(dateOutParam);
+
+			StringBuilder errorBuilder = new StringBuilder();
+			if(dateIn.before(TimestampUtil.getNextDateIn())) {
+				errorBuilder
+					.append("Booking on : ").append(dateIn).append(" - closed.").append(System.lineSeparator())
+					.append("The closest open booking date : ").append(TimestampUtil.getNextDateIn());
+			}
+			if(dateIn.after(dateOut) || dateIn.equals(dateOut)) {
+				if(errorBuilder.length() != 0) {
+					errorBuilder.append(System.lineSeparator());
+				}
+				errorBuilder.append("Date out can't be less than or equal date in.");
+			}
+
+			if(errorBuilder.length() != 0) {
+				errorMessage = errorBuilder.toString();
+				request.setAttribute("errorMessage", errorMessage);
+				log.error("errorMessage --> " + errorMessage);
+				return new BookingRequestCreateViewCommand().execute(request, response);
+			}
+
 		}
 
 		Long roomId = null;
@@ -116,48 +168,6 @@ public class BookingCreateCommand extends Command {
 			errorMessage = "Room cant be booked : room number --> " + room.getNumber();
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return uri;
-		}
-
-		String dateInParam = request.getParameter("dateIn");
-		log.trace("Request parameter: dateIn --> " + dateInParam);
-		Timestamp dateIn = dateInParam == null ? null : TimestampUtil.parseTimestamp(dateInParam);
-		if(dateIn == null) {
-			errorMessage = "Invalid dateIn input format : " + dateInParam;
-			request.setAttribute("errorMessage", errorMessage);
-			log.error("errorMessage --> " + errorMessage);
-			return uri;
-		}
-
-		String dateOutParam = request.getParameter("dateOut");
-		log.trace("Request parameter: dateOut --> " + dateOutParam);
-		Timestamp dateOut = dateOutParam == null ? null : TimestampUtil.parseTimestamp(dateOutParam);
-		if(dateOut == null) {
-			errorMessage = "Invalid dateOut input format : " + dateOutParam;
-			request.setAttribute("errorMessage", errorMessage);
-			log.error("errorMessage --> " + errorMessage);
-			return uri;
-		}
-
-		Timestamp dateOfBooking = new Timestamp(System.currentTimeMillis());
-
-		StringBuilder errorBuilder = new StringBuilder();
-		if(dateIn.before(TimestampUtil.getNextDateIn())) {
-			errorBuilder
-				.append("Booking on : ").append(dateIn).append(" - closed.").append(System.lineSeparator())
-				.append("The closest open booking date : ").append(TimestampUtil.getNextDateIn());
-		}
-		if(dateIn.after(dateOut) || dateIn.equals(dateOut)) {
-			if(errorBuilder.length() != 0) {
-				errorBuilder.append(System.lineSeparator());
-			}
-			errorBuilder.append("Date out can't be less than or equal date in.");
-		}
-
-		if(errorBuilder.length() != 0) {
-			errorMessage = errorBuilder.toString();
-			request.setAttribute("errorMessage", errorMessage);
-			log.error("errorMessage --> " + errorMessage);
 			return uri;
 		}
 

@@ -62,10 +62,12 @@ public class BookingDeleteCommand extends Command {
 		if (booking.getBookingStatus().contains(BookingStatus.UNCONFIRMED) ||
 				booking.getBookingStatus().contains(BookingStatus.NOT_PAID)) {
 
-			uri = Path.COMMAND__VIEW_ACCOUNT;
-
 			new BookingDAO().deleteBooking(booking);
 			log.trace("Booking deleted : id --> " + booking.getId());
+			String message = "Booking successfuly rejected.";
+			request.setAttribute("message", message);
+
+			uri = Path.COMMAND__VIEW_ACCOUNT;
 
 			log.debug("Command finished.");
 			return uri;

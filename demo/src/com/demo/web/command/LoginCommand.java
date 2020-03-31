@@ -40,18 +40,18 @@ public class LoginCommand extends Command {
 		String login = request.getParameter("login");
 		log.trace("Request parameter: loging --> " + login);
 		if(login == null || login.isEmpty()) {
-			errorMessage = "Login can't be empty or null.";
+			errorMessage = "Login can't be empty.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new LoginViewCommand().execute(request, response);
 		}
 
 		String password = request.getParameter("password");
 		if(password == null || password.isEmpty()) {
-			errorMessage = "Password can't be empty or null.";
+			errorMessage = "Password can't be empty.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new LoginViewCommand().execute(request, response);
 		}
 		password = EncodeUtil.hashSHA256(password);
 		log.trace("Request parameter: password --> ********");
@@ -63,14 +63,14 @@ public class LoginCommand extends Command {
 			errorMessage = "No such user : login --> " + login;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new LoginViewCommand().execute(request, response);
 		}
 
 		if (!password.equals(user.getPassword())) {
 			errorMessage = "Password wrong.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new LoginViewCommand().execute(request, response);
 		}
 
 		Role userRole = (Role) user.getRole().toArray()[0];

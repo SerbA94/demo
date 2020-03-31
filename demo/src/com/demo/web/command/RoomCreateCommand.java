@@ -63,7 +63,7 @@ public class RoomCreateCommand extends Command {
 					+ capacityParam + "/" + priceParam + "/" + numberParam;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
-			return uri;
+			return new RoomCreateViewCommand().execute(request, response);
 		}
 
 		String roomStatusParam = request.getParameter("roomStatus");
@@ -74,7 +74,7 @@ public class RoomCreateCommand extends Command {
 					+ "roomStatusParam --> " + roomStatusParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new RoomCreateViewCommand().execute(request, response);
 		}
 
 		String roomClassParam = request.getParameter("roomClass");
@@ -85,7 +85,7 @@ public class RoomCreateCommand extends Command {
 					+ "roomClassParam --> " + roomClassParam;
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new RoomCreateViewCommand().execute(request, response);
 		}
 
 		String description_ru = request.getParameter("description_ru");
@@ -98,7 +98,7 @@ public class RoomCreateCommand extends Command {
 			errorMessage = "Room creation failed : description can't be null.";
 			request.setAttribute("errorMessage", errorMessage);
 			log.error("errorMessage --> " + errorMessage);
-			return uri;
+			return new RoomCreateViewCommand().execute(request, response);
 		}
 
 		List<Description> descriptions = new ArrayList<>();
