@@ -33,6 +33,7 @@ public class CommandContainer {
 		commands.put("delete-image", new ImageDeleteCommand());
 		commands.put("activation", new ActivationCommand());
 		commands.put("activation-mail", new ActivationMailCommand());
+		commands.put("inactivate-booking-request", new BookingRequestInactivateCommand());
 		commands.put("create-booking-request", new BookingRequestCreateCommand());
 		commands.put("delete-booking-request", new BookingRequestDeleteCommand());
 		commands.put("create-booking", new BookingCreateCommand());

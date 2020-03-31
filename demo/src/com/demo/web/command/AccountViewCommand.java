@@ -41,9 +41,13 @@ public class AccountViewCommand extends Command {
 		log.trace("user from session --> " + user);
 
 		BookingRequestDAO bookingRequestDAO =  new BookingRequestDAO();
-		List<BookingRequest> bookingRequests = bookingRequestDAO.findBookingRequestsByUser(user);
-		log.trace("bookingRequests size : size --> " + bookingRequests.size());
-		request.setAttribute("bookingRequests", bookingRequests);
+		List<BookingRequest> activeBookingRequests = bookingRequestDAO.findActiveBookingRequestsByUser(user);
+		log.trace("activeBookingRequests size : size --> " + activeBookingRequests.size());
+		request.setAttribute("activeBookingRequests", activeBookingRequests);
+
+		List<BookingRequest> inactiveBookingRequests = bookingRequestDAO.findInactiveBookingRequestsByUser(user);
+		log.trace("inactiveBookingRequests size : size --> " + inactiveBookingRequests.size());
+		request.setAttribute("inactiveBookingRequests", inactiveBookingRequests);
 
 		BookingDAO bookingDAO = new BookingDAO();
 

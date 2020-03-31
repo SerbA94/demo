@@ -12,6 +12,7 @@ import java.util.Set;
 
 import com.demo.db.DBManager;
 import com.demo.db.constants.Fields;
+import com.demo.db.entity.BookingRequestStatus;
 import com.demo.db.entity.BookingStatus;
 
 /**
@@ -37,7 +38,7 @@ public class BookingStatusDAO {
      *     	Booking status enum.
      * @return Booking status identifier.
      */
-    public Long findBookingStatusId(BookingStatus bookingStatus) {
+    public Long findBookingStatusId(BookingRequestStatus bookingStatus) {
     	Long id = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;

@@ -19,6 +19,8 @@ public class BookingRequest extends Entity {
 	private Timestamp dateIn;
 	private Timestamp dateOut;
 	private Set<RoomClass> roomClass;
+	private Set<BookingRequestStatus> bookingRequestStatus;
+
 
 	/**
 	 * @param user
@@ -26,15 +28,17 @@ public class BookingRequest extends Entity {
 	 * @param dateIn
 	 * @param dateOut
 	 * @param roomClass
+	 * @param bookingRequestStatus
 	 */
-	public BookingRequest(User user, Integer capacity, Timestamp dateIn,
-			Timestamp dateOut, Set<RoomClass> roomClass) {
+	public BookingRequest(User user, Integer capacity, Timestamp dateIn, Timestamp dateOut,
+			Set<RoomClass> roomClass, Set<BookingRequestStatus> bookingRequestStatus) {
 		super();
 		this.user = user;
 		this.capacity = capacity;
 		this.dateIn = dateIn;
 		this.dateOut = dateOut;
 		this.roomClass = roomClass;
+		this.bookingRequestStatus = bookingRequestStatus;
 	}
 
 	/**
@@ -84,10 +88,19 @@ public class BookingRequest extends Entity {
 		this.roomClass = roomClass;
 	}
 
+	public Set<BookingRequestStatus> getBookingRequestStatus() {
+		return bookingRequestStatus;
+	}
+
+	public void setBookingRequestStatus(Set<BookingRequestStatus> bookingRequestStatus) {
+		this.bookingRequestStatus = bookingRequestStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "BookingRequest [user=" + user + ", capacity=" + capacity + ", dateIn="
-				+ dateIn + ", dateOut=" + dateOut + ", roomClass=" + roomClass + "]";
+				+ dateIn + ", dateOut=" + dateOut + ", bookingRequestStatus=" + bookingRequestStatus
+				+ ", roomClass=" + roomClass + "]";
 	}
 
 	@Override
@@ -98,6 +111,7 @@ public class BookingRequest extends Entity {
 		result = prime * result + ((dateIn == null) ? 0 : dateIn.hashCode());
 		result = prime * result + ((dateOut == null) ? 0 : dateOut.hashCode());
 		result = prime * result + ((roomClass == null) ? 0 : roomClass.hashCode());
+		result = prime * result + ((bookingRequestStatus == null) ? 0 : bookingRequestStatus.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
@@ -121,6 +135,10 @@ public class BookingRequest extends Entity {
 			return false;
 		}
 		if (( roomClass == null && other.roomClass != null ) || !roomClass.equals(other.roomClass) ) {
+			return false;
+		}
+		if (( bookingRequestStatus == null && other.bookingRequestStatus != null )
+				|| !bookingRequestStatus.equals(other.bookingRequestStatus) ) {
 			return false;
 		}
 		if (( user == null && other.user != null ) || !user.equals(other.user) ) {

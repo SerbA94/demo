@@ -14,6 +14,7 @@ import java.util.List;
 import com.demo.db.DBManager;
 import com.demo.db.constants.Fields;
 import com.demo.db.entity.BookingRequest;
+import com.demo.db.entity.BookingRequestStatus;
 import com.demo.db.entity.RoomClass;
 import com.demo.db.entity.User;
 
@@ -28,7 +29,11 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 			"SELECT * FROM booking_requests "
 					+ "JOIN room_class ON booking_requests.room_class_id = room_class.room_class_id "
 					+ "JOIN users ON booking_requests.user_id = users.user_id "
-					+ "JOIN roles ON users.role_id = roles.role_id";
+					+ "JOIN roles ON users.role_id = roles.role_id "
+					+ "JOIN booking_request_status "
+						+ "ON booking_requests.booking_request_status_id "
+						+ "= booking_request_status.booking_request_status_id";
+
 
 	private static final String SQL__FIND_ALL_BOOKING_REQUESTS = SELECT_ALL_WITH_JOINS;
 
@@ -38,15 +43,47 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 	private static final String SQL__FIND_BOOKING_REQUEST_BY_USER_ID = SELECT_ALL_WITH_JOINS
 					+ " WHERE booking_requests.user_id=?";
 
+	private static final String SQL__FIND_ACTIVE_BOOKING_REQUEST_BY_USER_ID = SELECT_ALL_WITH_JOINS
+			+ " WHERE booking_requests.user_id=? AND "
+				+ "booking_requests.booking_request_status_id=("
+						+ "SELECT booking_request_status.booking_request_status_id "
+						+ "FROM booking_request_status "
+						+ "WHERE booking_request_status.booking_request_status_title='active')";
+
+	private static final String SQL__FIND_INACTIVE_BOOKING_REQUEST_BY_USER_ID = SELECT_ALL_WITH_JOINS
+			+ " WHERE booking_requests.user_id=? AND "
+				+ "booking_requests.booking_request_status_id=("
+						+ "SELECT booking_request_status.booking_request_status_id "
+						+ "FROM booking_request_status "
+						+ "WHERE booking_request_status.booking_request_status_title='inactive')";
+
+	private static final String SQL__FIND_BOOKING_REQUEST_BY_STATUS = SELECT_ALL_WITH_JOINS
+			+ " WHERE booking_requests.booking_request_status_id="
+				+ "(SELECT booking_request_status.booking_request_status_id "
+					+ "FROM booking_request_status "
+					+ "WHERE booking_request_status.booking_request_status_title=?)";
+
 	private static final String SQL__DELETE_BOOKING_REQUEST =
 			"DELETE FROM booking_requests WHERE booking_requests.booking_request_id=?";
 
 	private static final String SQL__CREATE_BOOKING_REQUEST =
 			"INSERT INTO booking_requests "
-					+ "(booking_requests.user_id, booking_requests.date_in, booking_requests.date_out, "
-						+ "booking_requests.capacity, booking_requests.room_class_id) "
+					+ "(booking_requests.user_id, booking_requests.date_in, "
+						+ "booking_requests.date_out, booking_requests.capacity, "
+						+ "booking_requests.room_class_id, booking_requests.booking_request_status_id ) "
 					+ "VALUES (?, ?, ?, ?, "
-						+ "(SELECT room_class.room_class_id FROM room_class WHERE room_class.room_class_title=?))";
+						+ "(SELECT room_class.room_class_id FROM room_class WHERE room_class.room_class_title=?), "
+						+ "(SELECT booking_request_status.booking_request_status_id "
+							+ "FROM booking_request_status "
+							+ "WHERE booking_request_status.booking_request_status_title='active'))";
+
+	private static final String SQL__UPDATE_BOOKING_REQUEST =
+			"UPDATE booking_requests SET "
+					+ "booking_requests.booking_request_status_id=("
+						+ "SELECT booking_request_status.booking_request_status_id "
+						+ "FROM booking_request_status "
+						+ "WHERE booking_request_status.booking_request_status_title=?) "
+					+ "WHERE booking_requests.booking_request_id=?";
 
 
 	/**
@@ -136,6 +173,142 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 			DBManager.getInstance().commitAndClose(con);
 		}
 		return bookingRequests;
+	}
+
+	/**
+     * Returns list of user active booking requests.
+     *
+     * @param user
+     *            user entity to filter.
+     * @return List of booking request entities.
+     */
+	public List<BookingRequest> findActiveBookingRequestsByUser(User user) {
+		List<BookingRequest> bookingRequests = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		try {
+			con = DBManager.getInstance().getConnection();
+			pstmt = con.prepareStatement(SQL__FIND_ACTIVE_BOOKING_REQUEST_BY_USER_ID);
+			pstmt.setLong(1, user.getId());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				bookingRequests.add(mapRow(rs));
+			}
+			rs.close();
+			pstmt.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			DBManager.getInstance().rollbackAndClose(con);
+		} finally {
+			DBManager.getInstance().commitAndClose(con);
+		}
+		return bookingRequests;
+	}
+
+	/**
+     * Returns list of user inactive booking requests.
+     *
+     * @param user
+     *            user entity to filter.
+     * @return List of booking request entities.
+     */
+	public List<BookingRequest> findInactiveBookingRequestsByUser(User user) {
+		List<BookingRequest> bookingRequests = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		try {
+			con = DBManager.getInstance().getConnection();
+			pstmt = con.prepareStatement(SQL__FIND_INACTIVE_BOOKING_REQUEST_BY_USER_ID);
+			pstmt.setLong(1, user.getId());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				bookingRequests.add(mapRow(rs));
+			}
+			rs.close();
+			pstmt.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			DBManager.getInstance().rollbackAndClose(con);
+		} finally {
+			DBManager.getInstance().commitAndClose(con);
+		}
+		return bookingRequests;
+	}
+
+
+	/**
+     * Returns booking requests of the given booking request status.
+     *
+     * @param bookingRequestStatus
+     *            BookingRequestStatus enum.
+     * @return List of booking request entities.
+     */
+	public List<BookingRequest> findBookingRequestsByStatus(BookingRequestStatus bookingRequestStatus) {
+		List<BookingRequest> bookingRequests = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		try {
+			con = DBManager.getInstance().getConnection();
+			pstmt = con.prepareStatement(SQL__FIND_BOOKING_REQUEST_BY_STATUS);
+			pstmt.setString(1, bookingRequestStatus.getTitle());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				bookingRequests.add(mapRow(rs));
+			}
+			rs.close();
+			pstmt.close();
+		} catch (SQLException ex) {
+			DBManager.getInstance().rollbackAndClose(con);
+			ex.printStackTrace();
+		} finally {
+			DBManager.getInstance().commitAndClose(con);
+		}
+		return bookingRequests;
+	}
+
+
+    /**
+     * Update booking request.
+     *
+     * @param bookingRequest
+     *            BookingRequest to update.
+     * @throws SQLException
+     */
+	public void updateBookingRequest(BookingRequest bookingRequest){
+		Connection con = null;
+		try {
+			con = DBManager.getInstance().getConnection();
+			updateBookingRequest(con, bookingRequest);
+		} catch (SQLException ex) {
+			DBManager.getInstance().rollbackAndClose(con);
+			ex.printStackTrace();
+		} finally {
+			DBManager.getInstance().commitAndClose(con);
+		}
+	}
+
+	/**
+     * Update booking request.
+     *
+     * @param bookingRequest
+     *            BookingRequest to update.
+     * @param con
+     *            Connection to db.
+     * @throws SQLException
+     */
+	private void updateBookingRequest(Connection con, BookingRequest bookingRequest) throws SQLException {
+		PreparedStatement pstmt = con.prepareStatement(SQL__UPDATE_BOOKING_REQUEST);
+		BookingRequestStatus bookingRequestStatus =
+				(BookingRequestStatus) bookingRequest.getBookingRequestStatus().toArray()[0];
+
+		int k = 1;
+		pstmt.setString(k++, bookingRequestStatus.getTitle());
+		pstmt.setLong(k, bookingRequest.getId());
+		pstmt.executeUpdate();
+		pstmt.close();
 	}
 
 	/**
@@ -234,6 +407,8 @@ public class BookingRequestDAO implements EntityMapper<BookingRequest> {
 			bookingRequest.setCapacity(rs.getInt(Fields.BOOKING_REQUEST__CAPACITY));
 			bookingRequest.setDateIn(rs.getTimestamp(Fields.BOOKING_REQUEST__DATE_IN));
 			bookingRequest.setDateOut(rs.getTimestamp(Fields.BOOKING_REQUEST__DATE_OUT));
+			bookingRequest.setBookingRequestStatus(BookingRequestStatusDAO.getBookingRequestStatusSet(
+					rs.getString(Fields.BOOKING_REQUEST_STATUS__TITLE)));
 
 			bookingRequest.setUser(new UserDAO().mapRow(rs));
 			bookingRequest.setRoomClass(RoomClassDAO.getRoomClassSet(rs.getString(Fields.ROOM_CLASS__TITLE)));

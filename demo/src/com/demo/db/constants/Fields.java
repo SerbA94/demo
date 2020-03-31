@@ -35,6 +35,9 @@ public final class Fields {
 	public static final String BOOKING_STATUS__BOOKING_STATUS_ID = "booking_status_id";
 	public static final String BOOKING_STATUS__TITLE = "booking_status_title";
 
+	public static final String BOOKING_REQUEST_STATUS__BOOKING_REQUEST_STATUS_ID = "booking_request_status_id";
+	public static final String BOOKING_REQUEST_STATUS__TITLE = "booking_request_status_title";
+
 	public static final String BOOKING_REQUEST__BOOKING_REQUEST_ID = "booking_request_id";
 	public static final String BOOKING_REQUEST__USER_ID = "user_id";
 	public static final String BOOKING_REQUEST__CAPACITY = "capacity";

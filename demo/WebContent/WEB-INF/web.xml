@@ -99,6 +99,7 @@
 				view-booking-request
 				create-booking
 				delete-booking-request
+				inactivate-booking-request
 			</param-value>
 		</init-param>
 		<init-param>
@@ -115,6 +116,7 @@
 				bill-mail
 				confirm-booking
 				delete-booking
+				delete-booking-request
 			</param-value>
 		</init-param>
 		<init-param>

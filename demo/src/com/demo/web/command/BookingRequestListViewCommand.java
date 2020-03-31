@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import com.demo.db.dao.BookingRequestDAO;
 import com.demo.db.entity.BookingRequest;
+import com.demo.db.entity.BookingRequestStatus;
 import com.demo.web.constants.Path;
 
 /**
@@ -33,7 +34,8 @@ public class BookingRequestListViewCommand extends Command {
 		log.debug("Command started.");
 
 		BookingRequestDAO bookingRequestDAO = new BookingRequestDAO();
-		List<BookingRequest> bookingRequests = bookingRequestDAO.findAllBookingRequests();
+		List<BookingRequest> bookingRequests = bookingRequestDAO
+				.findBookingRequestsByStatus(BookingRequestStatus.ACTIVE);
 		request.setAttribute("bookingRequests", bookingRequests);
 
 		log.debug("Command finished.");

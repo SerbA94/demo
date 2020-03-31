@@ -31,8 +31,6 @@
 					<c:when test="${not empty rooms}">
 						<form action="controller" method="post">
 							<input type="hidden" name="command" value="create-booking" />
-							<input type="hidden" name="dateIn" value="${bookingRequest.dateIn}" />
-							<input type="hidden" name="dateOut" value="${bookingRequest.dateOut}" />
 							<input type="hidden" name="user_id" value="${bookingRequest.user.id}" />
 							<input type="hidden" name="booking_request_id" value="${bookingRequest.id}" />
 
@@ -73,7 +71,7 @@
 					</c:when>
 				</c:choose>
 			<form action="controller" method="post">
-				<input type="hidden" name="command" value="delete-booking-request" />
+				<input type="hidden" name="command" value="inactivate-booking-request" />
 				<input type="hidden" name="booking_request_id" value="${bookingRequest.id}" />
 				<input type="submit" value="reject">
 			</form>

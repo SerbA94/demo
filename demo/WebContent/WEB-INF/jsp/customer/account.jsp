@@ -17,8 +17,8 @@
 
 				<div><h1><span>User account page</span></h1></div>
 
-				<c:if test="${not empty bookingRequests}">
-					<div><h1><span>User booking requests</span></h1></div>
+				<c:if test="${not empty activeBookingRequests}">
+					<div><h3><span>User booking requests</span></h3></div>
 
 					<table border="1">
 						<tr>
@@ -28,7 +28,7 @@
 						    <th>Room Capacity</th>
 						    <th>Room Class</th>
 						</tr>
-						<c:forEach var="bookingRequest" items="${bookingRequests}">
+						<c:forEach var="bookingRequest" items="${activeBookingRequests}">
 							<tr>
 								<td align="center">${bookingRequest.id}</td>
 						    	<td align="center">${bookingRequest.dateIn}</td>
@@ -40,8 +40,39 @@
 					</table>
 				</c:if>
 
+				<c:if test="${not empty inactiveBookingRequests}">
+					<div><h3><span>Inactive user booking requests</span></h3></div>
+					<table border="1">
+						<tr>
+							<th>Booking request number</th>
+						    <th>Date In</th>
+						    <th>Date Out</th>
+						    <th>Room Capacity</th>
+						    <th>Room Class</th>
+						    <th>Room Class</th>
+
+						</tr>
+						<c:forEach var="bookingRequest" items="${inactiveBookingRequests}">
+							<tr>
+								<td align="center">${bookingRequest.id}</td>
+						    	<td align="center">${bookingRequest.dateIn}</td>
+						        <td align="center">${bookingRequest.dateOut}</td>
+						        <td align="center">${bookingRequest.capacity}</td>
+						        <td align="center">${bookingRequest.roomClass.toArray()[0].title}</td>
+						        <td align="center">
+						        	<form action="controller" method="post">
+										<input type="hidden" name="command" value="delete-booking-request" />
+										<input type="hidden" name="booking_request_id" value="${bookingRequest.id}" />
+										<input type="submit" value="ok">
+									</form>
+								</td>
+						    </tr>
+						</c:forEach>
+					</table>
+				</c:if>
+
 				<c:if test="${not empty activeBookings}">
-					<div><h1><span>User active bookings</span></h1></div>
+					<div><h3><span>User active bookings</span></h3></div>
 
 					<table border="1">
 						<tr>

@@ -5,6 +5,7 @@ package com.demo.web.command;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -17,6 +18,7 @@ import com.demo.db.constants.Regex;
 import com.demo.db.dao.BookingRequestDAO;
 import com.demo.db.dao.RoomClassDAO;
 import com.demo.db.entity.BookingRequest;
+import com.demo.db.entity.BookingRequestStatus;
 import com.demo.db.entity.RoomClass;
 import com.demo.db.entity.User;
 import com.demo.web.constants.Path;
@@ -108,7 +110,8 @@ public class BookingRequestCreateCommand extends Command {
 			return new BookingRequestCreateViewCommand().execute(request, response);
 		}
 
-		BookingRequest bookingRequest = new BookingRequest(user, capacity, dateIn, dateOut, roomClass);
+		Set<BookingRequestStatus> brs = Collections.singleton(BookingRequestStatus.ACTIVE);
+		BookingRequest bookingRequest = new BookingRequest(user, capacity, dateIn, dateOut, roomClass, brs);
 		bookingRequest = new BookingRequestDAO().createBookingRequest(bookingRequest);
 
 		if(bookingRequest == null || bookingRequest.getId() == null) {
