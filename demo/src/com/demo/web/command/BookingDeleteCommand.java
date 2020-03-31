@@ -26,7 +26,7 @@ import com.demo.web.constants.Path;
 public class BookingDeleteCommand extends Command {
 
 	private static final long serialVersionUID = -9036453675202149509L;
-	private static final Logger log = Logger.getLogger(BookingCreateCommand.class);
+	private static final Logger log = Logger.getLogger(BookingDeleteCommand.class);
 
 
 	@Override
@@ -59,20 +59,20 @@ public class BookingDeleteCommand extends Command {
 			return uri;
 		}
 
-		if (!booking.getBookingStatus().contains(BookingStatus.UNCONFIRMED) ||
-				!booking.getBookingStatus().contains(BookingStatus.NOT_PAID)) {
-			errorMessage = "Booking can't be deleted : id --> " + bookingId;
-			log.error("errorMessage --> " + errorMessage);
-			request.setAttribute("errorMessage", errorMessage);
+		if (booking.getBookingStatus().contains(BookingStatus.UNCONFIRMED) ||
+				booking.getBookingStatus().contains(BookingStatus.NOT_PAID)) {
+
+			uri = Path.COMMAND__VIEW_ACCOUNT;
+
+			new BookingDAO().deleteBooking(booking);
+			log.trace("Booking deleted : id --> " + booking.getId());
+
+			log.debug("Command finished.");
 			return uri;
 		}
-
-		uri = Path.COMMAND__VIEW_ACCOUNT;
-
-		new BookingDAO().deleteBooking(booking);
-		log.trace("Booking deleted : id --> " + booking.getId());
-
-		log.debug("Command finished.");
+		errorMessage = "Booking can't be deleted : id --> " + bookingId;
+		log.error("errorMessage --> " + errorMessage);
+		request.setAttribute("errorMessage", errorMessage);
 		return uri;
 	}
 

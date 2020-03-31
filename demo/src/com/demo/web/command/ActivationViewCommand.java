@@ -22,8 +22,7 @@ import com.demo.web.constants.Path;
 public class ActivationViewCommand extends Command {
 
 	private static final long serialVersionUID = 4438395985208271977L;
-
-	private static final Logger log = Logger.getLogger(ActivationCommand.class);
+	private static final Logger log = Logger.getLogger(ActivationViewCommand.class);
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)

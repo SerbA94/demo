@@ -46,7 +46,6 @@ public class ActivationMailCommand extends Command {
 								 "&activation_token=" + user.getActivationToken();
 
 			new MailUtil().sendEmail(user.getEmail(), subject, messageText);
-
 		}else {
 			errorMessage = "User already activated : email --> " + user.getEmail();
 			request.setAttribute("errorMessage", errorMessage);

@@ -38,7 +38,7 @@ public class BillMailCommand extends Command {
 		String uri = Path.PAGE__ERROR;
 
 		User user = (User)request.getSession().getAttribute("user");
-		log.trace("user from session --> " + user);
+		log.trace("User from session --> " + user);
 
 		Long bookingId = null;
 		Booking booking = null;
@@ -66,7 +66,6 @@ public class BillMailCommand extends Command {
 			new MailUtil().sendEmail(user.getEmail(), subject, messageText);
 
 			uri = Path.COMMAND__VIEW_ACCOUNT;
-			// Add message
 		}else {
 			errorMessage = "Booking closed for payment.";
 			request.setAttribute("errorMessage", errorMessage);
