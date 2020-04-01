@@ -18,7 +18,7 @@
 				<div><h1><span>Booking create page</span></h1></div>
 				<div><span>Number </span><span>${room.number}</span></div>
 				<div><span>Capacity </span><span>${room.capacity}</span></div>
-				<div><span>Price </span><span>${room.price}</span></div>
+				<div><span>Price </span><span><demo:format price="${room.price}"/></span></div>
 				<div><span>Class </span><span>${room.roomClass.toArray()[0].title}</span></div>
 
 				<form action="controller" method="post">

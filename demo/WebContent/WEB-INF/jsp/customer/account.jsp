@@ -18,7 +18,7 @@
 				<div><h1><span>User account page</span></h1></div>
 
 				<c:if test="${not empty activeBookingRequests}">
-					<div><h3><span>User booking requests</span></h3></div>
+					<div><h3><span>Active user booking requests</span></h3></div>
 
 					<table border="1">
 						<tr>
@@ -49,7 +49,7 @@
 						    <th>Date Out</th>
 						    <th>Room Capacity</th>
 						    <th>Room Class</th>
-						    <th>Room Class</th>
+						    <th></th>
 
 						</tr>
 						<c:forEach var="bookingRequest" items="${inactiveBookingRequests}">
