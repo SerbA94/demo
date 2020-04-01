@@ -63,8 +63,7 @@ public class BillMailCommand extends Command {
 			String subject = "Booking bill.";
 			String messageText = "Bill for booking : " + booking + System.lineSeparator()
 								 + "Total price : " + booking.getTotalPrice();
-			new MailUtil().sendEmail(user.getEmail(), subject, messageText);
-
+			new Thread(() -> new MailUtil().sendEmail(user.getEmail(), subject, messageText)).start();
 			uri = Path.COMMAND__VIEW_ACCOUNT;
 		}else {
 			errorMessage = "Booking closed for payment.";

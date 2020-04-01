@@ -17,6 +17,7 @@ import com.demo.db.entity.Booking;
 import com.demo.db.entity.BookingStatus;
 import com.demo.db.entity.User;
 import com.demo.web.constants.Path;
+import com.demo.web.utils.MailUtil;
 
 /**
  * Booking confirm command.
@@ -52,7 +53,7 @@ public class BookingConfirmCommand extends Command {
 			return uri;
 		}
 
-		if (booking==null || !booking.getUser().getId().equals(user.getId())) {
+		if (booking == null || !booking.getUser().getId().equals(user.getId())) {
 			errorMessage = "You dont have booking with id : id --> " + bookingId;
 			log.error("errorMessage --> " + errorMessage);
 			request.setAttribute("errorMessage", errorMessage);
@@ -64,6 +65,13 @@ public class BookingConfirmCommand extends Command {
 		booking.setBookingStatus(Collections.singleton(BookingStatus.NOT_PAID));
 		new BookingDAO().updateBooking(booking);
 		log.trace("Booking updated : id --> " + booking.getId());
+
+		String subject = "Booking confirmed by user.";
+		String messageText = "Bill for booking : " + booking + System.lineSeparator()
+							 + "Total price : " + booking.getTotalPrice();
+		log.trace("Bill mail was sent to user : email --> " + booking.getUser().getEmail());
+		new Thread(() -> new MailUtil()
+				.sendEmail(user.getEmail(), subject, messageText)).start();
 
 		log.debug("Command finished.");
 		return uri;

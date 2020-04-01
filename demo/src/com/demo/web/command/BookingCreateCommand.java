@@ -28,6 +28,7 @@ import com.demo.db.entity.Room;
 import com.demo.db.entity.RoomStatus;
 import com.demo.db.entity.User;
 import com.demo.web.constants.Path;
+import com.demo.web.utils.MailUtil;
 import com.demo.web.utils.TimestampUtil;
 
 /**
@@ -60,9 +61,7 @@ public class BookingCreateCommand extends Command {
 		Timestamp dateIn = null;
 		Timestamp dateOut = null;
 		Timestamp dateOfBooking = new Timestamp(System.currentTimeMillis());
-
 		if(loggedUser.getRole().contains(Role.MANAGER)) {
-
 			bookingStatus = Collections.singleton(BookingStatus.UNCONFIRMED);
 			Long userId = null;
 			try {
@@ -140,7 +139,6 @@ public class BookingCreateCommand extends Command {
 				log.error("errorMessage --> " + errorMessage);
 				return new BookingRequestCreateViewCommand().execute(request, response);
 			}
-
 		}
 
 		Long roomId = null;
@@ -184,9 +182,21 @@ public class BookingCreateCommand extends Command {
 		log.trace("Booking successfuly created : id --> " + booking.getId());
 
 		if(loggedUser.getRole().contains(Role.MANAGER)) {
+			String subject = "Booking bill by MANAGER.";
+			String messageText = "Booking created : " + booking + System.lineSeparator()
+								 + "Total price : " + booking.getTotalPrice();
+			log.trace("Booking confirmation sent to user : email --> " + booking.getUser().getEmail());
+			new Thread(() -> new MailUtil()
+					.sendEmail(booking.getUser().getEmail(), subject, messageText)).start();
 			uri = Path.COMMAND__VIEW_BOOKING_REQUEST_LIST;
 		}else {
-			uri = Path.COMMAND__BILL_MAIL + "&booking_id=" + booking.getId();
+			String subject = "Booking bill.";
+			String messageText = "Bill for booking : " + booking + System.lineSeparator()
+								 + "Total price : " + booking.getTotalPrice();
+			new Thread(() -> new MailUtil()
+					.sendEmail(booking.getUser().getEmail(), subject, messageText)).start();
+			log.trace("Bill mail was sent to user : email --> " + booking.getUser().getEmail());
+			uri = Path.COMMAND__VIEW_ACCOUNT;
 		}
 
 		log.debug("Command finished.");
