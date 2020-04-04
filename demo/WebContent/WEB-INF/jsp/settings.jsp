@@ -6,16 +6,12 @@
 <c:set var="title" value="Settings" scope="page" />
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 
-<body>
-	<table id="main-container">
+<body class="d-flex flex-column h-100">
+	<%@ include file="/WEB-INF/jspf/header.jspf"%>
 
-		<%@ include file="/WEB-INF/jspf/header.jspf" %>
-
-		<tr>
-			<td class="content">
-				<%-- CONTENT --%>
-
-				<form id="settings_form" action="controller" method="POST">
+	<main role="main" class="flex-shrink-0">
+		<div class="container">
+				<form action="controller" method="POST">
 					<input type="hidden" name="command" value="update-settings" />
 
 					<div>
@@ -41,12 +37,10 @@
 					<input type="submit" value='<fmt:message key="settings_jsp.button.update"/>'><br/>
 				</form>
 
-				<%-- CONTENT --%>
-			</td>
-		</tr>
+		</div>
+	</main>
 
-		<%@ include file="/WEB-INF/jspf/footer.jspf" %>
+	<%@ include file="/WEB-INF/jspf/footer.jspf"%>
 
-	</table>
 </body>
 </html>

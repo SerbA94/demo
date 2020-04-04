@@ -4,18 +4,12 @@
 <c:set var="title" value="Booking request list" />
 <%@ include file="/WEB-INF/jspf/head.jspf"%>
 
-<body>
-	<table id="main-container">
-		<%-- HEADER --%>
-		 <%@ include file="/WEB-INF/jspf/header.jspf"%>
-		<%-- HEADER --%>
-		<tr>
-			<td class="content center">
-				<%-- ERROR HANDLING --%>
-				<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
-				<%-- ERROR HANDLING --%>
+<body class="d-flex flex-column h-100">
+	<%@ include file="/WEB-INF/jspf/header.jspf"%>
 
-				<div><h1><span>Booking request list page</span></h1></div>
+	<main role="main" class="flex-shrink-0">
+		<div class="container">
+			<div><h1><span>Booking request list page</span></h1></div>
 				<c:choose>
 					<c:when test="${empty bookingRequests}">
 						<div><span>No active booking requests</span></div>
@@ -43,11 +37,10 @@
 						</table>
 					</c:when>
 				</c:choose>
+		</div>
+	</main>
 
-			</td>
-		</tr>
-		<%@ include file="/WEB-INF/jspf/footer.jspf"%>
-	</table>
+	<%@ include file="/WEB-INF/jspf/footer.jspf"%>
 
 </body>
 </html>

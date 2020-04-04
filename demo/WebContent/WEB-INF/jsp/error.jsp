@@ -8,29 +8,20 @@
 <c:set var="title" value="Error" scope="page" />
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 
-<body>
+<body class="d-flex flex-column h-100">
+	<%@ include file="/WEB-INF/jspf/header.jspf"%>
 
-	<table id="main-container">
 
-		<%-- HEADER --%>
-		<%@ include file="/WEB-INF/jspf/header.jspf"%>
-		<%-- HEADER --%>
+	<main role="main" class="flex-shrink-0">
+		<div class="container">
+			<h2 class="error">The following error occurred</h2>
 
-		<tr >
-			<td class="content">
-			<%-- CONTENT --%>
-				<h2 class="error">The following error occurred</h2>
+			<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
 
-				<%-- ERROR HANDLING --%>
-				<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
-				<%-- ERROR HANDLING --%>
+		</div>
+	</main>
 
-			<%-- CONTENT --%>
-			</td>
-		</tr>
+	<%@ include file="/WEB-INF/jspf/footer.jspf"%>
 
-		<%@ include file="/WEB-INF/jspf/footer.jspf"%>
-
-	</table>
 </body>
 </html>

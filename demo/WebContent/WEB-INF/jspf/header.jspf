@@ -6,105 +6,103 @@ Header (top area).
 <%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
 
-<tr>
-<td id="header">
-<div id="leftHeader">
-	<a href="controller?command=view-welcome"><span>Home</span></a>
-</div>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-bottom">
+  <a class="navbar-brand" href="controller?command=view-welcome">Home</a>
+  <ul class="navbar-nav mr-auto">
 
-<%--===========================================================================
-This is the user menu.
-===========================================================================--%>
-<div id="leftHeader">
 
-	<c:choose>
-
+  <c:choose>
 		<c:when test="${empty user}">
-			<a href="controller?command=view-room-list"><span>Rooms</span></a>
-			<a href="controller?command=view-booking-request-create"><span>Send booking request</span></a>
+			<li class="nav-item">
+				<a class="nav-link" href="controller?command=view-room-list"><span>Rooms</span></a>
+    		</li>
+			<li class="nav-item">
+				<a class="nav-link" href="controller?command=view-booking-request-create"><span>Send booking request</span></a>
+    		</li>
 		</c:when>
 		<c:when test="${not empty user}">
 			<c:choose>
-		<%--===========================================================================
-		This way we define the ADMIN MENU.
-		===========================================================================--%>
 				<c:when test="${userRole.title == 'admin'}">
 						<c:if test="${title eq 'Room list'}">
-							<a href="controller?command=view-room-create"><span>Add room</span></a>
+							<li class="nav-item">
+								<a class="nav-link" href="controller?command=view-room-create"><span>Add room</span></a>
+							</li>
 						</c:if>
 						<c:if test="${title ne 'Room list'}">
-							<a href="controller?command=view-room-list"><span>Rooms</span></a>
+							<li class="nav-item">
+								<a class="nav-link" href="controller?command=view-room-list"><span>Rooms</span></a>
+							</li>
 						</c:if>
 				</c:when>
-		<%--===========================================================================
-		This way we define the MANAGER MENU.
-		===========================================================================--%>
 				<c:when test="${userRole.title == 'manager' }">
 						<c:if test="${title ne 'Booking request list'}">
-							<a href="controller?command=view-booking-request-list"><span>Booking request list</span></a>
+							<li class="nav-item">
+								<a class="nav-link" href="controller?command=view-booking-request-list"><span>Booking request list</span></a>
+							</li>
 						</c:if>
 				</c:when>
 
-		<%--===========================================================================
-		This way we define the CUSTOMER MENU.
-		===========================================================================--%>
 				<c:when test="${userRole.title eq 'customer' or userRole.title eq 'inactive'}">
 						<c:if test="${title ne 'Room list'}">
-							<a href="controller?command=view-room-list"><span>Rooms</span></a>
+							<li class="nav-item">
+								<a class="nav-link" href="controller?command=view-room-list"><span>Rooms</span></a>
+							</li>
 						</c:if>
 						<c:if test="${title ne 'Booking request create'}">
-							<a href="controller?command=view-booking-request-create"><span>Send booking request</span></a>
+							<li class="nav-item">
+								<a class="nav-link" href="controller?command=view-booking-request-create"><span>Send booking request</span></a>
+							</li>
 						</c:if>
 				</c:when>
 
 			</c:choose>
 		</c:when>
 	</c:choose>
-</div>
+</ul>
 
-
-<%--===========================================================================
-This way we define the menu located at the right of header.
-===========================================================================--%>
-<div id="rightHeader" >
-
+  <ul class="navbar-nav">
 	<c:choose>
 		<c:when test="${not empty user}">
-			<%--===========================================================================
-			Type user name if the user object is presented in the current session.
-			===========================================================================--%>
-			<c:out value="${user.login}"/>
+			<li class="nav-item">
+				<span class="nav-link active"><c:out value="${user.login}"/></span>
+			</li>
 
-			<%--===========================================================================
-			Type user role name if the user object is presented in the current session.
-			===========================================================================--%>
 			<c:if test="${userRole.title ne 'customer' }">
-				<c:out value="(${userRole.title})"/>
+				<li class="nav-item">
+					<span class="nav-link active"><c:out value="(${userRole.title})"/></span>
+				</li>
 			</c:if>
 
 			<c:if test="${userRole.title eq 'customer' and title ne 'Account' }">
-				<a href="controller?command=view-account"><span>Account</span></a>
+				<li class="nav-item">
+					<a class="nav-link" href="controller?command=view-account"><span>Account</span></a>
+				</li>
 			</c:if>
 
-			<%--===========================================================================
-			Type link to logout
-			===========================================================================--%>
-			<a href="controller?command=logout"><span><fmt:message key="header_jspf.anchor.logout"/></span></a>
+			<li class="nav-item">
+				<a class="nav-link" href="controller?command=logout"><span><fmt:message key="header_jspf.anchor.logout"/></span></a>
+			</li>
 		</c:when>
 		<c:when test="${empty user}">
 			<c:if test="${title ne 'Login'}">
-				<a href="controller?command=view-login"><span><fmt:message key="header_jspf.anchor.login"/></span></a>
+				<li class="nav-item">
+					<a class="nav-link" href="controller?command=view-login"><span><fmt:message key="header_jspf.anchor.login"/></span></a>
+				</li>
 			</c:if>
 			<c:if test="${title ne 'Registration'}">
-				<a href="controller?command=view-registration"><span><fmt:message key="header_jspf.anchor.registration"/></span></a>
+				<li class="nav-item">
+					<a class="nav-link" href="controller?command=view-registration"><span><fmt:message key="header_jspf.anchor.registration"/></span></a>
+				</li>
 			</c:if>
 		</c:when>
 	</c:choose>
 
 	<c:if test="${title ne 'Settings'}">
-		<a href="controller?command=view-settings"><span><fmt:message key="header_jspf.anchor.settings" /></span></a>
+		<li class="nav-item">
+			<a class="nav-link" href="controller?command=view-settings"><span><fmt:message key="header_jspf.anchor.settings" /></span></a>
+		</li>
 	</c:if>
-</div>
-</td>
-</tr>
+
+</ul>
+</nav>
 

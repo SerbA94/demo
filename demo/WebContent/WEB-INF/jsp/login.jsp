@@ -5,45 +5,16 @@
 <c:set var="title" value="Login" />
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 
-<body>
+<body class="d-flex flex-column h-100">
+	<%@ include file="/WEB-INF/jspf/header.jspf"%>
 
-<%--===========================================================================
-Here we use a table layout.
-Class page corresponds to the '.page' element in included CSS document.
-===========================================================================--%>
-	<table id="main-container">
 
-<%--===========================================================================
-This is the HEADER, containing a top menu.
-header.jspf contains all necessary functionality for it.
-Just included it in this JSP document.
-===========================================================================--%>
+	<main role="main" class="flex-shrink-0">
+		<div class="container">
+				<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
 
-		<%-- HEADER --%>
-		 <%@ include file="/WEB-INF/jspf/header.jspf"%>
-		<%-- HEADER --%>
+				<form action="controller" method="post">
 
-<%--===========================================================================
-This is the CONTENT, containing the main part of the page.
-===========================================================================--%>
-		<tr >
-			<td class="content center">
-			<%-- CONTENT --%>
-
-			<%-- ERROR HANDLING --%>
-			<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
-			<%-- ERROR HANDLING --%>
-
-<%--===========================================================================
-Defines the web form.
-===========================================================================--%>
-				<form id="login_form" action="controller" method="post">
-
-<%--===========================================================================
-Hidden field. In the query it will act as command=login.
-The purpose of this to define the command name, which have to be executed
-after you submit current form.
-===========================================================================--%>
 					<input type="hidden" name="command" value="login"/>
 
 					<fieldset >
@@ -62,13 +33,10 @@ after you submit current form.
 					<input type="submit" value='<fmt:message key="login_jsp.button.login"/>'>
 				</form>
 
-			<%-- CONTENT --%>
+		</div>
+	</main>
 
-			</td>
-		</tr>
+	<%@ include file="/WEB-INF/jspf/footer.jspf"%>
 
-		<%@ include file="/WEB-INF/jspf/footer.jspf"%>
-
-	</table>
 </body>
 </html>

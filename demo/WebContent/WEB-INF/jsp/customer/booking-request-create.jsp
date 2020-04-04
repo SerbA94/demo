@@ -3,22 +3,14 @@
 <html>
 <c:set var="title" value="Booking request create" />
 <%@ include file="/WEB-INF/jspf/head.jspf"%>
-
-<body>
-	<table id="main-container">
-		<%-- HEADER --%>
-		 <%@ include file="/WEB-INF/jspf/header.jspf"%>
-		<%-- HEADER --%>
-		<tr>
-			<td class="content center">
-				<%-- ERROR HANDLING --%>
-				<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
-				<%-- ERROR HANDLING --%>
-
+<body class="d-flex flex-column h-100">
+	<%@ include file="/WEB-INF/jspf/header.jspf"%>
+	<main role="main" class="flex-shrink-0">
+		<div class="container">
+			<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
 				<div><h1><span>Booking request page</span></h1></div>
 				<form action="controller" method="post">
 					<input type="hidden" name="command" value="create-booking-request" />
-
 					<div>
 						<p>class</p>
 						<select name="roomClass">
@@ -46,14 +38,9 @@
 						<input type="date" name="dateOut" value="${nextDateOut}">
 					</div>
 					<input type="submit" value="submit">
-
 				</form>
-
-
-			</td>
-		</tr>
+			</div>
+		</main>
 		<%@ include file="/WEB-INF/jspf/footer.jspf"%>
-	</table>
-
 </body>
 </html>
