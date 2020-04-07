@@ -13,7 +13,7 @@
 					<input type="hidden" name="command" value="create-booking-request" />
 					<div>
 						<p>class</p>
-						<select name="roomClass">
+						<select name="roomClass" class="custom-select">
 							<c:forEach var="roomClass" items="${roomClasses}">
 								<option value="${roomClass.title}">${roomClass}</option>
 							</c:forEach>
@@ -21,7 +21,7 @@
 					</div>
 					<div>
 						<p>capacity</p>
-						<select name="capacity">
+						<select name="capacity" class="custom-select">
 						    <c:set var="counter" value= "${ 1 }" />
     						<c:forEach begin="1" end="${maxCapacity}" step="1">
 								<option value="${counter}">${counter}</option>

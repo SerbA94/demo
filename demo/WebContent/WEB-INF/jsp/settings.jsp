@@ -18,7 +18,7 @@
 						<p>
 							<fmt:message key="settings_jsp.label.localization"/>
 						</p>
-						<select name="localeToSet">
+						<select name="localeToSet" class="custom-select">
 							<c:choose>
 								<c:when test="${not empty defaultLocale}">
 									<option value="">${defaultLocale}[Default]</option>

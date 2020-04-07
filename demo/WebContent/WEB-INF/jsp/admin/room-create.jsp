@@ -42,7 +42,7 @@
 
 					<div>
 						<p>status</p>
-						<select name="roomStatus">
+						<select name="roomStatus" class="custom-select">
 							<c:forEach var="roomStatus" items="${roomStatuses}">
 								<option value="${roomStatus.title}">${roomStatus}</option>
 							</c:forEach>
@@ -51,7 +51,7 @@
 
 					<div>
 						<p>class</p>
-						<select name="roomClass">
+						<select name="roomClass" class="custom-select">
 							<c:forEach var="roomClass" items="${roomClasses}">
 								<option value="${roomClass.title}">${roomClass}</option>
 							</c:forEach>

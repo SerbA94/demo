@@ -18,7 +18,7 @@
 						<input type="hidden" name="command" value="view-room-list" />
 						<div>
 							<p>order by</p>
-							<select name="orderBy">
+							<select name="orderBy" class="custom-select">
 							<c:if test="${ not empty orderBy }">
 								<option value="${ orderBy }">
 

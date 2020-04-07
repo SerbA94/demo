@@ -8,6 +8,7 @@
 	<%@ include file="/WEB-INF/jspf/header.jspf"%>
 
 	<main role="main" class="flex-shrink-0">
+
 		<div class="container">
 				<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
 
@@ -17,7 +18,7 @@
 						<input type="hidden" name="command" value="view-room-list" />
 						<div>
 							<p>order by</p>
-							<select name="orderBy">
+							<select name="orderBy" class="custom-select">
 							<c:if test="${ not empty orderBy }">
 								<option value="${ orderBy }">
 									<c:choose>

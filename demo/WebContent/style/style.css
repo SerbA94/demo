@@ -1,144 +1,190 @@
-/***************************************************************
-CSS for all JSP pages
-***************************************************************/
+
+.img-container {
+  position: relative;
+}
+
+.text-block {
+  opacity:0.8;
+  position: absolute;
+  top: 60px;
+  left: 40px;
+  background-color: rgb(52, 58, 64);
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 body {
-	margin: 0;
+  font-family: Verdana, sans-serif;
+  margin: 0;
 }
 
-table {
-	border-collapse:collapse;
+* {
+  box-sizing: border-box;
 }
 
-td {
-	border:1px solid black;
-	padding: 2px;
-}
-.img-table {
-	height: 60px;
-	width : 80px;
-
-}
-.img {
-	height: 300px;
-	width : 400px;
-
+.row > .column {
+  padding: 0 8px;
 }
 
-#header, #footer, .content {
-	border: 0px solid;
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
-/***************************************************************
-Style of the main table
-***************************************************************/
-#main-container {
-	width: 100%;
-	height: 100%;
+.column {
+  float: left;
+  width: 25%;
 }
 
-/***************************************************************
-Header style (TD tag in the first top row)
-***************************************************************/
-#header {
-	background: #AAAAFF;
-	padding: 0px;
+/* The Modal (background) */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: black;
 }
 
-/***************************************************************
-Style for the left located head menu (DIV tag at left)
-***************************************************************/
-#leftHeader {
-	background: #AAAAFF;
-	float: left;
-	margin-left: 10px;
-	padding: 2px;
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  width: 90%;
+  max-width: 1200px;
 }
 
-/***************************************************************
-Style for the right located head menu (DIV tag at right)
-***************************************************************/
-#rightHeader {
-	background: #AAAAFF;
-	float: right;
-	text-align: right;
-	margin-right: 10px;
-	padding: 2px;
+/* The Close Button */
+.close {
+  color: white;
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  font-size: 35px;
+  font-weight: bold;
 }
 
-/***************************************************************
-Content styles (TD tag in the main middle row)
-***************************************************************/
-.content {
-	height: 100%;
-	background: #BBBBFF;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-top: 10px;
-	text-align: left;
-	vertical-align: top;
+.close:hover,
+.close:focus {
+  color: #999;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-/***************************************************************
-Footer style (TD tag in the last bottom row)
-***************************************************************/
-#footer {
-	text-align: center;
-	background: #AAAAFF;
+.mySlides {
+  display: none;
 }
 
-/***************************************************************
-Style for the ERROR message
-***************************************************************/
-.error {
-	font-size: large;
-	color: rgb(204, 0, 0);
+.cursor {
+  cursor: pointer;
 }
 
-/***************************************************************
-Miscellaneous
-***************************************************************/
-.center {
-	text-align: center;
-	vertical-align: middle;
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -50px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-.noborder {
-	border: 2px solid red;
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
 }
 
-/***************************************************************
-Login form (login.jsp)
-***************************************************************/
-#login_form > fieldset {
-	display: inline;
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
-#login_form > input[type=submit] {
-	margin-top: 5px;
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
 }
 
-/***************************************************************
-Registration form (registration.jsp)
-***************************************************************/
-#registration_form > fieldset {
-	display: inline;
+img {
+  margin-bottom: -4px;
 }
 
-#registration_form > input[type=submit] {
-	margin-top: 5px;
+.caption-container {
+  text-align: center;
+  background-color: black;
+  padding: 2px 16px;
+  color: white;
 }
 
-/***************************************************************
-Settings form (settings.jsp)
-***************************************************************/
-#settings_form > div > p {
-	font-size: 17px;
-	margin-top: 5px;
-	margin-bottom: 2px;
+.demo {
+  opacity: 0.6;
 }
 
-#settings_form > input[type=submit] {
-	margin-top: 10px;
+.active,
+.demo:hover {
+  opacity: 1;
 }
 
+img.hover-shadow {
+  transition: 0.3s;
+}
 
+.hover-shadow:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create four equal columns that sits next to each other */
+.column {
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  .column {
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    flex: 100%;
+    max-width: 100%;
+  }
+}

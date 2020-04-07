@@ -37,7 +37,7 @@
 
 					<div>
 						<p>status</p>
-						<select name="roomStatus">
+						<select name="roomStatus" class="custom-select">
 							<option value="${room.roomStatus.toArray()[0].title}">${room.roomStatus.toArray()[0]}[Actual]</option>
 							<c:forEach var="roomStatus" items="${roomStatuses}">
 								<option value="${roomStatus.title}">${roomStatus}</option>
@@ -47,7 +47,7 @@
 
 					<div>
 						<p>class</p>
-						<select name="roomClass">
+						<select name="roomClass" class="custom-select">
 							<option value="${room.roomClass.toArray()[0].title}">${room.roomClass.toArray()[0]}[Actual]</option>
 							<c:forEach var="roomClass" items="${roomClasses}">
 								<option value="${roomClass.title}">${roomClass}</option>
