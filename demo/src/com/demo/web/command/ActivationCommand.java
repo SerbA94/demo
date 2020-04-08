@@ -76,7 +76,10 @@ public class ActivationCommand extends Command {
 			return uri;
 		}
 
-		if(user.getActivationToken() != activationToken) {
+		log.trace("=====>>>> User token: " + user.getActivationToken());
+		log.trace("=====>>>> URL  token: " + activationToken);
+
+		if(!user.getActivationToken().equals(activationToken)) {
 			log.trace("Activation failed : Activation tokens did not matched.");
 			request.setAttribute("errorMessage", errorMessage);
 			return uri;

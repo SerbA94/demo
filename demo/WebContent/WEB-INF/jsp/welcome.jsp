@@ -13,7 +13,7 @@
 	<main role="main" class="flex-shrink-0">
 
     <div class="img-container">
-      	<img src="img/main6.jpeg" alt="main6" style="width:100%;">
+      	<img src="img/main6.jpg" alt="main6" style="width:100%;">
   			<div class="text-block">
     			<h1>Welcome to Demo hotel</h1>
     			<h4>Here you can find best rooms to book</h4>
