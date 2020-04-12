@@ -46,7 +46,7 @@ public class RoomListViewCommand extends Command {
 
 		if(user != null && (Role) user.getRole().toArray()[0] == Role.ADMIN) {
 			log.trace("userRole --> " + (Role) user.getRole().toArray()[0]);
-			uri = Path.PAGE__ADMIN_ROOM_LIST;
+			uri = Path.PAGE__ROOM_LIST;
 
 			if(orderBy != null) {
 				request.setAttribute("rooms", new RoomDAO().findAllOrderedRooms(orderBy));
@@ -60,7 +60,7 @@ public class RoomListViewCommand extends Command {
 			}
 		}
 
-		uri = Path.PAGE__CUSTOMER_ROOM_LIST;
+		uri = Path.PAGE__ROOM_LIST;
 
 		if(orderBy != null) {
 			request.setAttribute("rooms", new RoomDAO().findAllFreeOrderedRooms(orderBy));

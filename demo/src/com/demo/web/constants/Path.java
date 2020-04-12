@@ -19,11 +19,10 @@ public final class Path {
 	public static final String PAGE__SETTINGS = "/WEB-INF/jsp/settings.jsp";
 	public static final String PAGE__WELCOME = "/WEB-INF/jsp/welcome.jsp";
 	public static final String PAGE__ERROR = "/WEB-INF/jsp/error.jsp";
-	public static final String PAGE__ADMIN_ROOM_LIST = "/WEB-INF/jsp/admin/room-list.jsp";
+	public static final String PAGE__ROOM_LIST = "/WEB-INF/jsp/room-list.jsp";
 	public static final String PAGE__ADMIN_ROOM_CREATE = "/WEB-INF/jsp/admin/room-create.jsp";
 	public static final String PAGE__ADMIN_ROOM_EDIT = "/WEB-INF/jsp/admin/room-edit.jsp";
 	public static final String PAGE__CUSTOMER_ROOM = "/WEB-INF/jsp/customer/room.jsp";
-	public static final String PAGE__CUSTOMER_ROOM_LIST = "/WEB-INF/jsp/customer/room-list.jsp";
 	public static final String PAGE__CUSTOMER_BOOKING_REQUEST_CREATE = "/WEB-INF/jsp/customer/booking-request-create.jsp";
 	public static final String PAGE__CUSTOMER_BOOKING_CREATE = "/WEB-INF/jsp/customer/booking-create.jsp";
 	public static final String PAGE__CUSTOMER_ACCOUNT = "/WEB-INF/jsp/customer/account.jsp";

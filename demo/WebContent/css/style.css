@@ -4,16 +4,57 @@
     display: block;	
 }
 
+.arrow-down-25 {
+    background: url('img/ico/arrow-down-25.svg'); 
+    height: 25px;
+    width: 25px;   
+}
+
+.double-arrow-down-25 {
+    background: url('img/ico/double-arrow-down-25.svg');
+    height: 25px;
+    width: 25px;      
+}
+
+.arrow-down-25:hover {
+    background: url('img/ico/double-arrow-down-25.svg');
+    height: 25px;
+    width: 25px;      
+}
+
+.up-to-top {
+	background: url('img/ico/up-to-top.svg');
+}
+
+.up-to-top:hover {
+	background: url('img/ico/up-to-top-circle.svg');
+	height: 74px;
+    width: 74px;
+}
+
+
 .arrow-down {
     background: url('img/ico/arrow-down.svg');    
-    height: 24px;
-    width: 24px;  
+}
+
+.double-arrow-down {
+    background: url('img/ico/double-arrow-down.svg');    
 }
 
 .arrow-down:hover {
-    background: url('img/ico/arrow-down-circle.svg');  
-    height: 24px;
-    width: 24px;   
+    background: url('img/ico/double-arrow-down.svg');    
+}
+
+.arrow-up {
+    background: url('img/ico/arrow-up.svg');    
+}
+
+.double-arrow-up {
+    background: url('img/ico/double-arrow-up.svg');    
+}
+
+.arrow-up:hover {
+    background: url('img/ico/double-arrow-up.svg');     
 }
 
 
@@ -29,8 +70,23 @@
 	background: url('img/ico/icons8-linkedin.svg');      
 }
 
-.ft-light {
-	background-color: #e3e3e3;
+.card-img-top {
+	height: 225px;
+	width: 100%;
+	display: block;
+}
+
+.jumbotron {
+	margin-bottom: 0;
+}
+
+.custom-select {
+	border:1px solid rgba(0,0,0,.125);
+}
+
+.custom-select:hover, .custom-select:active, .custom-select:focus {
+	box-shadow: 0 0 0 1px #697179;
+	border:1px solid #697179;	
 }
 
 .mg-10 {
@@ -49,6 +105,10 @@
 	margin: 50px;
 }
 
+.bg-light-gray {
+	background-color: #e9ecef;
+}
+
 .btn-secondary {
 	background-color: #343a40;
 	border: none;	
@@ -59,9 +119,18 @@
 	border: none;
 }
 
+.btn-outline-secondary:hover {
+	background-color: #343a40;
+	border: none;	
+}
+
 .shadowtext {
 	text-shadow: 1px 1px 2px black, 0 0 1em black; 
     color: white;
+}
+
+.shadow-button {
+	box-shadow: 0 .125rem .25rem #E9ECEF!important;
 }
 
 .row {
