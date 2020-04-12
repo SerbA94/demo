@@ -1,26 +1,102 @@
-
-.img-container {
-  position: relative;
+.icon {
+    height: 50px;
+    width: 50px;
+    display: block;	
 }
 
-.text-block {
-  opacity:0.8;
-  position: absolute;
-  top: 60px;
-  left: 40px;
-  background-color: rgb(52, 58, 64);
-  color: white;
-  padding-left: 20px;
-  padding-right: 20px;
+.arrow-down {
+    background: url('img/ico/arrow-down.svg');    
+    height: 24px;
+    width: 24px;  
 }
 
-body {
-  font-family: Verdana, sans-serif;
-  margin: 0;
+.arrow-down:hover {
+    background: url('img/ico/arrow-down-circle.svg');  
+    height: 24px;
+    width: 24px;   
 }
 
-* {
-  box-sizing: border-box;
+
+.facebook {
+    background: url('img/ico/icons8-facebook.svg');      
+}
+
+.instagram {
+	background: url('img/ico/icons8-instagram.svg');      
+}
+
+.linkedin {
+	background: url('img/ico/icons8-linkedin.svg');      
+}
+
+.ft-light {
+	background-color: #e3e3e3;
+}
+
+.mg-10 {
+	margin: 10px;
+}
+.mg-20 {
+	margin: 20px;
+}
+.mg-30 {
+	margin: 30px;
+}
+.mg-40 {
+	margin: 40px;
+}
+.mg-50 {
+	margin: 50px;
+}
+
+.btn-secondary {
+	background-color: #343a40;
+	border: none;	
+}
+
+.btn-secondary:hover {
+	background-color: #697179;
+	border: none;
+}
+
+.shadowtext {
+	text-shadow: 1px 1px 2px black, 0 0 1em black; 
+    color: white;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create four equal columns that sits next to each other */
+.column {
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  .column {
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    flex: 100%;
+    max-width: 100%;
+  }
 }
 
 .row > .column {
@@ -33,6 +109,7 @@ body {
   clear: both;
 }
 
+/* Create four equal columns that floats next to eachother */
 .column {
   float: left;
   width: 25%;
@@ -79,12 +156,9 @@ body {
   cursor: pointer;
 }
 
+/* Hide the slides by default */
 .mySlides {
   display: none;
-}
-
-.cursor {
-  cursor: pointer;
 }
 
 /* Next & previous buttons */
@@ -126,10 +200,7 @@ body {
   top: 0;
 }
 
-img {
-  margin-bottom: -4px;
-}
-
+/* Caption text */
 .caption-container {
   text-align: center;
   background-color: black;
@@ -137,7 +208,7 @@ img {
   color: white;
 }
 
-.demo {
+img.demo {
   opacity: 0.6;
 }
 
@@ -154,37 +225,9 @@ img.hover-shadow {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0 4px;
-}
 
-/* Create four equal columns that sits next to each other */
-.column {
-  flex: 25%;
-  max-width: 25%;
-  padding: 0 4px;
-}
 
-.column img {
-  margin-top: 8px;
-  vertical-align: middle;
-  width: 100%;
-}
 
-/* Responsive layout - makes a two column-layout instead of four columns */
-@media screen and (max-width: 800px) {
-  .column {
-    flex: 50%;
-    max-width: 50%;
-  }
-}
 
-/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-  .column {
-    flex: 100%;
-    max-width: 100%;
-  }
-}
+
+
