@@ -1,7 +1,17 @@
+
+
 .icon {
     height: 50px;
     width: 50px;
     display: block;	
+}
+
+.icon-color {
+	color: #6d757d;
+}
+
+.icon-color:hover {
+	color: #343a40;
 }
 
 .arrow-down-25 {
@@ -31,7 +41,12 @@
 	height: 74px;
     width: 74px;
 }
-
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
 
 .arrow-down {
     background: url('img/ico/arrow-down.svg');    
@@ -80,11 +95,12 @@
 	margin-bottom: 0;
 }
 
-.custom-select {
+.custom-select, .custom-input {
 	border:1px solid rgba(0,0,0,.125);
 }
 
-.custom-select:hover, .custom-select:active, .custom-select:focus {
+.custom-select:hover, .custom-select:active, .custom-select:focus,
+.custom-input:hover, .custom-input:active, .custom-input:focus {
 	box-shadow: 0 0 0 1px #697179;
 	border:1px solid #697179;	
 }
@@ -293,6 +309,9 @@ img.hover-shadow {
 .hover-shadow:hover {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+
+
 
 
 

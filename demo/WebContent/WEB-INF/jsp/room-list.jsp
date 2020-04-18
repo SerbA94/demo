@@ -119,7 +119,7 @@
 			<c:if test="${ not empty rooms}">
 				<div class="d-flex justify-content-center">
 					<div class="d-flex justify-content-center" style="height:76px;width:76px;">
-						<a href="#" ><i class="icon up-to-top" ></i></a>
+						<a href="#" ><i class="fa fa-arrow-circle-o-up fa-5x icon-color" ></i></a>
 					</div>				
 				</div>
 			</c:if>
