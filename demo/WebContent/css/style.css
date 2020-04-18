@@ -10,6 +10,11 @@
 	color: #6d757d;
 }
 
+.spin:hover {
+	-webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+}
+
 .icon-color:hover {
 	color: #343a40;
 }
