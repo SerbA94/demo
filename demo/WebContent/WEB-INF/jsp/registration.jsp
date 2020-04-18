@@ -17,7 +17,7 @@
 
 		<div class="container mt-2">
 			<div class="row justify-content-center align-items-center text-center p-2">
-				<div class="m-5 col-sm-8 col-md-6 col-lg-5 shadow-sm p-3 mb-5 bg-white border rounded">
+				<div class="m-5 col-sm-8 col-md-6 col-lg-6 shadow-sm p-3 mb-5 bg-white border rounded">
 					<div class="pt-5 pb-5">
 						<i class="fa fa-user-plus fa-5x text-muted" ></i>
 						
