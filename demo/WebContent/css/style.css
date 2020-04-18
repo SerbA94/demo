@@ -110,6 +110,10 @@
 	border:1px solid #697179;	
 }
 
+.mg-0 {
+	margin: 0;
+}
+
 .mg-10 {
 	margin: 10px;
 }
