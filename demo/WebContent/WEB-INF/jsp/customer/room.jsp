@@ -4,28 +4,75 @@
 <c:set var="title" value="Room" />
 <%@ include file="/WEB-INF/jspf/head.jspf"%>
 
+<style>
+	<%@ include file="/css/style.css"%>
+	<%@ include file="/css/font-awesome-4.7.0/css/font-awesome.min.css"%>
+</style>
+
 <body class="d-flex flex-column h-100">
 	<%@ include file="/WEB-INF/jspf/header.jspf"%>
 	<main role="main" class="flex-shrink-0">
-		<div class="container">
-			<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
-				<div><h1><span>Room page</span></h1></div>
-				<div><span>Number </span><span>${room.number}</span></div>
-				<div><span>Capacity </span><span>${room.capacity}</span></div>
-				<div><span>Price </span><span><demo:format price="${room.price}"/></span></div>
-				<div><span>Class </span><span>${room.roomClass.toArray()[0].title}</span></div>
-				<div><span>Description </span><br/><span>${description}</span></div>
+		<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
 
-				<c:if test="${room.roomStatus.toArray()[0].title eq 'free'}">
-					<div><a href="controller?command=view-booking-create&room_id=${room.id}"><span>book</span></a></div>
-				</c:if>
-				<div>
-					<c:forEach var="image" items="${room.images}">
-					<div><img src="controller?command=view-image&image_id=${image.id}" class="img"></div>
-					</c:forEach>
+		
+		<div class="position-relative overflow-hidden text-center room-main-img shadowtext">
+		
+		
+		 
+		  <div class="col-md-5 p-lg-5 mx-auto my-5">
+		    <h1 class="display-4 font-weight-normal">Room page</h1>
+		    <p class="lead font-weight-normal"><span>${description}</span></p>
+		    	<div>
+		    		<span>Room class : </span><span>${room.roomClass.toArray()[0].title}</span>
+		    		<span>, places : </span><span>${room.capacity}.</span>
 				</div>
+				<div><span>Price </span><span><demo:format price="${room.price}"/>/day</span></div>
+		    					
+		    
+		    <c:if test="${room.roomStatus.toArray()[0].title eq 'free'}">
+				<a class="btn btn-lg btn-secondary mb1 black bg-gray" href="controller?command=view-booking-create&room_id=${room.id}"><span>Book now</span></a>
+			</c:if>
+		    
+		    
+		  </div>
+
 		</div>
+		
+		<c:if test="${not empty room.images}">
+
+			<c:set var="counter" value= "${ 0 }" />
+			<c:forEach begin="0" end="${room.images.size()}" step="2" varStatus="loop">
+		   		<div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+				   		 	
+			   		<c:if test="${ counter < room.images.size() }">
+				   		<div class="img-con">
+				   			<img class="room-side-img" src="controller?command=view-image&image_id=${room.images.get(counter).id}" >
+							<c:set var="counter" value= "${ counter + 1 }" />
+				 		</div>
+				   	 </c:if>
+					 <c:if test="${ counter < room.images.size() }">
+				   	 	<div class="img-con">
+							<img class="room-side-img" src="controller?command=view-image&image_id=${room.images.get(counter).id}" >
+							<c:set var="counter" value= "${ counter + 1 }" />
+						</div>
+			   		 </c:if>
+			   		 	
+		   		 </div>
+		   	</c:forEach>
+		   	
+		</c:if>
+		
+		
+		
+		
+		
+		
+		
+		
+				
+			
 	</main>
 	<%@ include file="/WEB-INF/jspf/footer.jspf"%>
 </body>
+
 </html>
