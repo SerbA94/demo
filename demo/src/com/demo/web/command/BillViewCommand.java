@@ -59,9 +59,7 @@ public class BillViewCommand extends Command {
 		}
 
 		if (booking.getBookingStatus().contains(BookingStatus.NOT_PAID)) {
-			String billDetails = "Bill for booking : " + booking + System.lineSeparator()
-									+ "Total price : " + booking.getTotalPrice();
-			request.setAttribute("billDetails", billDetails);
+			request.setAttribute("booking", booking);
 			uri = Path.PAGE__CUSTOMER_BILL;
 		} else {
 			errorMessage = "No bill for booking : id --> " + booking.getId();

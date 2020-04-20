@@ -1,0 +1,69 @@
+<%@ include file="/WEB-INF/jspf/directive/page.jspf"%>
+<%@ include file="/WEB-INF/jspf/directive/taglib.jspf"%>
+
+			<div class="invoice-box d-flex align-items-end flex-column">
+				<table>
+					<tbody>
+						<tr class="top">
+							<td colspan="2">
+								<table>
+									<tbody>
+										<tr>
+											<td class="title">
+												<i class="fa fa-yelp fa-2x text-muted" aria-hidden="true"></i>
+											</td>
+											<td>Invoice #: ${ booking.id }<br/> Created: ${ booking.dateOfBooking }<br/>
+												Due: ${ booking.getExpiringDate() }
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						<tr class="information">
+							<td colspan="2">
+								<table>
+									<tbody>
+										<tr>
+											<td> Demo hotel <br/> 777 Best road. Apt 99 <br/>
+												DreamCity, CA 12302 <br/> IBAN : CH93 0076 2011 6238 5295 7<br/>
+												SWIFT : BOFAUS3N - BOFAUS3NXXX - BANK OF AMERICA, N.A.
+												
+											</td>
+											<td>${booking.user.login}<br/>
+											 ${booking.user.email}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+						
+						<tr class="heading">
+							<td>Item</td>
+							<td>Sumary</td>
+						</tr>
+						<tr class="item">
+							<td>Room # : ${ booking.room.number }</td>
+							<td><demo:format price="${booking.room.price}"/>/day</td>
+						</tr>
+						<tr class="item last">
+							<td>Booking days</td>
+							<td>${ booking.getTotalBookingDays() }</td>
+						</tr>
+					
+						<tr class="total">
+							<td></td>
+							<td>Total price : <demo:format price="${booking.getTotalPrice()}"/></td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<div class="text-muted mt-auto">
+					<small>Invoice was created on a computer and is valid without the signature and seal.</small>
+				</div>
+				
+				
+							                    		
+							                    				
+			</div>
