@@ -1,4 +1,14 @@
 
+.img-table {
+	height: 100px;
+    width: 100px;
+    display: block;	
+	
+}
+
+.bg-white {
+	background-color: #fff;
+}
 
 .img-con {
 	position: relative;
@@ -158,6 +168,14 @@
 }
 .mg-50 {
 	margin: 50px;
+}
+
+.table thead th {
+    vertical-align: middle!important;
+}
+
+.btn-acc-menu {
+	min-height: 75px;
 }
 
 .bg-light-gray {
