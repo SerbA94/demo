@@ -4,6 +4,11 @@
 <c:set var="title" value="Create room" />
 <%@ include file="/WEB-INF/jspf/head.jspf"%>
 
+<style>
+	<%@ include file="/css/style.css"%>
+	<%@ include file="/css/font-awesome-4.7.0/css/font-awesome.min.css"%>
+</style>
+
 <body class="d-flex flex-column h-100">
 	<%@ include file="/WEB-INF/jspf/header.jspf"%>
 
