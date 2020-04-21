@@ -1,4 +1,9 @@
 
+.navbar-brand {
+	padding-top: 0!important;
+	padding-bottom: 0!important;
+}
+
 .img-table {
 	height: 100px;
     width: 100px;

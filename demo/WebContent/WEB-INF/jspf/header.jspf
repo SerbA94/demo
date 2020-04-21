@@ -7,7 +7,7 @@ Header (top area).
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-bottom">
-  <a class="navbar-brand" href="controller?command=view-welcome">Home</a>
+  <a class="navbar-brand" href="controller?command=view-welcome"><i class="fa fa-yelp fa-2x"  aria-hidden="true"></i></a>
   <ul class="navbar-nav mr-auto">
 
 
