@@ -12,7 +12,7 @@
 <body class="d-flex flex-column h-100">
 	<%@ include file="/WEB-INF/jspf/header.jspf"%>
 
-	<main role="main" class="flex-shrink-0 h-100">
+	<main role="main" class="flex-shrink-0 min-h-100">
 	
 		<div class="container">
 			<div class="card shadow-sm mt-4 mb-4">

@@ -1,4 +1,8 @@
 
+.min-h-100 {
+	min-height: 100%!important;
+}
+
 .navbar-brand {
 	padding-top: 0!important;
 	padding-bottom: 0!important;
