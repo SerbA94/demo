@@ -102,7 +102,9 @@
 						<div class="container row">
 							<c:choose>
 								<c:when test="${ empty room.images }">
-						
+									<div class="alert alert-danger">
+						  				<span>No images of the room</span>
+									</div>
 								</c:when>
 								<c:when test="${ not empty room.images }">
 									<c:set var="counter" value= "${ 0 }" />
