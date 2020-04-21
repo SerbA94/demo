@@ -69,7 +69,7 @@ public class RoomCreateCommand extends Command {
 		String roomStatusParam = request.getParameter("roomStatus");
 		log.trace("Request parameter: roomStatus --> " + roomStatusParam);
 		Set<RoomStatus> roomStatus = RoomStatusDAO.getRoomStatusSet(roomStatusParam);
-		if(roomStatus == null && roomStatusParam != null && !roomStatusParam.isEmpty()) {
+		if(roomStatus == null && (roomStatusParam == null || roomStatusParam.isEmpty())) {
 			errorMessage = "Room creation failed : No such room status : "
 					+ "roomStatusParam --> " + roomStatusParam;
 			request.setAttribute("errorMessage", errorMessage);
@@ -80,7 +80,7 @@ public class RoomCreateCommand extends Command {
 		String roomClassParam = request.getParameter("roomClass");
 		log.trace("Request parameter: roomClass --> " + roomClassParam);
 		Set<RoomClass> roomClass = RoomClassDAO.getRoomClassSet(roomClassParam);
-		if(roomClass == null && roomClassParam != null && !roomClassParam.isEmpty()) {
+		if(roomClass == null && (roomClassParam == null || roomClassParam.isEmpty())) {
 			errorMessage = "Room creation failed : No such room class : "
 					+ "roomClassParam --> " + roomClassParam;
 			request.setAttribute("errorMessage", errorMessage);
