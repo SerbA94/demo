@@ -19,7 +19,7 @@
 			
 			<div class="container">
 				<div class="card shadow-sm mt-4 mb-4">
-					<div class="card-header text-center text-muted" id="headingFour">
+					<div class="card-header text-center text-muted">
 						<h3><span>Edit room</span></h3>
 					</div>
 					<div class="card-body">
