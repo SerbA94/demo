@@ -12,13 +12,9 @@
 <body class="d-flex flex-column h-100">
 	<%@ include file="/WEB-INF/jspf/header.jspf"%>
 	<main role="main" class="flex-shrink-0">
-		<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
-
 		
 		<div class="position-relative overflow-hidden text-center room-main-img shadowtext">
-		
-		
-		 
+
 		  <div class="col-md-5 p-lg-5 mx-auto my-5">
 		    <h1 class="display-4 font-weight-normal">Room page</h1>
 		    <p class="lead font-weight-normal"><span>${description}</span></p>
@@ -28,11 +24,9 @@
 				</div>
 				<div><span>Price </span><span><demo:format price="${room.price}"/>/day</span></div>
 		    					
-		    
 		    <c:if test="${room.roomStatus.toArray()[0].title eq 'free'}">
 				<a class="btn btn-lg btn-secondary mb1 black bg-gray" href="controller?command=view-booking-create&room_id=${room.id}"><span>Book now</span></a>
 			</c:if>
-		    
 		    
 		  </div>
 
@@ -61,18 +55,11 @@
 		   	</c:forEach>
 		   	
 		</c:if>
-		
-		
-		
-		
-		
-		
-		
-		
-				
-			
+
 	</main>
+	
 	<%@ include file="/WEB-INF/jspf/footer.jspf"%>
+	
 </body>
 
 </html>

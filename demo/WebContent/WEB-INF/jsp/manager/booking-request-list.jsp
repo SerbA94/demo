@@ -15,6 +15,11 @@
 	<main role="main" class="flex-shrink-0 min-h-100">
 	
 		<div class="container">
+		
+			<div class="shadow-sm mt-4">
+				<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
+			</div>
+		
 			<div class="card shadow-sm mt-4 mb-4">
 				<div class="card-header text-center text-muted" id="headingFour">
 					<h3><span>Booking requests</span></h3>

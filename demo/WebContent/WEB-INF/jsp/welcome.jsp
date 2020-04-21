@@ -58,8 +58,6 @@
         </a>
       </div>
 	
-
-
 	<div class="d-flex justify-content-center mg-10"><a href="#opening"><i class="icon arrow-down-25" ></i></a></div>
 	
 	<div id="opening" class="mg-50">
@@ -100,7 +98,6 @@
         </div>
         
     <hr class="featurette-divider">
- 
     
   </div>
 

@@ -11,9 +11,7 @@
 <body class="d-flex flex-column h-100">
 	<%@ include file="/WEB-INF/jspf/header.jspf"%>
 
-	<main role="main">
-		<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
-	 
+	<main role="main">	 
 		<section class="jumbotron text-center">
         	<div class="container">
         	   <h1 class="jumbotron-heading">Rooms Page</h1>

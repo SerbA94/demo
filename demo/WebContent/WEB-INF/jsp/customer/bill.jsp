@@ -13,7 +13,6 @@
 	<%@ include file="/WEB-INF/jspf/header.jspf"%>
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
-			<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
 	
 			<%@ include file="/WEB-INF/jspf/bill.jspf"%>
 

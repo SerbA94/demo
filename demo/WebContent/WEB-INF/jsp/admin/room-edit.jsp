@@ -15,7 +15,10 @@
 
 	<main role="main" class="flex-shrink-0 min-h-100">
 		<div class="container">
-			<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
+		
+			<div class="shadow-sm mt-4">
+				<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
+			</div>
 			
 			<div class="container">
 				<div class="card shadow-sm mt-4 mb-4">

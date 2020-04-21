@@ -12,9 +12,13 @@
 <body class="d-flex flex-column h-100">
 	<%@ include file="/WEB-INF/jspf/header.jspf"%>
 	<main role="main" class="flex-shrink-0">
-		<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
 
 		<div class="container mt-2">
+		
+			<div class="shadow-sm mt-4">
+				<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
+			</div>
+			
 			<div class="row justify-content-center align-items-center text-center p-2">
 				<div class="m-5 col-sm-8 col-md-6 col-lg-6 shadow-sm p-3 mb-5 bg-white border rounded">
 					<div class="pt-5 pb-5">

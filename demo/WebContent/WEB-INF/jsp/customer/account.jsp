@@ -23,8 +23,11 @@
       	</section>
 
 		<div class="container" style="margin-top: 2rem; margin-bottom: 2rem;" id="collapsing-container">
-			<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
-
+			
+			<div class="shadow-sm mt-4">
+				<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
+			</div>
+			
 			<div class="row d-flex justify-content-around">
 				 
 				<div class="col-md-3">	

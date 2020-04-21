@@ -29,7 +29,11 @@
 	      	
 	      	
 		<div class="container"  style="margin-top: 2rem; margin-bottom: 2rem;">
-	      	<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
+	      	
+	      	<div class="shadow-sm mt-4">
+				<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>
+			</div>
+	      	
 			<div class="card shadow-sm mt-4 mb-4">
 				<div class="card-header text-center text-muted" id="headingFour">
 					<h3><span>Matched rooms</span></h3>
