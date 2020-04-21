@@ -12,21 +12,29 @@
 <c:set var="exception" value="${requestScope['javax.servlet.error.exception']}" />
 
 <c:if test="${not empty code}">
-	<h3>Error code: ${code}</h3>
+	<div class="alert alert-danger">
+		<strong> Error code: </strong>${code}
+	</div>
 </c:if>
 
-<c:if test="${not empty message}">
-	<h3>Message: ${message}</h3>
+<c:if test="${not empty message}">	
+	<div class="alert alert-success">
+		<strong> Message : </strong>${message}
+	</div>
 </c:if>
 
 <%-- if get this page using forward --%>
 <c:if test="${not empty errorMessage and empty exception and empty code}">
-	<h3>Error message: ${errorMessage}</h3>
+	<div class="alert alert-danger">
+		<strong> Error message: </strong>${errorMessage}
+	</div>
 </c:if>
 
 <%-- this way we print exception stack trace --%>
 <c:if test="${not empty exception}">
-	<hr />
-	<h3>Stack trace:</h3>
-	<c:forEach var="stackTraceElement" items="${exception.stackTrace}"> ${stackTraceElement} </c:forEach>
+	<div class="alert alert-danger">
+		<hr />
+		<strong> Stack trace: </strong>
+		<c:forEach var="stackTraceElement" items="${exception.stackTrace}"> ${stackTraceElement} </c:forEach>
+	</div>
 </c:if>
