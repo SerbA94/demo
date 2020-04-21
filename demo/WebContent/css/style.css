@@ -1,4 +1,16 @@
 
+.custom-file-label {
+	border:1px solid #697179!important;
+}
+
+
+.img-block {
+    height: 100%;
+    width: 100%;
+    display: block;
+}
+
+
 .min-h-100 {
 	min-height: 100%!important;
 }
@@ -150,13 +162,15 @@
 }
 
 .custom-select, .custom-input {
-	border:1px solid rgba(0,0,0,.125);
+	border:1px solid #697179!important;
 }
 
 .custom-select:hover, .custom-select:active, .custom-select:focus,
 .custom-input:hover, .custom-input:active, .custom-input:focus {
-	box-shadow: 0 0 0 1px #697179;
-	border:1px solid #697179;	
+	box-shadow: 0 0 0 1px #697179!important;
+	border:1px solid #697179!important;
+	border-color: #697179!important;
+	
 }
 
 .mg-0 {
