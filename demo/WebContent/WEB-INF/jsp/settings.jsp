@@ -13,7 +13,7 @@
 
 <body class="d-flex flex-column h-100">
 	<%@ include file="/WEB-INF/jspf/header.jspf"%>
-	<main role="main" class="flex-shrink-0">
+	<main role="main" class="flex-shrink-0 min-h-100">
 		<div class="container mt-2">
 			<div class="row justify-content-center align-items-center text-center p-2">
 				<div class="m-5 col-sm-8 col-md-6 col-lg-4 shadow-sm p-3 mb-5 bg-white border rounded">

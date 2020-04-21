@@ -12,7 +12,7 @@
 <body class="d-flex flex-column h-100">
 	<%@ include file="/WEB-INF/jspf/header.jspf"%>
 
-	<main role="main" class="flex-shrink-0">
+	<main role="main" class="flex-shrink-0 min-h-100">
 	<div id="myCarousel" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
           <li data-target="#myCarousel" data-slide-to="0" class=""></li>

@@ -11,7 +11,7 @@
 
 <body class="d-flex flex-column h-100">
 	<%@ include file="/WEB-INF/jspf/header.jspf"%>
-	<main role="main" class="flex-shrink-0">
+	<main role="main" class="flex-shrink-0 min-h-100">
 		
 		<div class="position-relative overflow-hidden text-center room-main-img shadowtext">
 
