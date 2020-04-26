@@ -16,16 +16,43 @@
 		<div class="position-relative overflow-hidden text-center room-main-img shadowtext">
 
 		  <div class="col-md-5 p-lg-5 mx-auto my-5">
-		    <h1 class="display-4 font-weight-normal">Room page</h1>
-		    <p class="lead font-weight-normal"><span>${description}</span></p>
-		    	<div>
-		    		<span>Room class : </span><span>${room.roomClass.toArray()[0].title}</span>
-		    		<span>, places : </span><span>${room.capacity}.</span>
-				</div>
-				<div><span>Price </span><span><demo:format price="${room.price}"/>/day</span></div>
+		    <h1 class="display-4 font-weight-normal">
+		   		<fmt:message key="room_jsp.label.room"/>
+		    </h1>
+		    <p class="lead font-weight-normal">
+		    	<span>
+		    		${description}
+		    	</span>
+		    </p>
+		    <div>
+		   		<span>
+		   			<fmt:message key="room_jsp.label.room_class"/> : 
+		   		</span>
+		   		<span>
+		   			<fmt:message key="room_jsp.class.${room.roomClass.toArray()[0].title}"/>
+		   		</span>
+		   		<span>
+		   			, <fmt:message key="room_jsp.label.capacity"/> : 
+		   		</span>
+		   		<span>
+		   			${room.capacity}.
+		   		</span>
+			</div>
+			<div>
+				<span>
+					<fmt:message key="room_jsp.label.price"/>
+				</span>
+				<span>
+					<demo:format price="${room.price}"/>/<fmt:message key="room_jsp.label.day"/>
+				</span>
+			</div>
 		    					
 		    <c:if test="${room.roomStatus.toArray()[0].title eq 'free'}">
-				<a class="btn btn-lg btn-secondary mb1 black bg-gray" href="controller?command=view-booking-create&room_id=${room.id}"><span>Book now</span></a>
+				<a class="btn btn-lg btn-secondary mb1 black bg-gray" href="controller?command=view-booking-create&room_id=${room.id}">
+					<span>
+						<fmt:message key="room_jsp.button.book_now"/>
+					</span>
+				</a>
 			</c:if>
 		    
 		  </div>

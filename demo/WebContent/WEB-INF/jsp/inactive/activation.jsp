@@ -22,13 +22,19 @@
 			<div class="col-md-9 mt-4">
 				<div class="card shadow-sm">
 					<div class="card-header text-center text-muted">
-						<h3><span>Your account inactive</span></h3>
+						<h3>
+							<span>
+								<fmt:message key="activation_jsp.label.your_account_inactive"/>
+							</span>
+						</h3>
 					</div>
 					<div class="card-body d-flex justify-content-center row">
 						
 						<div class="col-md-9 text-center text-muted mt-4">
 							<h4>
-								<span>Please confirm your email: </span>
+								<span>
+									<fmt:message key="activation_jsp.label.confirm_email"/> : 
+								</span>
 								<span><c:out value="(${user.email})" /></span>
 							</h4>
 							<hr class="featurette-divider">
@@ -37,7 +43,7 @@
 						<div class="col-md-9 d-flex justify-content-center mb-4">
 							<a href="controller?command=activation-mail" class="btn btn-sm btn-outline-secondary">
 								<i class="fa fa-refresh spin" aria-hidden="true"></i>
-								Resend email
+								<fmt:message key="activation_jsp.button.resend"/>
 							</a>
 						</div>
 						
@@ -47,7 +53,7 @@
 
 		</div>
 		
-		</main>
+	</main>
 	<%@ include file="/WEB-INF/jspf/footer.jspf"%>
 
 </body>

@@ -14,10 +14,9 @@
 	<main role="main" class="flex-shrink-0 min-h-100">
 		<section class="jumbotron text-center">
         	<div class="container">
-        	   <h1 class="jumbotron-heading">Rooms Page</h1>
+        	    <h1 class="jumbotron-heading"><fmt:message key="room_list_jsp.label.rooms"/> </h1>
           		<p class="lead text-muted">
-          			Some text description of room list page.Some text description of room list page.
-         			<br/>Some text description of room list page.Some text description of room list page.Some text description of room list page.
+          			<fmt:message key="room_list_jsp.label.description"/>
           		</p>
        		</div>
       	</section>
@@ -33,29 +32,41 @@
             
           				<form action="controller">
 							<input type="hidden" name="command" value="view-room-list" />
-							<div class="text-muted"><h3><span>Order by</span></h3></div>
+							<div class="text-muted"><h3><span><fmt:message key="room_list_jsp.label.sort"/></span></h3></div>
 							<div style="margin-left:20px;margin-right:20px;">
 								<select name="orderBy" class="custom-select">
 									<c:choose>
 										<c:when test="${ not empty orderBy }">
 											<option value="${ orderBy }">
 												<c:choose>
-													<c:when test="${orderBy eq 'price'}">Price[SELECTED]</c:when>
-													<c:when test="${orderBy eq 'capacity'}">Capacity[SELECTED]</c:when>
-													<c:when test="${orderBy eq 'room_class_title'}">Class[SELECTED]</c:when>
-													<c:when test="${userRole.title eq 'admin' and orderBy eq 'room_status_title'}">Status[SELECTED]</c:when>
+													<c:when test="${orderBy eq 'price'}">
+														<fmt:message key="room_list_jsp.label.price"/>
+														[<fmt:message key="room_list_jsp.label.selected"/>]
+													</c:when>
+													<c:when test="${orderBy eq 'capacity'}">
+														<fmt:message key="room_list_jsp.label.capacity"/>
+														[<fmt:message key="room_list_jsp.label.selected"/>]
+													</c:when>
+													<c:when test="${orderBy eq 'room_class_title'}">
+														<fmt:message key="room_list_jsp.label.class"/>
+														[<fmt:message key="room_list_jsp.label.selected"/>]
+													</c:when>
+													<c:when test="${userRole.title eq 'admin' and orderBy eq 'room_status_title'}">
+														<fmt:message key="room_list_jsp.label.status"/>
+														[<fmt:message key="room_list_jsp.label.selected"/>]
+													</c:when>
 												</c:choose>
 											</option>
 										</c:when>
 										<c:when test="${ empty orderBy }">
-											<option value="">No sorting</option>
+											<option value=""><fmt:message key="room_list_jsp.label.no_sorting"/></option>
 										</c:when>
 									</c:choose>
-									<option value="price">Price</option>
-									<option value="capacity">Capacity</option>
-									<option value="room_class_title">Class</option>
+									<option value="price"><fmt:message key="room_list_jsp.label.price"/></option>
+									<option value="capacity"><fmt:message key="room_list_jsp.label.capacity"/></option>
+									<option value="room_class_title"><fmt:message key="room_list_jsp.label.class"/></option>
 									<c:if test="${ userRole.title eq 'admin' }">
-										<option value="room_status_title">Status</option>
+										<option value="room_status_title"><fmt:message key="room_list_jsp.label.status"/></option>
 									</c:if>
 								</select>
 							</div>
@@ -73,7 +84,9 @@
 	         
 					<c:choose>
 						<c:when test="${empty rooms}">
-							<div><span>No free rooms</span></div>
+							<div class="alert alert-danger">
+								<span><fmt:message key="room_list_jsp.label.no_free_rooms"/></span>
+							</div>
 						</c:when>
 						<c:when test="${not empty rooms}">
 						
@@ -83,9 +96,11 @@
 						            	<img class="card-img-top" src="controller?command=view-image&image_id=${room.images[0].id}" >
 						                <div class="card-body">
 						                	<p class="card-text text-muted text-center">
-						                  		${room.roomClass.toArray()[0]}, Capacity : ${room.capacity}
+						                		<fmt:message key="room_list_jsp.class.${room.roomClass.toArray()[0].title}"/>,
+						                		<fmt:message key="room_list_jsp.label.capacity"/> : ${room.capacity}
 						                  		<c:if test="${userRole.title == 'admin'}">
-													<br/> Status : ${room.roomStatus.toArray()[0]}
+													<br/> <fmt:message key="room_list_jsp.label.status"/> : 
+													<fmt:message key="room_list_jsp.status.${room.roomStatus.toArray()[0].title}"/>
 												</c:if>
 						                  	</p>
 						                  	<div class="d-flex justify-content-between align-items-center">
@@ -93,16 +108,28 @@
 							                    
 							                    	<c:choose>
 							                    		<c:when test="${empty userRole or userRole.title eq 'customer'}">
-							                   				<a href="controller?command=view-booking-create&room_id=${room.id}" class="btn btn-sm btn-outline-secondary">Book</a>
-							                   				<a href="controller?command=view-room&room_id=${room.id}" class="btn btn-sm btn-outline-secondary">View</a>
+							                   				<a href="controller?command=view-booking-create&room_id=${room.id}" 
+							                   				class="btn btn-sm btn-outline-secondary">
+							                   					<fmt:message key="room_list_jsp.button.book"/>
+							                   				</a>
+							                   				<a href="controller?command=view-room&room_id=${room.id}" 
+							                   				class="btn btn-sm btn-outline-secondary">
+							                   					<fmt:message key="room_list_jsp.button.view"/>
+							                   				</a>
 														</c:when>
 														<c:when test="${userRole.title == 'admin'}">
-							                   				<a href="controller?command=view-room-edit&edit_room_id=${room.id}" class="btn btn-sm btn-outline-secondary">Edit</a>
+							                   				<a href="controller?command=view-room-edit&edit_room_id=${room.id}" 
+							                   				class="btn btn-sm btn-outline-secondary">
+							                   					<fmt:message key="room_list_jsp.button.edit"/>
+							                   				</a>
 														</c:when>
 							                    	</c:choose>
 							                      	
 							                    </div>
-						                    	<small class="text-muted"><demo:format price="${room.price}"/>/day</small>
+						                    	<small class="text-muted">
+						                    		<demo:format price="${room.price}"/>/
+						                    		<fmt:message key="room_list_jsp.label.day"/>
+						                    	</small>
 											</div>
 										</div>
 									</div>

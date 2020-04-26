@@ -22,7 +22,11 @@
 			<div class="container">
 				<div class="card shadow-sm mt-4 mb-4">
 					<div class="card-header text-center text-muted">
-						<h3><span>Edit room</span></h3>
+						<h3>
+							<span>
+								<fmt:message key="room_edit_jsp.label.room_edit"/>
+							</span>
+						</h3>
 					</div>
 					<div class="card-body">
 				
@@ -32,15 +36,33 @@
 					
 							<div class="container row">
 								<div class="col-md-4 form-group input-group-md">
-									<h5 class="text-center"><label for="number"><span class="text-muted">Room number</span></label></h5>
+									<h5 class="text-center">
+										<label for="number">
+											<span class="text-muted">
+												<fmt:message key="room_edit_jsp.label.room_number"/>
+											</span>
+										</label>
+									</h5>
 									<input type="number" class="form-control custom-input" name="number" id="number" value="${room.number}">
 								</div>
 								<div class="col-md-4 form-group input-group-md">
-									<h5 class="text-center"><label for="capacity"><span class="text-muted">Capacity</span></label></h5>
+									<h5 class="text-center">
+										<label for="capacity">
+											<span class="text-muted">
+												<fmt:message key="room_edit_jsp.label.capacity"/>
+											</span>
+										</label>
+									</h5>
 									<input type="number" class="form-control custom-input" name="capacity" id="capacity" value="${room.capacity}" />
 								</div>
 								<div class="col-md-4 form-group input-group-md">
-									<h5 class="text-center"><label for="price"><span class="text-muted">Price</span></label></h5>
+									<h5 class="text-center">
+										<label for="price">
+											<span class="text-muted">
+												<fmt:message key="room_edit_jsp.label.price"/>
+											</span>
+										</label>
+									</h5>
 									<input type="number" class="form-control custom-input" name="price" id="price" value="${room.price}" />
 								</div>
 							</div>
@@ -49,21 +71,43 @@
 							<div class="container row">
 					
 								<div class="col-md-6 form-group input-group-md">
-									<h5 class="text-center"><label for="roomStatus"><span class="text-muted">Status</span></label></h5>
+									<h5 class="text-center">
+										<label for="roomStatus">
+											<span class="text-muted">
+												<fmt:message key="room_edit_jsp.label.status"/>
+											</span>
+										</label>
+									</h5>
 									<select name="roomStatus" id="roomStatus" class="custom-select">
-										<option value="${room.roomStatus.toArray()[0].title}">${room.roomStatus.toArray()[0]}[Actual]</option>
+										<option value="${room.roomStatus.toArray()[0].title}">
+											<fmt:message key="room_edit_jsp.status.${room.roomStatus.toArray()[0].title}"/>
+											[<fmt:message key="room_edit_jsp.label.actual"/>]
+										</option>
 										<c:forEach var="roomStatus" items="${roomStatuses}">
-											<option value="${roomStatus.title}">${roomStatus}</option>
+											<option value="${roomStatus.title}">
+												<fmt:message key="room_edit_jsp.status.${roomStatus.title}"/>
+											</option>
 										</c:forEach>
 									</select>
 								</div>
 						
 								<div class="col-md-6 form-group input-group-md">
-									<h5 class="text-center"><label for="roomClass"><span class="text-muted">Class</span></label></h5>
+									<h5 class="text-center">
+										<label for="roomClass">
+											<span class="text-muted">
+												<fmt:message key="room_edit_jsp.label.class"/>
+											</span>
+										</label>
+									</h5>
 									<select name="roomClass" id="roomClass" class="custom-select">
-										<option value="${room.roomClass.toArray()[0].title}">${room.roomClass.toArray()[0]}[Actual]</option>
+										<option value="${room.roomClass.toArray()[0].title}">
+											<fmt:message key="room_edit_jsp.class.${room.roomClass.toArray()[0].title}"/>
+											[<fmt:message key="room_edit_jsp.label.actual"/>]
+										</option>
 										<c:forEach var="roomClass" items="${roomClasses}">
-											<option value="${roomClass.title}">${roomClass}</option>
+											<option value="${roomClass.title}">
+												<fmt:message key="room_edit_jsp.class.${roomClass.title}"/>
+											</option>
 										</c:forEach>
 									</select>
 								</div>
@@ -71,16 +115,24 @@
 							</div>
 					
 							<hr class="featurette-divider">
-							<h5 class="text-center text-muted mb-4">Descriptions</h5>
+							<h5 class="text-center text-muted mb-4">
+								<fmt:message key="room_edit_jsp.label.descriptions"/>
+							</h5>
 							<div class="container row">
 								<c:forEach var="description" items="${room.descriptions}">
 								 	<div class="col-md-6">
 									 	<div class="card">
 											<div class="card-header text-center text-muted">
-												<h3><span>${description.localeName}</span></h3>
+												<h3>
+													<span>
+														<fmt:message key="room_edit_jsp.locale.${description.localeName}"/>
+													</span>
+												</h3>
 											</div>
 											<div class="card-body">
-												<textarea name="description_${description.localeName}" class="custom-input" style="width:100%; height:150px;">${description.description}</textarea>
+												<textarea name="description_${description.localeName}" class="custom-input"
+												 style="width:100%; height:150px;">${description.description}
+												</textarea>
 											</div>
 										</div>
 								 	</div>
@@ -89,7 +141,9 @@
 							
 							<hr class="featurette-divider">
 							<div class="d-flex justify-content-center">
-								<button class="btn btn-lg btn-block btn-outline-secondary mt-3 col-md-4" type="submit">Submit</button>
+								<button class="btn btn-lg btn-block btn-outline-secondary mt-3 col-md-4" type="submit">
+									<fmt:message key="room_edit_jsp.button.submit"/>
+								</button>
 							</div>
 				
 						</form>
@@ -98,14 +152,20 @@
 			
 				<div class="card shadow-sm mt-4 mb-4">
 					<div class="card-header text-center text-muted" id="headingFour">
-						<h3><span>Room images</span></h3>
+						<h3>
+							<span>
+								<fmt:message key="room_edit_jsp.label.room_images"/>
+							</span>
+						</h3>
 					</div>
 					<div class="card-body">
 						<div class="container row">
 							<c:choose>
 								<c:when test="${ empty room.images }">
 									<div class="alert alert-danger">
-						  				<span>No images of the room</span>
+						  				<span>
+						  					<fmt:message key="room_edit_jsp.label.no_images"/>
+						  				</span>
 									</div>
 								</c:when>
 								<c:when test="${ not empty room.images }">
@@ -118,7 +178,9 @@
 							            		<input type="hidden" name="command" value="delete-image" />
 												<input type="hidden" name="edit_room_id" value="${room.id}" />
 												<input type="hidden" name="image_id" value="${room.images[counter].id}" />
-												<button class="btn btn-sm btn-block btn-outline-secondary mt-3" type="submit">Delete</button>
+												<button class="btn btn-sm btn-block btn-outline-secondary mt-3" type="submit">
+													<fmt:message key="room_edit_jsp.button.delete"/>
+												</button>
 											</form>
 											<hr class="featurette-divider">
 						    			</div>
@@ -132,7 +194,9 @@
 				
 					<hr class="featurette-divider">
 					<div class="d-flex justify-content-center">
-						<h3 class="text-center text-muted">Upload image</h3>
+						<h3 class="text-center text-muted">
+							<fmt:message key="room_edit_jsp.label.upload_image"/>
+						</h3>
 					</div>
 			
 					<form id="room_edit_form" action="controller" method="post" enctype="multipart/form-data">
@@ -144,7 +208,8 @@
 								<div class="custom-file">
 						  			<input type="file" name="image" class="custom-file-input" id="customFile" accept="image/jpeg" required />
 						  			<label class="custom-file-label" for="customFile">
-						  				<i class="fa fa-upload" aria-hidden="true"></i> Choose image...
+						  				<i class="fa fa-upload" aria-hidden="true"></i>
+						  				<fmt:message key="room_edit_jsp.label.choose_image"/>
 						  			</label>
 								</div>
 							</div>
@@ -152,7 +217,9 @@
 						
 						<div class="d-flex justify-content-center">
 							<div class="col-md-4 mb-4">
-								<button class="btn btn-md btn-block btn-outline-secondary mt-3" type="submit">Upload</button>
+								<button class="btn btn-md btn-block btn-outline-secondary mt-3" type="submit">
+									<fmt:message key="room_edit_jsp.button.upload"/>
+								</button>
 							</div>
 				 		</div>
 				 		

@@ -28,14 +28,19 @@
 								<select name="localeToSet" class="custom-select">
 									<c:choose>
 										<c:when test="${not empty defaultLocale}">
-											<option value="">${defaultLocale}[Default]</option>
+											<option value="">
+												<fmt:message key="settings_jsp.locale.${defaultLocale}"/>
+												[<fmt:message key="settings_jsp.locale.default"/>]
+											</option>
 										</c:when>
 										<c:otherwise>
 											<option value=""/>
 										</c:otherwise>
 									</c:choose>
 									<c:forEach var="localeName" items="${locales}">
-										<option value="${localeName}">${localeName}</option>
+										<option value="${localeName}">
+											<fmt:message key="settings_jsp.locale.${localeName}"/>
+										</option>
 									</c:forEach>
 								</select>
 							</div>

@@ -22,25 +22,31 @@
 		
 			<div class="card shadow-sm mt-4 mb-4">
 				<div class="card-header text-center text-muted" id="headingFour">
-					<h3><span>Booking requests</span></h3>
+					<h3>
+						<span>
+							<fmt:message key="booking_request_list_jsp.label.booking_requests"/>
+						</span>
+					</h3>
 				</div>
 				<div class="card-body">
 						  	
 					<c:choose>
 						<c:when test="${empty bookingRequests}">
 							<div class="alert alert-danger">
-								<span>No active booking requests</span>
+								<span>
+									<fmt:message key="booking_request_list_jsp.label.no_requests"/>
+								</span>
 							</div>
 						</c:when>
 						<c:when test="${not empty bookingRequests}">
 							<table class="table table-hover text-center">
 								<thead>
 							    	<tr>
-							    		<th>Booking request number</th>
-							        	<th>Date In</th>
-							        	<th>Date Out</th>
-							        	<th>Room Capacity</th>
-							        	<th>Room Class</th>
+							    		<th><fmt:message key="booking_request_list_jsp.label.request_number"/></th>
+							        	<th><fmt:message key="booking_request_list_jsp.label.date_in"/></th>
+							        	<th><fmt:message key="booking_request_list_jsp.label.date_out"/></th>
+							        	<th><fmt:message key="booking_request_list_jsp.label.room_capacity"/></th>
+							        	<th><fmt:message key="booking_request_list_jsp.label.room_class"/></th>
 							        	<th></th>
 							    	</tr>
 						    	</thead>
@@ -51,11 +57,15 @@
 								            <td align="center">${bookingRequest.dateIn}</td>
 								            <td align="center">${bookingRequest.dateOut}</td>
 								            <td align="center">${bookingRequest.capacity}</td>
-								            <td align="center">${bookingRequest.roomClass.toArray()[0].title}</td>
+								            <td align="center">
+								            	<fmt:message key="booking_request_list_jsp.class.${bookingRequest.roomClass.toArray()[0].title}"/>
+								            </td>
 								            <td align="center">
 								            	<a class="btn btn-sm btn-outline-secondary" 
 								            	href="controller?command=view-booking-request&booking_request_id=${bookingRequest.id}">
-								            		<span>Select room</span>
+								            		<span>
+								            			<fmt:message key="booking_request_list_jsp.button.select_room"/>
+								            		</span>
 								            	</a>
 								            </td>
 								        </tr>

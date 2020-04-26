@@ -1,38 +1,40 @@
 <jsp:useBean id="copyright" class="com.demo.web.jsp.bean.Copyright" />
+<%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
+<%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
 
 <div class="bg-light-gray">
 	<div class="container">
     	<div class="row mg-40">  
          
 	        <div class="col-6 col-md">
-	        	<h3>Address</h3>
+	        	<h3><fmt:message key="footer_jspf.anchor.address"/></h3>
 	        	<div>
-		        	<span class="text-muted">777 Best road. Apt 99<br/> DreamCity, CA  12302 </span>
+		        	<span class="text-muted"><fmt:message key="footer_jspf.contact.address"/></span>
 	          	</div>
 	        </div>
 	        
 	        <div class="col-6 col-md">
-	          <h3>Call us</h3>
+	          <h3><fmt:message key="footer_jspf.anchor.call_us"/></h3>
 	          <div>
-		          <span class="text-muted">+380669998877</span>
-		          <span class="text-muted">+380679998877</span>
-		          <span class="text-muted">+380939998877</span>
-		          <span class="text-muted">+380719998877</span>
+		          <span class="text-muted"><fmt:message key="footer_jspf.contact.phone_1"/></span>
+		          <span class="text-muted"><fmt:message key="footer_jspf.contact.phone_2"/></span>
+		          <span class="text-muted"><fmt:message key="footer_jspf.contact.phone_3"/></span>
+		          <span class="text-muted"><fmt:message key="footer_jspf.contact.phone_4"/></span>
 	          </div>
 	        </div>
 	        
 	        <div class="col-6 col-md">
-	          <h3>Mail us</h3>
+	          <h3><fmt:message key="footer_jspf.anchor.mail_us"/></h3>
 	          <div>
-		          <span class="text-muted">feedback@mail.com</span>
-		          <span class="text-muted">bookroom@mail.com</span>
-		          <span class="text-muted">support@mail.com</span>
-		          <span class="text-muted">bug@mail.com</span>
+		          <span class="text-muted"><fmt:message key="footer_jspf.contact.feedback_email"/></span>
+		          <span class="text-muted"><fmt:message key="footer_jspf.contact.bookroom_email"/></span>
+		          <span class="text-muted"><fmt:message key="footer_jspf.contact.support_email"/></span>
+		          <span class="text-muted"><fmt:message key="footer_jspf.contact.bug_email"/></span>
 	          </div>
 	        </div>
 	        
 	        <div class="col-6 col-md">
-		        <h3>Follow us</h3>
+		        <h3><fmt:message key="footer_jspf.anchor.follow_us"/></h3>
 		        <div class="row">
 		        	<a href="https://www.facebook.com/"><i class="icon facebook"></i></a>
 		            <a href="https://www.instagram.com/"><i class="icon instagram"></i></a>

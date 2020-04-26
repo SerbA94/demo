@@ -22,7 +22,7 @@
 			<div class="col-md-9">
 				<div class="card shadow-sm mt-4">
 					<div class="card-header text-center text-muted">
-						<h3><span>The following error occurred</span></h3>
+						<h3><span><fmt:message key="error_jsp.label.error_label"/></span></h3>
 					</div>
 					<div class="card-body">
 						<%@ include file="/WEB-INF/jspf/error_handling.jspf"%>

@@ -1,40 +1,33 @@
-
 <%@ include file="/WEB-INF/jspf/directive/page.jspf"%>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf"%>
 
-<%-- Error handling --%>
-
-<%-- this way we get the error information (error 404)--%>
 <c:set var="code" value="${requestScope['javax.servlet.error.status_code']}" />
 <c:set var="message" value="${requestScope['javax.servlet.error.message']}" />
 
-<%-- this way we get the exception --%>
 <c:set var="exception" value="${requestScope['javax.servlet.error.exception']}" />
 
 <c:if test="${not empty code}">
 	<div class="alert alert-danger">
-		<strong> Error code: </strong>${code}
+		<strong> <fmt:message key="error_handling_jspf.anchor.error_code"/> : </strong>${code}
 	</div>
 </c:if>
 
 <c:if test="${not empty message}">	
 	<div class="alert alert-success">
-		<strong> Message : </strong>${message}
+		<strong> <fmt:message key="error_handling_jspf.anchor.message"/> : </strong>${message}
 	</div>
 </c:if>
 
-<%-- if get this page using forward --%>
 <c:if test="${not empty errorMessage and empty exception and empty code}">
 	<div class="alert alert-danger">
-		<strong> Error message: </strong>${errorMessage}
+		<strong> <fmt:message key="error_handling_jspf.anchor.error_message"/> : </strong>${errorMessage}
 	</div>
 </c:if>
 
-<%-- this way we print exception stack trace --%>
 <c:if test="${not empty exception}">
 	<div class="alert alert-danger">
 		<hr />
-		<strong> Stack trace: </strong>
+		<strong> <fmt:message key="error_handling_jspf.anchor.stack_trace"/> : </strong>
 		<c:forEach var="stackTraceElement" items="${exception.stackTrace}"> ${stackTraceElement} </c:forEach>
 	</div>
 </c:if>

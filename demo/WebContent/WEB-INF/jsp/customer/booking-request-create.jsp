@@ -24,7 +24,11 @@
 					<div class="pt-5 pb-5">
 					<i class="fa fa-paper-plane-o fa-5x text-muted" ></i>
 					
-						<h2><span class="text-muted">Request for booking</span></h2>
+						<h2>
+							<span class="text-muted">
+								<fmt:message key="booking_request_create_jsp.label.request"/>
+							</span>
+						</h2>
 						<form action="controller" method="post">
 							<input type="hidden" name="command" value="create-booking-request" />
 								
@@ -32,15 +36,25 @@
 								<div class="col-lg-6">
 									
 									<div>
-										<label for="roomClass"><span class="text-muted">Room class</span></label>
+										<label for="roomClass">
+											<span class="text-muted">
+												<fmt:message key="booking_request_create_jsp.label.room_class"/>
+											</span>
+										</label>
 										<select name="roomClass" id="roomClass" class="custom-select">
 											<c:forEach var="roomClass" items="${roomClasses}">
-												<option value="${roomClass.title}">${roomClass}</option>
+												<option value="${roomClass.title}">
+													<fmt:message key="booking_request_create_jsp.class.${roomClass.title}"/>
+												</option>
 											</c:forEach>
 										</select>
 									</div>
 									<div class="mt-3">
-										<label for="capacity"><span class="text-muted">Capacity</span></label>
+										<label for="capacity">
+											<span class="text-muted">
+												<fmt:message key="booking_request_create_jsp.label.capacity"/>
+											</span>
+										</label>
 										<select name="capacity" id="capacity" class="custom-select">
 										    <c:set var="counter" value= "${ 1 }" />
 				    						<c:forEach begin="1" end="${maxCapacity}" step="1">
@@ -53,16 +67,26 @@
 									
 								<div class="col-lg-6"> 
 									<div>
-										<label for="dateIn"><span class="text-muted">Date in</span></label>
+										<label for="dateIn">
+											<span class="text-muted">
+												<fmt:message key="booking_request_create_jsp.label.date_in"/>
+											</span>
+										</label>
 										<input type="date" name="dateIn" id="dateIn" class="custom-select" value="${nextDateIn}">
 									</div>
 									<div class="mt-3">
-										<label for="dateOut"><span class="text-muted">Date out</span></label>
+										<label for="dateOut">
+											<span class="text-muted">
+												<fmt:message key="booking_request_create_jsp.label.date_out"/>
+											</span>
+										</label>
 										<input type="date" id="dateOut" name="dateOut" class="custom-select"  value="${nextDateOut}">
 									</div>
 								</div>
 							</div>
-							<button class="btn btn-lg btn-block btn-outline-secondary mt-4" type="submit">Send</button>
+							<button class="btn btn-lg btn-block btn-outline-secondary mt-4" type="submit">
+								<fmt:message key="booking_request_create_jsp.button.send"/>
+							</button>
 						</form>
 						
 					</div>

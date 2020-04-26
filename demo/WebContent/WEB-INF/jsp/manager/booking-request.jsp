@@ -16,13 +16,36 @@
 	
 		<section class="jumbotron text-center">
 	    	<div class="container">
-	       		<h1 class="jumbotron-heading">Booking request</h1>
+	       		<h1 class="jumbotron-heading">
+	       			<fmt:message key="booking_request_jsp.label.booking_request"/>
+	       		</h1>
 	          	<div class="lead text-muted">
-	          		<div><small>Booking request number : ${bookingRequest.id}</small></div>
-					<div><small>Date in : ${bookingRequest.dateIn}</small></div>
-					<div><small>Date out : ${bookingRequest.dateOut}</small></div>
-					<div><small>Room class : ${bookingRequest.roomClass.toArray()[0].title}</small></div>
-					<div><small>Capacity : ${bookingRequest.capacity}</small></div>
+	          		<div>
+	          			<small>
+	          				<fmt:message key="booking_request_jsp.label.request_number"/> : ${bookingRequest.id}
+	          			</small>
+	          		</div>
+					<div>
+						<small>
+							<fmt:message key="booking_request_jsp.label.date_in"/> : ${bookingRequest.dateIn}
+						</small>
+					</div>
+					<div>
+						<small>
+							<fmt:message key="booking_request_jsp.label.date_out"/> : ${bookingRequest.dateOut}
+						</small>
+					</div>
+					<div>
+						<small>
+							<fmt:message key="booking_request_jsp.label.room_class"/> : 
+							<fmt:message key="booking_request_jsp.class.${bookingRequest.roomClass.toArray()[0].title}"/>
+						</small>
+					</div>
+					<div>
+						<small>
+							<fmt:message key="booking_request_jsp.label.capacity"/> : ${bookingRequest.capacity}
+						</small>
+					</div>
 	          	</div>
 	       	</div>
 		</section>
@@ -36,17 +59,26 @@
 	      	
 			<div class="card shadow-sm mt-4 mb-4">
 				<div class="card-header text-center text-muted" id="headingFour">
-					<h3><span>Matched rooms</span></h3>
+					<h3>
+						<span>
+							<fmt:message key="booking_request_jsp.label.matched_rooms"/>
+						</span>
+					</h3>
 				</div>
 				<div class="card-body">
 						  	
 					<c:choose>
 						<c:when test="${empty rooms}">
 							<div class="alert alert-danger">
-								<span>No matched rooms</span>
+								<span>
+									<fmt:message key="booking_request_jsp.label.no_matched_rooms"/>
+								</span>
 							</div>
 							<div class="d-flex justify-content-center">
-								<a href="controller?command=inactivate-booking-request&booking_request_id=${bookingRequest.id}" class="btn btn-md btn-outline-secondary">Reject</a>          	
+								<a href="controller?command=inactivate-booking-request&booking_request_id=${bookingRequest.id}"
+								class="btn btn-md btn-outline-secondary">
+									<fmt:message key="booking_request_jsp.button.reject"/>
+								</a>          	
 							</div>
 						</c:when>
 						<c:when test="${not empty rooms}">
@@ -58,12 +90,12 @@
 								<table class="table table-hover text-center">
 									<thead>
 								    	<tr>
-								    		<th>Image</th>
-								        	<th>Number</th>
-								        	<th>Capacity</th>
-								        	<th>Class</th>
-								        	<th>Status</th>
-								        	<th>Price</th>
+								    		<th><fmt:message key="booking_request_jsp.label.image"/></th>
+								        	<th><fmt:message key="booking_request_jsp.label.number"/></th>
+								        	<th><fmt:message key="booking_request_jsp.label.capacity"/></th>
+								        	<th><fmt:message key="booking_request_jsp.label.class"/></th>
+								        	<th><fmt:message key="booking_request_jsp.label.status"/></th>
+								        	<th><fmt:message key="booking_request_jsp.label.price"/></th>
 								        	<th></th>
 								    	</tr>
 								    </thead>
@@ -73,8 +105,12 @@
 									        	<td align="center"><img src="controller?command=view-image&image_id=${room.images[0].id}" class="img-table"></td>
 									            <td align="center">${room.number}</td>
 									            <td align="center">${room.capacity}</td>
-									            <td align="center">${room.roomClass}</td>
-									            <td align="center">${room.roomStatus}</td>
+									            <td align="center">
+									           		<fmt:message key="booking_request_jsp.class.${room.roomClass.toArray()[0].title}"/>
+									            </td>
+									            <td align="center">
+									           		<fmt:message key="booking_request_jsp.status.${room.roomStatus.toArray()[0].title}"/>
+									            </td>
 									            <td align="center"><demo:format price="${room.price}"/></td>
 									            <c:choose>
 									            	<c:when test="${room.id eq rooms[0].id}">
@@ -91,8 +127,11 @@
 	
 								<div class="d-flex justify-content-center">
 									<div class="btn-group">
-										<input type="submit" class="btn btn-sm btn-outline-secondary" value="Confirm"/>
-										<a href="controller?command=inactivate-booking-request&booking_request_id=${bookingRequest.id}" class="btn btn-md btn-outline-secondary">Reject</a>          	
+										<input type="submit" class="btn btn-sm btn-outline-secondary" value="<fmt:message key="booking_request_jsp.button.confirm"/>"/>
+										<a href="controller?command=inactivate-booking-request&booking_request_id=${bookingRequest.id}"
+										 class="btn btn-md btn-outline-secondary">
+										 	<fmt:message key="booking_request_jsp.button.reject"/>
+										 </a>          	
 									</div>
 								</div>
 								
