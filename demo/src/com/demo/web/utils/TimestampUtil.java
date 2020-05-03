@@ -30,6 +30,7 @@ public class TimestampUtil {
 	 * @return Timestamp
 	 * 			Timestamp in format : yyyy-MM-dd 12:00:00.
 	 */
+	@SuppressWarnings("finally")
 	public static Timestamp parseTimestamp(String timestampParam) {
 		Timestamp timestamp = null;
 		try {
@@ -37,8 +38,9 @@ public class TimestampUtil {
 			timestamp = new Timestamp(date.getTime());
 		} catch (ParseException e) {
 			e.printStackTrace();
-		}
-		return timestamp;
+		} finally {
+			return timestamp;
+		} 
 	}
 
 	/**
@@ -99,6 +101,7 @@ public class TimestampUtil {
 	 * @return Timestamp
 	 * 			Timestamp in format : yyyy-MM-dd 12:00:00.
 	 */
+	@SuppressWarnings("finally")
 	public static Timestamp getCurrentShiftChangeTimestamp() {
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
 		int year = currentTimestamp.toLocalDateTime().getYear();
@@ -112,7 +115,8 @@ public class TimestampUtil {
 			timestamp = new Timestamp(date.getTime());
 		} catch (ParseException e) {
 			e.printStackTrace();
+		} finally {
+			return timestamp;	
 		}
-		return timestamp;
 	}
 }
